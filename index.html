@@ -1,0 +1,1863 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#4f6ef7">
+<title>四级高频词汇词组卡 | CET-4 High Frequency</title>
+<style>
+  :root {
+    --primary: #4f6ef7;
+    --primary-dark: #3b55d9;
+    --green: #22a06b;
+    --red: #e5484d;
+    --amber: #d97706;
+    --bg: #f4f6fb;
+    --card-bg: #ffffff;
+    --text: #1c2333;
+    --text-sub: #6b7280;
+    --radius: 18px;
+    --shadow: 0 10px 30px rgba(28, 35, 51, .10);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { height: 100%; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: linear-gradient(160deg, #eef1fb 0%, #f7f8fc 55%, #eef4f2 100%);
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+    min-height: 100dvh;
+  }
+  body.learn { padding-bottom: calc(60px + env(safe-area-inset-bottom)); }
+  header {
+    padding: 14px 16px 8px;
+    max-width: 860px;
+    width: 100%;
+    margin: 0 auto;
+  }
+  h1 { font-size: 17px; font-weight: 700; letter-spacing: .3px; }
+  h1 small { color: var(--text-sub); font-weight: 500; font-size: 12px; margin-left: 8px; }
+  .toolbar {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-top: 10px;
+    flex-wrap: wrap;
+  }
+  select, .btn-ghost {
+    appearance: none;
+    border: 1px solid #dfe3ee;
+    background: #fff;
+    border-radius: 10px;
+    padding: 8px 12px;
+    font-size: 14px;
+    color: var(--text);
+    outline: none;
+    cursor: pointer;
+  }
+  select { min-width: 130px; max-width: 230px; }
+  input[type=search], input[type=text], input[type=number], input[type=time], textarea {
+    border: 1px solid #dfe3ee; background: #fff; border-radius: 10px;
+    padding: 8px 12px; font-size: 14px; color: var(--text); outline: none;
+    font-family: inherit;
+  }
+  input:focus, textarea:focus { border-color: var(--primary); }
+  .btn-ghost:hover { border-color: var(--primary); color: var(--primary); }
+  .btn-ghost.active { border-color: var(--red); color: var(--red); background: #fef0f0; }
+  .btn-primary {
+    border: none; background: var(--primary); color: #fff; border-radius: 10px;
+    padding: 9px 16px; font-size: 14px; font-weight: 600; cursor: pointer;
+  }
+  .btn-primary:active { transform: scale(.97); }
+  .btn-primary[disabled] { opacity: .5; cursor: default; }
+  .badge {
+    display: inline-block;
+    min-width: 18px;
+    padding: 0 5px;
+    margin-left: 5px;
+    background: var(--red);
+    color: #fff;
+    border-radius: 999px;
+    font-size: 11px;
+    line-height: 16px;
+    text-align: center;
+  }
+  .stats { margin-left: auto; font-size: 13px; color: var(--text-sub); white-space: nowrap; }
+  .stats b { color: var(--green); }
+  .stats b.red { color: var(--red); }
+  .stats b.blu { color: var(--primary); }
+
+  main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 16px 8px;
+    width: 100%;
+    max-width: 860px;
+    margin: 0 auto;
+  }
+  body.learn main { justify-content: flex-start; }
+  main section { width: 100%; }
+  #viewStudy {
+    display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1;
+  }
+  #viewStudy[hidden] { display: none !important; }
+  #viewList, #viewQuiz, #viewStats, #viewMe { max-width: 640px; margin: 0 auto; }
+
+  .progress-wrap { width: 100%; margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
+  .progress-bar { flex: 1; height: 6px; background: #e4e8f4; border-radius: 3px; overflow: hidden; }
+  .progress-bar i { display: block; height: 100%; background: linear-gradient(90deg, var(--primary), #7c9bff); border-radius: 3px; transition: width .25s; }
+  .progress-num { font-size: 12px; color: var(--text-sub); white-space: nowrap; }
+
+  .scene { perspective: 1400px; width: 100%; max-width: 560px; }
+  .card {
+    position: relative;
+    width: 100%;
+    height: 340px;
+    transform-style: preserve-3d;
+    transition: transform .45s cubic-bezier(.2,.7,.3,1);
+  }
+  .card.flipped { transform: rotateY(180deg); }
+  .face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #c5cbe0 transparent;
+  }
+  .face::-webkit-scrollbar { width: 6px; }
+  .face::-webkit-scrollbar-thumb { background: #c5cbe0; border-radius: 3px; }
+  .face::-webkit-scrollbar-track { background: transparent; }
+  .face-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 28px 24px;
+    text-align: center;
+    width: 100%;
+    min-height: 100%;
+    box-sizing: border-box;
+  }
+  .face.back { transform: rotateY(180deg); background: linear-gradient(150deg, #ffffff, #f6f8ff); }
+  .word {
+    font-size: clamp(30px, 7vw, 52px);
+    font-weight: 700;
+    word-break: break-word;
+    line-height: 1.2;
+  }
+  /* 长题干（法条问答类卡片）缩小字号 */
+  .word.long { font-size: 20px; line-height: 1.55; font-weight: 600; }
+  .word.zh { font-size: clamp(26px, 6vw, 42px); color: var(--primary-dark); font-weight: 600; }
+  .ipa {
+    margin-top: 10px;
+    font-size: clamp(15px, 3.5vw, 20px);
+    color: var(--text-sub);
+    font-weight: 400;
+    letter-spacing: .3px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .speak-btn {
+    appearance: none;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 2px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    transition: transform .12s, background .15s;
+  }
+  /* 隐藏时彻底移除布局（覆盖 inline-flex） */
+  .speak-btn[hidden] { display: none !important; }
+  .speak-btn svg { width: 20px; height: 20px; display: block; }
+  .face.back .speak-btn { margin-top: 14px; }
+  .speak-btn:hover { background: #eef1fb; }
+  .speak-btn:active { transform: scale(.92); }
+  .speak-btn.playing svg { animation: spk 1s ease-in-out infinite; }
+  @keyframes spk { 0%,100%{transform:scale(1)} 50%{transform:scale(1.15)} }
+  .hint { margin-top: 18px; font-size: 13px; color: var(--text-sub); }
+  /* 例句区块（背面） */
+  .example {
+    margin-top: 16px;
+    max-width: 100%;
+    text-align: left;
+    background: #f4f6ff;
+    border-left: 3px solid var(--primary);
+    border-radius: 10px;
+    padding: 10px 14px;
+  }
+  .example[hidden] { display: none !important; }
+  .ex-en { font-size: 14px; line-height: 1.65; color: #39415a; word-break: break-word; }
+  .ex-zh { margin-top: 5px; font-size: 12.5px; line-height: 1.6; color: var(--text-sub); }
+  /* 正面例句更紧凑，避免挤压单词 */
+  .face.front .example { margin-top: 12px; padding: 8px 12px; }
+  .face.front .ex-en { font-size: 13.5px; line-height: 1.55; }
+  .tag {
+    position: absolute;
+    top: 14px;
+    left: 16px;
+    font-size: 11px;
+    color: var(--text-sub);
+    background: #eef1fb;
+    border-radius: 999px;
+    padding: 3px 10px;
+  }
+  .known-dot {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    font-size: 11px;
+    border-radius: 999px;
+    padding: 3px 10px;
+    background: #e8f7f0;
+    color: var(--green);
+  }
+  .known-dot.st0 { background: #f1f2f6; color: #8a93a8; }
+  .known-dot.st1 { background: #eef1fb; color: var(--primary); }
+  .known-dot.st3 { background: #fdebec; color: var(--red); }
+  .wrong-dot {
+    position: absolute;
+    top: 40px;
+    right: 16px;
+    font-size: 11px;
+    border-radius: 999px;
+    padding: 3px 10px;
+    background: #fdebec;
+    color: var(--red);
+  }
+  .pos { position: absolute; bottom: 12px; right: 16px; font-size: 11px; color: #b6bccb; }
+  .pos.left { left: 16px; right: auto; color: #8a93a8; }
+
+  .actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+    width: 100%;
+    max-width: 560px;
+  }
+  .actions button {
+    flex: 1;
+    border: none;
+    border-radius: 14px;
+    padding: 14px 0;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    color: #fff;
+    transition: transform .08s, filter .15s;
+  }
+  .actions button:active { transform: scale(.97); }
+  #btnUnknown { background: var(--red); }
+  #btnKnown { background: var(--green); }
+  #btnFlip { background: var(--primary); width: 100%; max-width: 560px; flex: none; }
+  .actions button[disabled] { opacity: .45; cursor: default; }
+
+  /* 学习模式三档评分 */
+  #rateBar { display: flex; gap: 12px; margin-top: 20px; width: 100%; max-width: 560px; }
+  #rateBar button {
+    flex: 1; border: none; border-radius: 14px; padding: 12px 0 10px;
+    font-size: 16px; font-weight: 600; cursor: pointer; color: #fff; line-height: 1.3;
+  }
+  #rateBar button:active { transform: scale(.97); }
+  #rateBar small { display: block; font-size: 11px; font-weight: 400; opacity: .9; margin-top: 2px; }
+  #btnAgain { background: var(--red); }
+  #btnHard { background: var(--amber); }
+  #btnGood { background: var(--green); }
+
+  .done-panel { text-align: center; max-width: 480px; margin: 0 auto; }
+  .done-panel h2 { font-size: 26px; margin-bottom: 10px; }
+  .done-panel p { color: var(--text-sub); font-size: 14px; line-height: 1.8; margin-bottom: 22px; white-space: pre-line; }
+  .done-panel button {
+    display: block; width: 100%; margin-bottom: 10px;
+    border: none; border-radius: 14px; padding: 13px 0;
+    font-size: 15px; font-weight: 600; cursor: pointer; color: #fff;
+  }
+  #btnAgainUnknown { background: var(--primary); }
+  #btnRestart { background: #8a93a8; }
+
+  footer {
+    text-align: center;
+    font-size: 11px;
+    color: #b0b6c4;
+    padding: 10px 0 calc(12px + env(safe-area-inset-bottom));
+  }
+  body.learn footer { padding-bottom: 10px; }
+  kbd {
+    background:#fff;border:1px solid #dfe3ee;border-bottom-width:2px;border-radius:5px;
+    padding:1px 5px;font-size:11px;color:#5b6272;
+  }
+
+  /* ---------- 底部标签栏（学习模式） ---------- */
+  #tabbar {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 50;
+    background: rgba(255,255,255,.96); backdrop-filter: blur(8px);
+    border-top: 1px solid #e5e8f2;
+    display: flex; padding-bottom: env(safe-area-inset-bottom);
+  }
+  #tabbar .tab {
+    flex: 1; border: none; background: none; padding: 7px 0 5px;
+    font-size: 11px; color: #8a93a8; cursor: pointer;
+    display: flex; flex-direction: column; align-items: center; gap: 2px;
+  }
+  #tabbar .tab svg { width: 21px; height: 21px; }
+  #tabbar .tab.active { color: var(--primary); font-weight: 600; }
+
+  /* ---------- 词表视图 ---------- */
+  .list-tools { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+  .list-tools input[type=search] { flex: 1; min-width: 150px; }
+  .chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+  .chip {
+    border: 1px solid #dfe3ee; background: #fff; border-radius: 999px;
+    padding: 6px 13px; font-size: 13px; cursor: pointer; color: var(--text-sub);
+  }
+  .chip.active { border-color: var(--primary); color: var(--primary); background: #eef1fb; font-weight: 600; }
+  .lrow {
+    display: flex; align-items: center; gap: 10px;
+    background: #fff; border-radius: 12px; padding: 10px 12px; margin-bottom: 8px;
+    box-shadow: 0 2px 8px rgba(28,35,51,.05);
+  }
+  .lrow .lw { font-weight: 600; font-size: 15px; max-width: 42%; word-break: break-word; }
+  .lrow .lz {
+    flex: 1; min-width: 0; font-size: 12px; color: var(--text-sub);
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .lrow .lmeta { font-size: 10px; color: #b6bccb; white-space: nowrap; }
+  .stbadge { font-size: 11px; border-radius: 999px; padding: 2px 8px; white-space: nowrap; }
+  .st0 { background: #f1f2f6; color: #8a93a8; }
+  .st1 { background: #eef1fb; color: var(--primary); }
+  .st2 { background: #e8f7f0; color: var(--green); }
+  .st3 { background: #fdebec; color: var(--red); }
+  .icon-btn {
+    border: none; background: #f1f2f6; border-radius: 8px; min-width: 28px; height: 28px;
+    font-size: 13px; cursor: pointer; color: #5b6272; padding: 0 6px;
+  }
+  .icon-btn:hover { background: #e4e8f4; }
+  #btnMoreRows { width: 100%; margin: 6px 0 16px; }
+
+  /* ---------- 测试视图 ---------- */
+  .quiz-card {
+    background: #fff; border-radius: 14px; padding: 16px; margin-bottom: 12px;
+    box-shadow: 0 4px 14px rgba(28,35,51,.06); cursor: pointer;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .quiz-card:hover { box-shadow: var(--shadow); }
+  .quiz-card .qc-icon {
+    width: 42px; height: 42px; border-radius: 12px; flex: none;
+    display: flex; align-items: center; justify-content: center;
+    background: #eef1fb; color: var(--primary);
+  }
+  .quiz-card .qc-icon svg { width: 22px; height: 22px; }
+  .quiz-card h3 { font-size: 15px; }
+  .quiz-card small { color: var(--text-sub); font-size: 12px; }
+  .quiz-card .qc-go { margin-left: auto; color: var(--primary); font-weight: 700; }
+  .quiz-card.disabled { opacity: .5; cursor: default; }
+  .quiz-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .quiz-qbox {
+    background: #fff; border-radius: var(--radius); box-shadow: var(--shadow);
+    padding: 26px 20px; text-align: center; margin-bottom: 14px;
+  }
+  .quiz-qbox .word { font-size: clamp(24px, 6vw, 38px); }
+  /* 长题干（法条问答类卡片）缩小字号，避免撑破 */
+  .quiz-qbox .word.long { font-size: 18px; line-height: 1.55; }
+  .face.back .word.zh.long { font-size: 16px; line-height: 1.75; font-weight: 500; text-align: left; }
+  .quiz-opt {
+    display: block; width: 100%; text-align: left; margin-bottom: 10px;
+    padding: 12px 14px; border: 1px solid #dfe3ee; border-radius: 12px;
+    background: #fff; font-size: 14px; cursor: pointer; color: var(--text); line-height: 1.5;
+  }
+  .quiz-opt:not(:disabled):hover { border-color: var(--primary); }
+  .quiz-opt.ok { border-color: var(--green); background: #e8f7f0; }
+  .quiz-opt.bad { border-color: var(--red); background: #fdebec; }
+  .quiz-opt:disabled { cursor: default; }
+  .quiz-result { background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); padding: 22px; text-align: center; }
+  .quiz-result .score { font-size: 40px; font-weight: 700; color: var(--primary); }
+  .quiz-result .wrong-item { text-align: left; font-size: 13px; padding: 8px 0; border-bottom: 1px solid #f0f2f8; }
+  .quiz-result .wrong-item b { font-size: 14px; }
+  .quiz-result .wrong-item span { color: var(--text-sub); }
+
+  /* ---------- 统计视图 ---------- */
+  .sec-title { font-size: 14px; font-weight: 600; margin: 16px 0 8px; }
+  .panel { background: #fff; border-radius: 14px; padding: 12px; box-shadow: 0 2px 10px rgba(28,35,51,.05); overflow-x: auto; }
+  .scards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .scard { background: #fff; border-radius: 12px; padding: 10px 6px; text-align: center; box-shadow: 0 2px 10px rgba(28,35,51,.05); }
+  .scard b { display: block; font-size: 19px; color: var(--primary-dark); }
+  .scard span { font-size: 11px; color: var(--text-sub); }
+  .heatmap {
+    display: grid; grid-template-rows: repeat(7, 10px); grid-auto-flow: column;
+    grid-auto-columns: 10px; gap: 3px; padding: 4px 2px; width: max-content;
+  }
+  .hcell { width: 10px; height: 10px; border-radius: 2px; background: #e9ecf5; }
+  .hcell.h1 { background: #c7d2fe; } .hcell.h2 { background: #818cf8; } .hcell.h3 { background: #4f6ef7; }
+  .bars { display: flex; align-items: stretch; gap: 4px; height: 120px; }
+  .bcol { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 3px; }
+  .bgroup { flex: 1; width: 100%; display: flex; align-items: flex-end; justify-content: center; gap: 2px; }
+  .bbar { display: block; width: 45%; max-width: 13px; min-height: 2px; border-radius: 3px 3px 0 0; background: #c9cfdd; }
+  .bbar.blu { background: var(--primary); } .bbar.grn { background: var(--green); } .bbar.red { background: var(--red); }
+  .blab { font-size: 10px; color: #9aa1b2; white-space: nowrap; }
+  .btop { font-size: 10px; color: #5b6272; }
+  .mstack { display: flex; height: 16px; border-radius: 8px; overflow: hidden; background: #eef0f6; }
+  .mstack i { display: block; height: 100%; }
+  .mlegend { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; font-size: 12px; color: var(--text-sub); }
+  .mlegend i { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 4px; }
+  .weak-row { display: flex; align-items: center; gap: 10px; padding: 8px 2px; border-bottom: 1px solid #f0f2f8; font-size: 13px; cursor: pointer; }
+  .weak-row:last-child { border-bottom: none; }
+  .weak-row b { min-width: 0; }
+  .weak-row .lz { flex: 1; min-width: 0; font-size: 12px; color: var(--text-sub); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .weak-row .wn { color: var(--red); font-size: 12px; white-space: nowrap; }
+  .export-row { display: flex; gap: 8px; flex-wrap: wrap; margin: 16px 0 20px; }
+
+  /* ---------- 我的/设置视图 ---------- */
+  .set-row {
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    background: #fff; border-radius: 12px; padding: 12px 14px; margin-bottom: 8px;
+    box-shadow: 0 2px 8px rgba(28,35,51,.05); font-size: 14px;
+  }
+  .set-row label { color: var(--text); }
+  .set-row .sub { font-size: 12px; color: var(--text-sub); width: 100%; }
+  .set-row input[type=number] { width: 80px; }
+  .switch { position: relative; width: 44px; height: 24px; flex: none; }
+  .switch input { opacity: 0; width: 100%; height: 100%; position: absolute; cursor: pointer; z-index: 2; margin: 0; }
+  .switch i { position: absolute; inset: 0; background: #d5dae6; border-radius: 999px; transition: background .2s; }
+  .switch i::after {
+    content: ''; position: absolute; top: 2px; left: 2px; width: 20px; height: 20px;
+    background: #fff; border-radius: 50%; transition: left .2s; box-shadow: 0 1px 3px rgba(0,0,0,.2);
+  }
+  .switch input:checked + i { background: var(--green); }
+  .switch input:checked + i::after { left: 22px; }
+  .ach { display: flex; flex-wrap: wrap; gap: 8px; }
+  .ach .a {
+    flex: 1 1 42%; background: #fff; border-radius: 12px; padding: 12px 8px;
+    font-size: 12px; text-align: center; border: 1px solid #eef0f6; color: var(--text-sub);
+  }
+  .ach .a b { display: block; font-size: 13px; color: var(--text); margin-bottom: 3px; }
+  .ach .a.done { border-color: #b8e6d0; background: #f2fbf7; }
+  .ach .a.done b { color: var(--green); }
+  .danger-btn { background: var(--red); color: #fff; border: none; border-radius: 10px; padding: 10px 16px; font-size: 14px; cursor: pointer; }
+  .note { font-size: 12px; color: #9aa1b2; line-height: 1.7; margin: 12px 2px 20px; }
+
+  /* ---------- 弹窗 / 提醒横幅 ---------- */
+  #modal {
+    position: fixed; inset: 0; background: rgba(20,25,40,.45); z-index: 100;
+    display: flex; align-items: center; justify-content: center; padding: 20px;
+  }
+  .modal-box {
+    background: #fff; border-radius: 16px; padding: 20px; width: 100%; max-width: 440px;
+    max-height: 82vh; overflow-y: auto;
+  }
+  .modal-box h3 { font-size: 16px; margin-bottom: 12px; }
+  .modal-box .mrow { margin-bottom: 10px; }
+  .modal-box input[type=text], .modal-box textarea, .modal-box select { width: 100%; }
+  .modal-box textarea { min-height: 120px; resize: vertical; font-size: 13px; }
+  .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 14px; }
+  #remindBanner {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+    background: #fff7ed; border-bottom: 1px solid #fdba74; color: #9a3412;
+    padding: 10px 14px; display: flex; gap: 10px; align-items: center; font-size: 13px;
+  }
+  #remindBanner button { border: none; border-radius: 8px; padding: 6px 12px; font-size: 12px; cursor: pointer; }
+  #remindGo { background: var(--amber); color: #fff; font-weight: 600; }
+  #remindClose { background: transparent; color: #9a3412; }
+  /* display:flex 会覆盖 hidden 属性的 UA 样式，需显式隐藏 */
+  #modal[hidden], #remindBanner[hidden], #rateBar[hidden], #tabbar[hidden] { display: none !important; }
+
+  @media (max-width: 480px) {
+    .card { height: 280px; }
+    .face-inner { padding: 22px 18px; }
+    .stats { font-size: 12px; }
+    .scards { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>四级高频词汇词组卡 <small>看英文想中文</small></h1>
+  <div class="toolbar">
+    <select id="groupSel"></select>
+    <button class="btn-ghost" id="btnShuffle">洗牌</button>
+    <button class="btn-ghost" id="btnWrongBook">错题本<span class="badge" id="wrongBadge">0</span></button>
+    <button class="btn-ghost" id="btnReset">清空进度</button>
+    <span class="stats" id="statsLine"></span>
+  </div>
+</header>
+
+<main>
+  <section id="viewStudy">
+    <div class="progress-wrap">
+      <div class="progress-bar"><i id="progressFill"></i></div>
+      <span class="progress-num" id="progressNum">0 / 0</span>
+    </div>
+
+    <div class="scene" id="study">
+      <div class="card" id="card">
+        <div class="face front">
+          <div class="face-inner">
+            <span class="tag" id="tagFront"></span>
+            <span class="known-dot" id="knownDot" hidden>已掌握</span>
+            <span class="wrong-dot" id="wrongDot" hidden>错题</span>
+            <div class="word" id="wordFront"></div>
+            <div class="ipa" id="ipaFront" hidden>
+              <button class="speak-btn" id="speakFront" title="朗读" aria-label="朗读英语">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+              </button>
+              <span id="ipaText"></span>
+            </div>
+            <div class="example ex-front" id="exWrapF" hidden>
+              <div class="ex-en" id="exEnF"></div>
+            </div>
+            <div class="hint">想一想中文意思，点击下方按钮查看</div>
+            <span class="pos" id="posFront"></span>
+            <span class="pos left" id="cardMeta"></span>
+          </div>
+        </div>
+        <div class="face back">
+          <div class="face-inner">
+            <span class="tag" id="tagBack"></span>
+            <div class="word zh" id="wordBack"></div>
+            <div class="example ex-back" id="exWrapB" hidden>
+              <div class="ex-zh" id="exZhB"></div>
+            </div>
+            <div class="hint" id="enBack"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="done-panel" id="done" hidden>
+      <h2 id="doneTitle">本组完成 🎉</h2>
+      <p id="doneText"></p>
+      <button id="btnAgainUnknown">只复习未掌握的卡片</button>
+      <button id="btnRestart">重新开始本组</button>
+    </div>
+
+    <div class="actions" id="actions">
+      <button id="btnFlip">翻转卡片（空格）</button>
+      <button id="btnUnknown" hidden>不认识 ←</button>
+      <button id="btnKnown" hidden>认识 →</button>
+    </div>
+
+    <div id="rateBar" hidden>
+      <button id="btnAgain">不认识<small>稍后重学</small></button>
+      <button id="btnHard">模糊<small>有印象但不牢</small></button>
+      <button id="btnGood">认识<small>明天复习</small></button>
+    </div>
+  </section>
+
+  <section id="viewList" hidden>
+    <div class="list-tools">
+      <input type="search" id="listSearch" placeholder="搜索单词或释义…">
+      <select id="listSel"></select>
+      <button class="icon-btn" id="btnDelList" title="删除当前词表" hidden>✕</button>
+      <button class="btn-ghost" id="btnAddWord">+ 收藏生词</button>
+      <button class="btn-ghost" id="btnImport">导入词表</button>
+    </div>
+    <div class="chips" id="stateChips">
+      <button class="chip active" data-f="all">全部</button>
+      <button class="chip" data-f="s0">未学</button>
+      <button class="chip" data-f="s1">学习中</button>
+      <button class="chip" data-f="s2">已掌握</button>
+      <button class="chip" data-f="s3">易忘</button>
+      <button class="chip" data-f="wrong">错题本</button>
+    </div>
+    <div id="listRows"></div>
+    <button class="btn-ghost" id="btnMoreRows" hidden>加载更多</button>
+  </section>
+
+  <section id="viewQuiz" hidden>
+    <div id="quizMenu">
+      <div class="quiz-card" id="qDaily">
+        <span class="qc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
+        <div><h3>每日小测</h3><small id="qDailyInfo">10 题 · 已学内容为主</small></div>
+        <span class="qc-go">›</span>
+      </div>
+      <div class="quiz-card" id="qStage">
+        <span class="qc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span>
+        <div style="flex:1">
+          <h3>阶段测试</h3>
+          <small>20 题 · 按分组范围抽题</small>
+          <div style="margin-top:8px"><select id="qStageSel" style="min-width:160px"></select></div>
+        </div>
+        <span class="qc-go">›</span>
+      </div>
+      <div class="quiz-card" id="qWrong">
+        <span class="qc-icon" style="background:#fdebec;color:var(--red)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
+        <div><h3>错题重测</h3><small id="qWrongInfo">错题本 0 词</small></div>
+        <span class="qc-go">›</span>
+      </div>
+    </div>
+    <div id="quizRun" hidden>
+      <div class="quiz-head">
+        <button class="btn-ghost" id="btnQuizQuit">退出</button>
+        <div class="progress-bar" style="flex:1"><i id="qProgFill"></i></div>
+        <span class="progress-num" id="qProgNum">0/0</span>
+      </div>
+      <div class="quiz-qbox">
+        <div class="word" id="quizWord"></div>
+        <div class="ipa" id="quizIpa" hidden>
+          <button class="speak-btn" id="quizSpeak" title="朗读" aria-label="朗读英语">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+          </button>
+          <span id="quizIpaText"></span>
+        </div>
+      </div>
+      <div id="quizOpts"></div>
+    </div>
+    <div id="quizResult" hidden></div>
+  </section>
+
+  <section id="viewStats" hidden>
+    <div class="scards" id="statCards"></div>
+    <div class="sec-title">学习热力图（近半年）</div>
+    <div class="panel"><div class="heatmap" id="heatmap"></div></div>
+    <div class="sec-title">近 14 天 · 新词 / 复习</div>
+    <div class="panel"><div class="bars" id="barsDaily"></div></div>
+    <div class="sec-title">记忆保持率（按复习间隔）</div>
+    <div class="panel"><div class="bars" id="barsRet"></div></div>
+    <div class="sec-title">掌握度分布</div>
+    <div class="panel" id="masteryDist"></div>
+    <div class="sec-title">近 14 天错词趋势</div>
+    <div class="panel"><div class="bars" id="barsWrong"></div></div>
+    <div class="sec-title">薄弱词榜（错得最多）</div>
+    <div class="panel" id="weakList"></div>
+    <div class="sec-title">数据</div>
+    <div class="export-row">
+      <button class="btn-ghost" id="btnExportJson">导出备份 JSON</button>
+      <button class="btn-ghost" id="btnExportCsv">导出词表 CSV</button>
+      <button class="btn-ghost" id="btnImportBackup">导入备份</button>
+      <input type="file" id="fileBackup" accept=".json,application/json" hidden>
+    </div>
+  </section>
+
+  <section id="viewMe" hidden>
+    <div class="set-row">
+      <label>每日新词数</label>
+      <input type="number" id="cfgNew" min="1" max="100" step="1">
+      <span class="sub">每天自动加入学习队列的新词数量</span>
+    </div>
+    <div class="set-row">
+      <label>每日目标（张）</label>
+      <input type="number" id="cfgGoal" min="1" max="500" step="1">
+      <span class="sub">新词 + 复习的总张数目标，用于打卡与提醒判断</span>
+    </div>
+    <div class="set-row">
+      <label>学习提醒</label>
+      <input type="time" id="cfgRemindTime">
+      <span class="switch"><input type="checkbox" id="cfgRemindOn"><i></i></span>
+      <span class="sub" id="remindStatus">打开本页面时检查；到点未完成目标则横幅 + 系统通知提醒</span>
+    </div>
+    <div class="set-row">
+      <label>日历集成</label>
+      <button class="btn-ghost" id="btnIcs">导出每日提醒事件（.ics）</button>
+      <span class="sub">导入手机/电脑日历后，每天自动出现背单词日程</span>
+    </div>
+    <div class="sec-title">成就</div>
+    <div class="ach" id="achGrid"></div>
+    <div class="sec-title">数据管理</div>
+    <div class="set-row">
+      <button class="danger-btn" id="btnResetAll">清空全部学习数据</button>
+      <span class="sub">删除本套卡片的所有学习记录、自定义词表与统计，不可恢复（可先在统计页导出备份）</span>
+    </div>
+    <p class="note">所有数据仅保存在当前浏览器的 localStorage 中，换设备或清浏览器缓存会丢失，请定期在「统计」页导出备份。排行榜/组队等社交功能需要服务器支持，纯静态版本暂不提供。</p>
+  </section>
+</main>
+
+<nav id="tabbar" hidden>
+  <button class="tab active" data-v="viewStudy">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+    <span>学习</span>
+  </button>
+  <button class="tab" data-v="viewList">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+    <span>词表</span>
+  </button>
+  <button class="tab" data-v="viewQuiz">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+    <span>测试</span>
+  </button>
+  <button class="tab" data-v="viewStats">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>
+    <span>统计</span>
+  </button>
+  <button class="tab" data-v="viewMe">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    <span>我的</span>
+  </button>
+</nav>
+
+<footer id="footText">四级高频词汇与词组 545 条 · 21 个主题小组 · 中英文例句 · 数据保存在本地浏览器</footer>
+
+<div id="remindBanner" hidden>
+  <span id="remindText">该背单词啦！</span>
+  <button id="remindGo">开始学习</button>
+  <button id="remindClose">知道了</button>
+</div>
+
+<div id="modal" hidden><div class="modal-box" id="modalBox"></div></div>
+
+<script id="data" type="application/json">[{"en":"campus","zh":"校园","group":"教育学习类 · 学校与教育制度","ex":{"en":"Our university campus has a modern library and plenty of quiet places for students to study.","zh":"我们大学校园有一座现代化图书馆，还有许多供学生学习的安静场所。"},"ipa":"/kˈæmpəs/"},{"en":"curriculum","zh":"课程","group":"教育学习类 · 学校与教育制度","ex":{"en":"The new curriculum gives students more opportunities to develop practical skills alongside theoretical knowledge.","zh":"新的课程体系让学生有更多机会在掌握理论知识的同时培养实践技能。"},"ipa":"/kʌɹˈɪkjʊləm/"},{"en":"semester / term","zh":"学期","group":"教育学习类 · 学校与教育制度","ex":{"en":"This semester, I am taking five courses and working part-time at the school library.","zh":"这学期我修五门课，还在学校图书馆做兼职。"}},{"en":"enrollment","zh":"注册，入学","group":"教育学习类 · 学校与教育制度","ex":{"en":"Enrollment in online courses has increased because they allow students to study more flexibly.","zh":"在线课程的注册人数有所增加，因为它们让学生能够更灵活地学习。"}},{"en":"tuition","zh":"学费","group":"教育学习类 · 学校与教育制度","ex":{"en":"Many students apply for part-time jobs to help pay their tuition and living expenses.","zh":"许多学生申请兼职工作，以帮助支付学费和生活费。"},"ipa":"/tuːˈɪʃən/"},{"en":"scholarship","zh":"奖学金","group":"教育学习类 · 学校与教育制度","ex":{"en":"She won a scholarship for her excellent academic performance and community service.","zh":"她因出色的学业表现和社区服务获得了奖学金。"}},{"en":"faculty","zh":"全体教员","group":"教育学习类 · 学校与教育制度","ex":{"en":"The faculty are encouraged to attend regular training sessions and improve their teaching methods.","zh":"学校鼓励全体教员定期参加培训，改进教学方法。"},"ipa":"/ˈfækəlti/"},{"en":"freshman / sophomore / junior / senior","zh":"大一/大二/大三/大四","group":"教育学习类 · 学校与教育制度","ex":{"en":"As a freshman, he joined several student clubs to make friends and explore his interests.","zh":"作为一名大一学生，他加入了几个学生社团，以结交朋友并探索自己的兴趣。"}},{"en":"graduate","zh":"毕业生；研究生","group":"教育学习类 · 学校与教育制度","ex":{"en":"The university held a ceremony to celebrate every graduate and wish them future success.","zh":"学校举行了典礼，向每一位毕业生表示祝贺，并祝愿他们未来取得成功。"},"ipa":"/ˈɡɹædʒəˌweɪt/"},{"en":"undergraduate","zh":"本科生","group":"教育学习类 · 学校与教育制度","ex":{"en":"As an undergraduate, Maria conducted research with her professor and presented the findings at a conference.","zh":"本科期间，玛丽亚与教授一起开展研究，并在一次会议上展示了研究结果。"}},{"en":"bachelor","zh":"学士","group":"教育学习类 · 学校与教育制度","ex":{"en":"He earned a bachelor of science degree after completing four years of study in engineering.","zh":"完成四年工程学学习后，他获得了理学学士学位。"},"ipa":"/ˈbætʃələr/"},{"en":"degree","zh":"学位","group":"教育学习类 · 学校与教育制度","ex":{"en":"A university degree can improve your career prospects, but practical experience is also important.","zh":"大学学位能改善你的职业前景，但实践经验也很重要。"}},{"en":"diploma","zh":"文凭","group":"教育学习类 · 学校与教育制度","ex":{"en":"She received her diploma at the graduation ceremony after successfully completing all the required courses.","zh":"成功修完所有必修课程后，她在毕业典礼上领取了文凭。"}},{"en":"thesis / dissertation","zh":"毕业论文","group":"教育学习类 · 学校与教育制度","ex":{"en":"He spent six months collecting data and writing his thesis on urban public transportation.","zh":"他花了六个月收集数据，撰写关于城市公共交通的毕业论文。"}},{"en":"credit","zh":"学分","group":"教育学习类 · 学校与教育制度","ex":{"en":"Students must earn enough credits in both compulsory and elective courses before they can graduate.","zh":"学生必须在必修课和选修课中获得足够学分才能毕业。"},"ipa":"/kɹˈɛdɪt/"},{"en":"major","zh":"专业；主修","group":"教育学习类 · 学校与教育制度","ex":{"en":"She chose psychology as her major because she wants to understand human behavior.","zh":"她选择心理学作为专业，因为她想了解人类行为。"},"ipa":"/mˈeɪdʒə/"},{"en":"minor","zh":"辅修","group":"教育学习类 · 学校与教育制度","ex":{"en":"Although his major is economics, he has a minor in French and enjoys learning languages.","zh":"虽然他的专业是经济学，但他辅修法语，而且喜欢学习语言。"}},{"en":"compulsory","zh":"必修的","group":"教育学习类 · 学校与教育制度","ex":{"en":"English is a compulsory subject for all first-year students at our university.","zh":"英语是我们大学所有大一学生的必修科目。"}},{"en":"optional / elective","zh":"选修的","group":"教育学习类 · 学校与教育制度","ex":{"en":"Students can choose an optional course in photography if they are interested in visual art.","zh":"如果学生对视觉艺术感兴趣，可以选择摄影选修课。"}},{"en":"academic","zh":"学术的","group":"教育学习类 · 学校与教育制度","ex":{"en":"The university provides academic support for students who have difficulty with their studies.","zh":"这所大学为学习有困难的学生提供学术支持。"}},{"en":"discipline","zh":"学科","group":"教育学习类 · 学校与教育制度","ex":{"en":"Economics is a discipline that examines how people and societies use limited resources.","zh":"经济学是一门研究个人和社会如何利用有限资源的学科。"},"ipa":"/dˈɪsɪplˌɪn/"},{"en":"syllabus","zh":"教学大纲","group":"教育学习类 · 学校与教育制度","ex":{"en":"According to the syllabus, we need to submit two essays and give one presentation this term.","zh":"根据教学大纲，我们这学期需要提交两篇论文并作一次展示。"}},{"en":"lecture","zh":"讲座","group":"教育学习类 · 学校与教育制度","ex":{"en":"The professor gave an interesting lecture on how technology is changing modern education.","zh":"教授作了一场有趣的讲座，探讨技术如何改变现代教育。"},"ipa":"/lˈɛktʃə/"},{"en":"seminar","zh":"研讨班","group":"教育学习类 · 学校与教育制度","ex":{"en":"During the seminar, students discussed different solutions to environmental problems with their professor.","zh":"研讨班上，学生们与教授讨论了环境问题的不同解决方案。"},"ipa":"/ˈsemɪnɑːr/"},{"en":"tutorial","zh":"辅导课","group":"教育学习类 · 学校与教育制度","ex":{"en":"Our weekly tutorial gives us a chance to ask questions about difficult topics in small groups.","zh":"每周的辅导课让我们有机会在小组中就疑难内容提问。"}},{"en":"assignment","zh":"作业","group":"教育学习类 · 学校与教育制度","ex":{"en":"I need to finish my history assignment before Friday, so I will study at the library tonight.","zh":"我需要在周五前完成历史作业，所以今晚要去图书馆学习。"},"ipa":"/əˈsaɪnmənt/"},{"en":"attendance","zh":"出勤","group":"教育学习类 · 学校与教育制度","ex":{"en":"Regular attendance is important because students who miss classes often struggle to understand later lessons.","zh":"按时出勤很重要，因为缺课的学生往往难以理解后续课程。"}},{"en":"dropout","zh":"辍学","group":"教育学习类 · 学校与教育制度","ex":{"en":"The school introduced free tutoring to reduce the dropout rate among students from low-income families.","zh":"学校引入免费辅导，以降低低收入家庭学生的辍学率。"},"ipa":"/dɹˈɒpaʊt/"},{"en":"enroll","zh":"注册","group":"教育学习类 · 学校与教育制度","ex":{"en":"More than five hundred students enroll in this online writing course every year.","zh":"每年有超过五百名学生注册学习这门在线写作课程。"},"ipa":"/ɪnˈroʊl/"},{"en":"acquire","zh":"获得，习得","group":"教育学习类 · 学习行为与能力","ex":{"en":"Reading widely helps students acquire new vocabulary and understand how words are used in context.","zh":"广泛阅读帮助学生习得新词汇，并理解单词在语境中的用法。"},"ipa":"/əkwˈaɪə/"},{"en":"absorb","zh":"吸收","group":"教育学习类 · 学习行为与能力","ex":{"en":"Young children can absorb new languages quickly when they hear and use them every day.","zh":"小孩子每天听到并使用新语言时，能很快将其吸收。"},"ipa":"/əbsˈɔːb/"},{"en":"comprehend","zh":"理解","group":"教育学习类 · 学习行为与能力","ex":{"en":"Although the article was difficult, I could comprehend its main argument after reading it twice.","zh":"尽管这篇文章很难，我读了两遍后还是理解了它的主要论点。"}},{"en":"memorize","zh":"记忆","group":"教育学习类 · 学习行为与能力","ex":{"en":"Instead of trying to memorize every word, focus on understanding the main ideas first.","zh":"不要试图记住每一个单词，先着重理解主要观点。"}},{"en":"recite","zh":"背诵","group":"教育学习类 · 学习行为与能力","ex":{"en":"Our teacher asked us to recite the poem aloud and explain its meaning to the class.","zh":"老师要求我们大声背诵这首诗，并向全班解释它的含义。"}},{"en":"review / revise","zh":"复习","group":"教育学习类 · 学习行为与能力","ex":{"en":"I usually review my notes for twenty minutes before going to bed each night.","zh":"我通常每晚睡前花二十分钟复习笔记。"}},{"en":"preview","zh":"预习","group":"教育学习类 · 学习行为与能力","ex":{"en":"Students should preview the next chapter so that they can follow the lecture more easily.","zh":"学生应该预习下一章，这样听课时会更容易理解。"}},{"en":"grasp","zh":"掌握；抓住","group":"教育学习类 · 学习行为与能力","ex":{"en":"Once you grasp the basic principles, you can apply them to more complex problems.","zh":"一旦掌握基本原理，你就能把它们应用到更复杂的问题中。"},"ipa":"/ɡɹˈɑːsp/"},{"en":"retain","zh":"记住，保留","group":"教育学习类 · 学习行为与能力","ex":{"en":"Taking brief notes in your own words can help you retain information for longer.","zh":"用自己的话做简要笔记能帮助你更长久地记住信息。"},"ipa":"/ɹɪtˈeɪn/"},{"en":"concentrate","zh":"集中（注意力）","group":"教育学习类 · 学习行为与能力","ex":{"en":"It is difficult to concentrate on my studies when people are talking loudly nearby.","zh":"附近有人大声说话时，我很难集中精力学习。"},"ipa":"/kˈɒnsəntɹˌeɪt/"},{"en":"focus on","zh":"专注于","group":"教育学习类 · 学习行为与能力","ex":{"en":"Turn off your phone during class so that you can focus on what the teacher is saying.","zh":"上课时关掉手机，这样你就能专注于老师讲的内容。"}},{"en":"devote to","zh":"致力于","group":"教育学习类 · 学习行为与能力","ex":{"en":"She devotes two hours every evening to improving her English listening skills.","zh":"她每天晚上花两个小时提高英语听力技能。"}},{"en":"be absorbed in","zh":"全神贯注于","group":"教育学习类 · 学习行为与能力","ex":{"en":"The students were so absorbed in the discussion that they did not hear the bell.","zh":"学生们全神贯注于讨论，连铃声都没听见。"}},{"en":"make progress","zh":"取得进步","group":"教育学习类 · 学习行为与能力","ex":{"en":"You will make progress in English if you practise speaking a little every day.","zh":"如果每天练习说一点英语，你就会取得进步。"}},{"en":"catch up with","zh":"赶上","group":"教育学习类 · 学习行为与能力","ex":{"en":"After missing two weeks of classes, Tom worked hard to catch up with his classmates.","zh":"缺了两周课后，汤姆努力学习，以赶上班上的同学。"},"ipa":"/kˈætʃ/ /ˈʌp/ /wˈɪð/"},{"en":"keep up with","zh":"跟上","group":"教育学习类 · 学习行为与能力","ex":{"en":"Reading the assigned chapters each week will help you keep up with the course.","zh":"每周阅读指定章节将帮助你跟上课程进度。"},"ipa":"/kˈiːp/ /ˈʌp/ /wˈɪð/"},{"en":"fall behind","zh":"落后","group":"教育学习类 · 学习行为与能力","ex":{"en":"If you fall behind in your studies, ask your teacher for help before the problem gets worse.","zh":"如果学习落后了，要在问题恶化之前向老师寻求帮助。"},"ipa":"/fˈɔːl/ /bɪhˈaɪnd/"},{"en":"work out","zh":"解决；算出","group":"教育学习类 · 学习行为与能力","ex":{"en":"We worked out the answer together after checking each step of the calculation.","zh":"检查计算的每一步后，我们一起算出了答案。"},"ipa":"/wˈɜːk/ /ˈaʊt/"},{"en":"figure out","zh":"弄明白","group":"教育学习类 · 学习行为与能力","ex":{"en":"It took me an hour to figure out why my computer program kept producing incorrect results.","zh":"我花了一个小时才弄明白为什么我的计算机程序一直产生错误结果。"}},{"en":"look up","zh":"查阅（字典）","group":"教育学习类 · 学习行为与能力","ex":{"en":"When you meet an unfamiliar word, look it up in a dictionary and read the example sentences.","zh":"遇到不熟悉的单词时，要查字典并阅读例句。"},"ipa":"/lˈʊk/ /ˈʌp/"},{"en":"take notes","zh":"做笔记","group":"教育学习类 · 学习行为与能力","ex":{"en":"I take notes during lectures and organize them into short summaries after class.","zh":"我上课时做笔记，课后把它们整理成简短摘要。"}},{"en":"hand in","zh":"上交","group":"教育学习类 · 学习行为与能力","ex":{"en":"Please hand in your assignments before noon on Friday, either online or at the department office.","zh":"请在周五中午前在线或到系办公室上交作业。"},"ipa":"/hˈænd/ /ˈɪn/"},{"en":"turn in","zh":"提交","group":"教育学习类 · 学习行为与能力","ex":{"en":"Students who turn in their essays late will lose marks unless they have a valid reason.","zh":"除非有正当理由，迟交论文的学生将被扣分。"},"ipa":"/tˈɜːn/ /ˈɪn/"},{"en":"draw a conclusion","zh":"得出结论","group":"教育学习类 · 学习行为与能力","ex":{"en":"After comparing the results from both groups, we were able to draw a clear conclusion.","zh":"比较两组结果后，我们得出了一个明确的结论。"}},{"en":"get the hang of","zh":"掌握窍门","group":"教育学习类 · 学习行为与能力","ex":{"en":"With a little practice, you will soon get the hang of using this new software.","zh":"稍加练习，你很快就会掌握使用这款新软件的窍门。"}},{"en":"applicant","zh":"申请人","group":"工作与职业发展 · 求职与职场","ex":{"en":"Each applicant must submit a completed form and two letters of recommendation by March first.","zh":"每位申请人必须在3月1日前提交填好的表格和两封推荐信。"}},{"en":"candidate","zh":"候选人","group":"工作与职业发展 · 求职与职场","ex":{"en":"The final candidate impressed the interviewers with her communication skills and relevant work experience.","zh":"最后一位候选人凭借沟通能力和相关工作经验给面试官留下了深刻印象。"}},{"en":"recruit","zh":"招聘","group":"工作与职业发展 · 求职与职场","ex":{"en":"Our company plans to recruit several engineering graduates for its new research department next month.","zh":"我们公司计划下个月为新成立的研究部门招聘几名工程专业毕业生。"},"ipa":"/rɪˈkruːt/"},{"en":"resume / CV","zh":"简历","group":"工作与职业发展 · 求职与职场","ex":{"en":"Please update your resume to include your recent internship and any skills relevant to the position.","zh":"请更新简历，加入你最近的实习经历以及任何与该职位相关的技能。"}},{"en":"interview","zh":"面试","group":"工作与职业发展 · 求职与职场","ex":{"en":"She prepared carefully for the interview by researching the company and practising common questions.","zh":"她通过了解公司情况和练习常见问题，认真为面试做准备。"}},{"en":"qualification","zh":"资格","group":"工作与职业发展 · 求职与职场","ex":{"en":"A teaching qualification is required for anyone who wants to work at this language school.","zh":"任何想在这所语言学校工作的人都必须具有教学资格。"}},{"en":"vacancy","zh":"空缺职位","group":"工作与职业发展 · 求职与职场","ex":{"en":"There is a vacancy for a sales assistant in the company's Shanghai office this month.","zh":"该公司上海办事处本月有一个销售助理的空缺职位。"}},{"en":"position","zh":"职位","group":"工作与职业发展 · 求职与职场","ex":{"en":"She accepted the position because it offered valuable training and opportunities for career development.","zh":"她接受了这个职位，因为它提供宝贵的培训和职业发展机会。"}},{"en":"promotion","zh":"晋升","group":"工作与职业发展 · 求职与职场","ex":{"en":"His promotion to department manager came after five years of consistent hard work and strong leadership.","zh":"经过五年始终如一的努力工作并展现出出色的领导能力后，他晋升为部门经理。"}},{"en":"salary / wage","zh":"薪水","group":"工作与职业发展 · 求职与职场","ex":{"en":"The job offers a competitive salary, paid holidays, and opportunities to develop new professional skills.","zh":"这份工作提供有竞争力的薪水、带薪假期以及培养新职业技能的机会。"}},{"en":"income","zh":"收入","group":"工作与职业发展 · 求职与职场","ex":{"en":"Many families try to save part of their monthly income for education and unexpected expenses.","zh":"许多家庭努力把每月收入的一部分存起来，用于教育开支和意外支出。"}},{"en":"bonus","zh":"奖金","group":"工作与职业发展 · 求职与职场","ex":{"en":"All employees received a year-end bonus because the company had exceeded its sales targets.","zh":"由于公司超额完成销售目标，所有员工都获得了年终奖。"}},{"en":"allowance","zh":"津贴","group":"工作与职业发展 · 求职与职场","ex":{"en":"Employees who travel frequently receive a daily allowance to cover their meals and local transportation.","zh":"经常出差的员工每天可领取津贴，用于支付餐费和当地交通费。"},"ipa":"/əlˈaʊəns/"},{"en":"pension","zh":"养老金","group":"工作与职业发展 · 求职与职场","ex":{"en":"After working for forty years, my grandfather now receives a monthly pension and enjoys his retirement.","zh":"工作四十年后，我爷爷现在每月领取养老金，享受退休生活。"},"ipa":"/ˈpenʃn/"},{"en":"welfare","zh":"福利","group":"工作与职业发展 · 求职与职场","ex":{"en":"The company improved employee welfare by offering health insurance and more flexible working hours.","zh":"公司通过提供医疗保险和更灵活的工作时间改善了员工福利。"},"ipa":"/ˈwelfer/"},{"en":"lay off","zh":"裁员","group":"工作与职业发展 · 求职与职场","ex":{"en":"The factory had to lay off fifty workers when demand for its products fell sharply.","zh":"产品需求急剧下降时，这家工厂不得不裁减五十名工人。"},"ipa":"/lˈeɪ/ /ˈɒf/"},{"en":"resign","zh":"辞职","group":"工作与职业发展 · 求职与职场","ex":{"en":"She decided to resign from her current job and pursue further study abroad next year.","zh":"她决定辞去目前的工作，明年出国深造。"},"ipa":"/ɹiˈsaɪn/"},{"en":"retire","zh":"退休","group":"工作与职业发展 · 求职与职场","ex":{"en":"My uncle plans to retire at sixty and spend more time travelling with his family.","zh":"我叔叔打算六十岁退休，花更多时间和家人一起旅行。"},"ipa":"/ɹɪtˈaɪə/"},{"en":"unemployed","zh":"失业的","group":"工作与职业发展 · 求职与职场","ex":{"en":"He remained unemployed for six months before finding a job that matched his skills.","zh":"他失业了六个月，才找到一份与自己技能相符的工作。"}},{"en":"colleague","zh":"同事","group":"工作与职业发展 · 求职与职场","ex":{"en":"A colleague helped me prepare for my first presentation by offering practical advice and encouragement.","zh":"一位同事给我提供实用建议和鼓励，帮助我准备第一次演示汇报。"}},{"en":"superior","zh":"上级","group":"工作与职业发展 · 求职与职场","ex":{"en":"You should discuss any concerns about the project with your immediate superior before making major changes.","zh":"在作出重大改动之前，你应该与直属上级讨论对项目的任何疑虑。"},"ipa":"/suːpˈiəɹɪə/"},{"en":"subordinate","zh":"下属","group":"工作与职业发展 · 求职与职场","ex":{"en":"A good manager listens to every subordinate and considers their suggestions before making a decision.","zh":"优秀的管理者会倾听每一位下属的意见，并在决策前考虑他们的建议。"}},{"en":"occupation","zh":"职业","group":"工作与职业发展 · 求职与职场","ex":{"en":"Please state your name, age, and current occupation on the first page of the application form.","zh":"请在申请表第一页填写你的姓名、年龄和目前职业。"},"ipa":"/ˌɒkjʊpˈeɪʃən/"},{"en":"profession","zh":"专业领域","group":"工作与职业发展 · 求职与职场","ex":{"en":"Medicine is a demanding profession that requires years of study and a strong sense of responsibility.","zh":"医学是一个要求很高的专业领域，需要多年学习和强烈的责任感。"},"ipa":"/pɹəfˈɛʃən/"},{"en":"employee","zh":"雇员","group":"工作与职业发展 · 求职与职场","ex":{"en":"Every new employee receives training on workplace safety during their first week with the company.","zh":"每位新雇员入职第一周都会接受工作场所安全培训。"},"ipa":"/ɛmplˈɔɪiː/"},{"en":"employer","zh":"雇主","group":"工作与职业发展 · 求职与职场","ex":{"en":"A responsible employer should provide fair pay, safe conditions, and equal opportunities for all workers.","zh":"负责任的雇主应为所有员工提供公平薪酬、安全的工作环境和平等机会。"}},{"en":"workload","zh":"工作量","group":"工作与职业发展 · 求职与职场","ex":{"en":"My workload has increased recently, so I need to organize my tasks more carefully.","zh":"最近我的工作量增加了，因此需要更仔细地安排任务。"}},{"en":"overtime","zh":"加班","group":"工作与职业发展 · 求职与职场","ex":{"en":"The team worked overtime for three nights to finish the project before the client's deadline.","zh":"为了在客户规定的期限前完成项目，团队连续加班了三个晚上。"}},{"en":"apply for","zh":"申请","group":"工作与职业发展 · 工作相关词组","ex":{"en":"She decided to apply for the marketing position after reading the job description carefully.","zh":"仔细阅读职位说明后，她决定申请这个营销职位。"}},{"en":"hunt for a job","zh":"找工作","group":"工作与职业发展 · 工作相关词组","ex":{"en":"After graduation, he spent three months hunting for a job in the software industry.","zh":"毕业后，他花了三个月在软件行业找工作。"}},{"en":"take on","zh":"承担（工作）","group":"工作与职业发展 · 工作相关词组","ex":{"en":"Our team is ready to take on extra work if the project requires additional support.","zh":"如果项目需要额外支持，我们团队愿意承担更多工作。"},"ipa":"/tˈeɪk/ /ˈɒn/"},{"en":"turn down","zh":"拒绝（工作/邀请）","group":"工作与职业发展 · 工作相关词组","ex":{"en":"Although the salary was attractive, she turned down the offer because the job involved constant travel.","zh":"尽管薪水很有吸引力，她还是拒绝了这份工作邀请，因为这份工作需要经常出差。"},"ipa":"/tˈɜːn/ /dˈaʊn/"},{"en":"take over","zh":"接管","group":"工作与职业发展 · 工作相关词组","ex":{"en":"When the manager retires next month, her assistant will take over the department's daily operations.","zh":"经理下个月退休后，她的助手将接管部门的日常运营工作。"},"ipa":"/tˈeɪk/ /ˈəʊvə/"},{"en":"carry out","zh":"执行","group":"工作与职业发展 · 工作相关词组","ex":{"en":"The research team will carry out a survey to understand customers' changing needs and preferences.","zh":"研究团队将开展一项调查，以了解客户不断变化的需求和偏好。"},"ipa":"/kˈæɹi/ /ˈaʊt/"},{"en":"live up to","zh":"不辜负","group":"工作与职业发展 · 工作相关词组","ex":{"en":"He worked hard to live up to his employer's expectations and quickly earned the team's respect.","zh":"他努力工作，不辜负雇主的期望，并很快赢得了团队的尊重。"},"ipa":"/ˈɫaɪv/ /ˈʌp/ /tˈuː/"},{"en":"live on","zh":"靠……生活","group":"工作与职业发展 · 工作相关词组","ex":{"en":"It is difficult for a family of four to live on such a small monthly salary.","zh":"一个四口之家靠这么少的月薪生活很困难。"},"ipa":"/ˈɫaɪv/ /ˈɒn/"},{"en":"make a living","zh":"谋生","group":"工作与职业发展 · 工作相关词组","ex":{"en":"After leaving the factory, he started repairing bicycles to make a living for his family.","zh":"离开工厂后，他开始修自行车，以此谋生养家。"}},{"en":"set up","zh":"建立","group":"工作与职业发展 · 工作相关词组","ex":{"en":"Two former classmates set up a small design company after gaining several years of industry experience.","zh":"积累数年行业经验后，两位老同学创办了一家小型设计公司。"},"ipa":"/sˈɛt/ /ˈʌp/"},{"en":"run a business","zh":"经营生意","group":"工作与职业发展 · 工作相关词组","ex":{"en":"To run a business successfully, you need to understand both your customers and your costs.","zh":"要成功经营生意，你既要了解客户，也要了解成本。"}},{"en":"go bankrupt","zh":"破产","group":"工作与职业发展 · 工作相关词组","ex":{"en":"The small restaurant went bankrupt after its rent doubled and customer numbers continued to fall.","zh":"租金翻倍且顾客数量持续下降后，这家小餐馆破产了。"}},{"en":"lay off","zh":"裁员","group":"工作与职业发展 · 工作相关词组","ex":{"en":"The airline announced that it would lay off hundreds of employees to reduce operating costs.","zh":"这家航空公司宣布将裁减数百名员工，以降低运营成本。"},"ipa":"/lˈeɪ/ /ˈɒf/"},{"en":"put forward","zh":"提出","group":"工作与职业发展 · 工作相关词组","ex":{"en":"During the meeting, she put forward a practical proposal for reducing unnecessary business travel.","zh":"会议期间，她提出了一项减少不必要商务差旅的切实建议。"},"ipa":"/ˈpʊt/ /fˈɔːwəd/"},{"en":"come up with","zh":"想出","group":"工作与职业发展 · 工作相关词组","ex":{"en":"Our team came up with a creative way to promote the product without increasing the advertising budget.","zh":"我们团队想出了一种不增加广告预算就能推广产品的创意方法。"},"ipa":"/kˈʌm/ /ˈʌp/ /wˈɪð/"},{"en":"deal with","zh":"处理","group":"工作与职业发展 · 工作相关词组","ex":{"en":"The customer service manager knows how to deal with complaints calmly and find fair solutions.","zh":"客服经理知道如何冷静处理投诉并找到公平的解决方案。"}},{"en":"cope with","zh":"应对","group":"工作与职业发展 · 工作相关词组","ex":{"en":"Regular exercise helps many employees cope with stress and stay focused during busy periods.","zh":"经常锻炼有助于许多员工应对压力，并在繁忙时期保持专注。"}},{"en":"get rid of","zh":"摆脱","group":"工作与职业发展 · 工作相关词组","ex":{"en":"The company hopes to get rid of unnecessary paperwork by moving its approval process online.","zh":"公司希望通过将审批流程转移到线上，摆脱不必要的文书工作。"}},{"en":"make use of","zh":"利用","group":"工作与职业发展 · 工作相关词组","ex":{"en":"Our department makes use of online meetings to communicate with colleagues in different regional offices.","zh":"我们部门利用在线会议与不同地区办事处的同事沟通。"},"ipa":"/mˈeɪk/ /ˈjus/ /ˈɒv/"},{"en":"take advantage of","zh":"利用","group":"工作与职业发展 · 工作相关词组","ex":{"en":"Employees should take advantage of the free training courses offered by the company this year.","zh":"员工应该利用公司今年提供的免费培训课程。"}},{"en":"contribute to","zh":"有助于","group":"工作与职业发展 · 工作相关词组","ex":{"en":"Clear communication and mutual respect contribute to a positive working environment for the whole team.","zh":"清晰的沟通和相互尊重有助于为整个团队营造积极的工作环境。"}},{"en":"lead to","zh":"导致","group":"工作与职业发展 · 工作相关词组","ex":{"en":"Poor communication between departments can lead to delays, repeated work, and unnecessary costs.","zh":"部门之间沟通不畅可能导致延误、重复工作和不必要的成本。"}},{"en":"result in","zh":"导致","group":"工作与职业发展 · 工作相关词组","ex":{"en":"Failing to back up important files could result in serious problems for the entire project.","zh":"不备份重要文件可能会给整个项目带来严重问题。"}},{"en":"bring about","zh":"引起","group":"工作与职业发展 · 工作相关词组","ex":{"en":"The new management policy brought about significant improvements in efficiency and employee satisfaction.","zh":"新的管理政策显著提高了效率和员工满意度。"},"ipa":"/bɹˈɪŋ/ /əbˈaʊt/"},{"en":"carry on","zh":"继续","group":"工作与职业发展 · 工作相关词组","ex":{"en":"Despite the technical problems, the team carried on with the presentation and answered every question confidently.","zh":"尽管出现技术问题，团队仍继续进行演示，并自信地回答了每一个问题。"},"ipa":"/kˈæɹi/ /ˈɒn/"},{"en":"keep pace with","zh":"与……同步","group":"工作与职业发展 · 工作相关词组","ex":{"en":"Small companies must keep pace with technological change if they want to remain competitive.","zh":"小公司如果想保持竞争力，就必须与技术变革同步。"}},{"en":"step down","zh":"辞职，下台","group":"工作与职业发展 · 工作相关词组","ex":{"en":"The director announced that he would step down at the end of the year for personal reasons.","zh":"这位主管宣布，由于个人原因，他将在年底辞职。"}},{"en":"take up","zh":"开始从事","group":"工作与职业发展 · 工作相关词组","ex":{"en":"After graduation, she took up teaching and soon discovered her passion for education.","zh":"毕业后，她开始从事教学工作，并很快发现了自己对教育事业的热爱。"},"ipa":"/tˈeɪk/ /ˈʌp/"},{"en":"poverty","zh":"贫困","group":"社会与环境 · 社会问题","ex":{"en":"Many families still live in poverty despite the country's rapid economic growth.","zh":"尽管该国经济增长迅速，许多家庭仍然生活在贫困之中。"},"ipa":"/pˈɒvəti/"},{"en":"inequality","zh":"不平等","group":"社会与环境 · 社会问题","ex":{"en":"The new policy aims to reduce inequality between urban and rural communities.","zh":"这项新政策旨在缩小城乡社区之间的不平等。"},"ipa":"/ˌɪnɪˈkwɒləti/"},{"en":"discrimination","zh":"歧视","group":"社会与环境 · 社会问题","ex":{"en":"Workplace discrimination prevents many capable people from receiving fair opportunities.","zh":"职场歧视使许多有能力的人无法获得公平的机会。"}},{"en":"prejudice","zh":"偏见","group":"社会与环境 · 社会问题","ex":{"en":"We should challenge prejudice by learning about different cultures and listening to others.","zh":"我们应该通过了解不同文化和倾听他人来挑战偏见。"},"ipa":"/pɹˈɛdʒuːdɪs/"},{"en":"stereotype","zh":"刻板印象","group":"社会与环境 · 社会问题","ex":{"en":"The stereotype that women are bad at science has no factual basis.","zh":"认为女性不擅长科学的刻板印象毫无事实依据。"},"ipa":"/ˈsteriətaɪp/"},{"en":"crime","zh":"犯罪","group":"社会与环境 · 社会问题","ex":{"en":"Better education and job opportunities can help reduce crime in poor neighborhoods.","zh":"更好的教育和就业机会有助于减少贫困社区的犯罪。"},"ipa":"/kɹˈaɪm/"},{"en":"criminal","zh":"罪犯","group":"社会与环境 · 社会问题","ex":{"en":"The criminal was arrested after police found clear evidence at the scene.","zh":"警方在现场发现确凿证据后，逮捕了这名罪犯。"}},{"en":"victim","zh":"受害者","group":"社会与环境 · 社会问题","ex":{"en":"The victim received medical care and financial support from a local charity.","zh":"这名受害者获得了当地慈善机构提供的医疗救助和经济支持。"},"ipa":"/vˈɪktɪm/"},{"en":"obesity","zh":"肥胖","group":"社会与环境 · 社会问题","ex":{"en":"Childhood obesity has become a serious problem because many children lack exercise.","zh":"由于许多儿童缺乏锻炼，儿童肥胖已成为一个严重问题。"}},{"en":"epidemic","zh":"流行病","group":"社会与环境 · 社会问题","ex":{"en":"Doctors worked around the clock to control the epidemic in remote villages.","zh":"医生们夜以继日地工作，以控制偏远村庄的流行病。"},"ipa":"/ˌepɪˈdemɪk/"},{"en":"pandemic","zh":"大流行","group":"社会与环境 · 社会问题","ex":{"en":"The pandemic forced schools worldwide to adopt new ways of teaching online.","zh":"这场大流行迫使世界各地的学校采用新的在线教学方式。"},"ipa":"/pænˈdemɪk/"},{"en":"pollution","zh":"污染","group":"社会与环境 · 社会问题","ex":{"en":"Air pollution from factories poses a serious threat to public health.","zh":"工厂造成的空气污染对公众健康构成严重威胁。"}},{"en":"emission","zh":"排放","group":"社会与环境 · 社会问题","ex":{"en":"The city has reduced carbon emissions by improving its public transportation system.","zh":"这座城市通过改善公共交通系统减少了碳排放。"},"ipa":"/ɪˈmɪʃn/"},{"en":"recycle","zh":"回收","group":"社会与环境 · 社会问题","ex":{"en":"Our school encourages students to recycle paper, plastic bottles, and old books.","zh":"我们学校鼓励学生回收纸张、塑料瓶和旧书。"},"ipa":"/ˌriːˈsaɪkl/"},{"en":"sustainable","zh":"可持续的","group":"社会与环境 · 社会问题","ex":{"en":"We need sustainable farming methods that protect soil and provide enough food.","zh":"我们需要既能保护土壤又能提供充足食物的可持续耕作方法。"},"ipa":"/səˈsteɪnəbl/"},{"en":"renewable","zh":"可再生的","group":"社会与环境 · 社会问题","ex":{"en":"Solar and wind power are renewable sources of energy for modern cities.","zh":"太阳能和风能是现代城市可使用的可再生能源。"},"ipa":"/rɪˈnjuːəbl/"},{"en":"conservation","zh":"保护","group":"社会与环境 · 社会问题","ex":{"en":"Forest conservation is essential for protecting wildlife and maintaining ecological balance.","zh":"森林保护对于保护野生动物和维持生态平衡至关重要。"}},{"en":"shortage","zh":"短缺","group":"社会与环境 · 社会问题","ex":{"en":"A shortage of clean water affects millions of people in dry regions.","zh":"清洁用水的短缺影响着干旱地区数百万人。"},"ipa":"/ʃˈɔːtɪdʒ/"},{"en":"crisis","zh":"危机","group":"社会与环境 · 社会问题","ex":{"en":"The government acted quickly to prevent the financial crisis from becoming worse.","zh":"政府迅速采取行动，防止金融危机进一步恶化。"},"ipa":"/kɹˈaɪsɪs/"},{"en":"issue","zh":"问题","group":"社会与环境 · 社会问题","ex":{"en":"Climate change is a global issue that requires cooperation among all countries.","zh":"气候变化是一个需要各国合作的全球性问题。"},"ipa":"/ˈɪʃuː/"},{"en":"challenge","zh":"挑战","group":"社会与环境 · 社会问题","ex":{"en":"Reducing urban traffic is a major challenge for many large cities.","zh":"减少城市交通流量是许多大城市面临的一大挑战。"},"ipa":"/ˈtʃælɪndʒ/"},{"en":"pressure","zh":"压力","group":"社会与环境 · 社会问题","ex":{"en":"Heavy traffic puts great pressure on the city's public transportation system.","zh":"繁重的交通给这座城市的公共交通系统带来了巨大压力。"},"ipa":"/pɹˈɛʃə/"},{"en":"burden","zh":"负担","group":"社会与环境 · 社会问题","ex":{"en":"High housing costs place a heavy burden on young families.","zh":"高昂的住房成本给年轻家庭带来了沉重负担。"}},{"en":"welfare","zh":"福利","group":"社会与环境 · 社会问题","ex":{"en":"The government provides welfare to support elderly people without stable incomes.","zh":"政府提供福利，帮助没有稳定收入的老年人。"},"ipa":"/ˈwelfer/"},{"en":"policy","zh":"政策","group":"社会与环境 · 社会问题","ex":{"en":"The new policy encourages businesses to hire workers from disadvantaged communities.","zh":"这项新政策鼓励企业雇用来自弱势社区的员工。"},"ipa":"/pˈɒlɪsi/"},{"en":"regulation","zh":"法规","group":"社会与环境 · 社会问题","ex":{"en":"A new regulation requires factories to treat wastewater before releasing it.","zh":"一项新法规要求工厂在排放废水前对其进行处理。"},"ipa":"/ˌreɡjuˈleɪʃn/"},{"en":"measure","zh":"措施","group":"社会与环境 · 社会问题","ex":{"en":"This measure has successfully reduced waste in schools across the city.","zh":"这项措施已成功减少全市各学校的浪费。"}},{"en":"awareness","zh":"意识","group":"社会与环境 · 社会问题","ex":{"en":"Public awareness of environmental protection has increased greatly in recent years.","zh":"近年来，公众的环境保护意识大大增强。"}},{"en":"participation","zh":"参与","group":"社会与环境 · 社会问题","ex":{"en":"Active public participation is necessary for the success of community recycling programs.","zh":"社区回收项目要取得成功，公众必须积极参与。"}},{"en":"take measures","zh":"采取措施","group":"社会与环境 · 社会与环境词组","ex":{"en":"Governments must take measures to reduce pollution and protect public health.","zh":"各国政府必须采取措施减少污染，保护公众健康。"}},{"en":"raise awareness","zh":"提高意识","group":"社会与环境 · 社会与环境词组","ex":{"en":"The campaign uses short videos to raise awareness of water conservation.","zh":"这项活动利用短视频提高人们的节水意识。"}},{"en":"solve the problem","zh":"解决问题","group":"社会与环境 · 社会与环境词组","ex":{"en":"Scientists are working together to solve the problem of plastic waste.","zh":"科学家们正在共同努力解决塑料垃圾问题。"}},{"en":"ease the pressure","zh":"缓解压力","group":"社会与环境 · 社会与环境词组","ex":{"en":"Building more parks could ease the pressure on crowded urban communities.","zh":"建造更多公园可以缓解拥挤城市社区的压力。"}},{"en":"lighten the burden","zh":"减轻负担","group":"社会与环境 · 社会与环境词组","ex":{"en":"Tax reductions may lighten the burden on small businesses during hard times.","zh":"在困难时期，减税可以减轻小型企业的负担。"}},{"en":"bridge the gap","zh":"缩小差距","group":"社会与环境 · 社会与环境词组","ex":{"en":"Better rural education can bridge the gap between urban and rural students.","zh":"改善农村教育可以缩小城乡学生之间的差距。"}},{"en":"narrow the gap between","zh":"缩小……之间的差距","group":"社会与环境 · 社会与环境词组","ex":{"en":"The program aims to narrow the gap between rich and poor regions.","zh":"该项目旨在缩小贫富地区之间的差距。"}},{"en":"keep pace with","zh":"跟上节奏","group":"社会与环境 · 社会与环境词组","ex":{"en":"Small businesses must innovate constantly to keep pace with rapid social changes.","zh":"小型企业必须不断创新，才能跟上快速的社会变化。"}},{"en":"protect the environment","zh":"保护环境","group":"社会与环境 · 社会与环境词组","ex":{"en":"Everyone should save water and reduce waste to protect the environment.","zh":"每个人都应该节约用水、减少浪费，以保护环境。"}},{"en":"cause damage to","zh":"对……造成损害","group":"社会与环境 · 社会与环境词组","ex":{"en":"Excessive use of chemical fertilizers can cause damage to nearby rivers.","zh":"过度使用化肥会对附近的河流造成损害。"}},{"en":"have an effect on","zh":"对……有影响","group":"社会与环境 · 社会与环境词组","ex":{"en":"Social changes have an effect on how young people choose their careers.","zh":"社会变化会影响年轻人选择职业的方式。"}},{"en":"make a difference","zh":"有影响","group":"社会与环境 · 社会与环境词组","ex":{"en":"Even small community projects can make a difference to local residents' lives.","zh":"即使是小型社区项目，也能对当地居民的生活产生影响。"}},{"en":"break the law","zh":"违法","group":"社会与环境 · 社会与环境词组","ex":{"en":"Anyone who breaks the law should be held responsible for their actions.","zh":"任何违法的人都应为自己的行为承担责任。"}},{"en":"obey the law","zh":"守法","group":"社会与环境 · 社会与环境词组","ex":{"en":"Citizens who obey the law help create a safer and fairer society.","zh":"守法的公民有助于建设一个更安全、更公平的社会。"}},{"en":"set an example","zh":"树立榜样","group":"社会与环境 · 社会与环境词组","ex":{"en":"Volunteers set an example for others by helping elderly people in need.","zh":"志愿者通过帮助有需要的老年人，为其他人树立了榜样。"}},{"en":"play a role in","zh":"在……中起作用","group":"社会与环境 · 社会与环境词组","ex":{"en":"Education plays an important role in reducing poverty and promoting social progress.","zh":"教育在减少贫困和促进社会进步方面发挥着重要作用。"}},{"en":"be concerned about","zh":"关心","group":"社会与环境 · 社会与环境词组","ex":{"en":"Many citizens are concerned about the rising cost of medical care.","zh":"许多市民关心不断上涨的医疗费用。"}},{"en":"pay attention to","zh":"注意","group":"社会与环境 · 社会与环境词组","ex":{"en":"Drivers should pay attention to road conditions, especially during heavy rain.","zh":"驾驶员应注意路况，尤其是在下大雨时。"},"ipa":"/pˈeɪ/ /ətˈɛnʃən/ /tˈuː/"},{"en":"attach importance to","zh":"重视","group":"社会与环境 · 社会与环境词组","ex":{"en":"Schools should attach importance to students' safety as well as academic performance.","zh":"学校既应重视学生的学业表现，也应重视学生的安全。"}},{"en":"be aware of","zh":"意识到","group":"社会与环境 · 社会与环境词组","ex":{"en":"Consumers should be aware of the environmental costs of fast fashion.","zh":"消费者应该意识到快时尚带来的环境代价。"}},{"en":"take action","zh":"采取行动","group":"社会与环境 · 社会与环境词组","ex":{"en":"Local communities must take action before the water shortage becomes more serious.","zh":"当地社区必须在用水短缺变得更加严重之前采取行动。"}},{"en":"make an effort","zh":"努力","group":"社会与环境 · 社会与环境词组","ex":{"en":"Our class made an effort to collect clothing for families in need.","zh":"我们班努力为有需要的家庭募集衣物。"}},{"en":"get involved in","zh":"参与","group":"社会与环境 · 社会与环境词组","ex":{"en":"Students are encouraged to get involved in volunteer work within their communities.","zh":"学校鼓励学生参与所在社区的志愿工作。"}},{"en":"be responsible for","zh":"对……负责","group":"社会与环境 · 社会与环境词组","ex":{"en":"Factory managers are responsible for ensuring that their workplaces are safe.","zh":"工厂管理者负责确保工作场所的安全。"}},{"en":"call for","zh":"需要；呼吁","group":"社会与环境 · 社会与环境词组","ex":{"en":"The growing housing problem calls for immediate action from local authorities.","zh":"日益严重的住房问题需要地方政府立即采取行动。"},"ipa":"/kˈɔːl/ /fˈɔː/"},{"en":"rely on","zh":"依赖","group":"社会与环境 · 社会与环境词组","ex":{"en":"Many rural families still rely on farming as their main source of income.","zh":"许多农村家庭仍然依赖农业作为主要收入来源。"}},{"en":"depend on","zh":"依靠","group":"社会与环境 · 社会与环境词组","ex":{"en":"The success of this environmental project depends on support from local residents.","zh":"这个环保项目的成功依靠当地居民的支持。"}},{"en":"give rise to","zh":"引起","group":"社会与环境 · 社会与环境词组","ex":{"en":"Poor waste management can give rise to serious health problems in cities.","zh":"垃圾管理不善会在城市中引起严重的健康问题。"}},{"en":"innovation","zh":"创新","group":"科技与媒体 · 科技与互联网","ex":{"en":"Technological innovation has created new industries and improved many traditional services.","zh":"技术创新创造了新产业，并改善了许多传统服务。"},"ipa":"/ˌɪnəˈveɪʃn/"},{"en":"technology","zh":"技术","group":"科技与媒体 · 科技与互联网","ex":{"en":"Modern technology allows doctors to share medical information more quickly and safely.","zh":"现代技术使医生能够更快速、更安全地共享医疗信息。"}},{"en":"digital","zh":"数字的","group":"科技与媒体 · 科技与互联网","ex":{"en":"The library offers digital books that students can read on any computer.","zh":"图书馆提供学生可以在任何电脑上阅读的数字图书。"},"ipa":"/ˈdɪdʒɪtl/"},{"en":"device","zh":"设备","group":"科技与媒体 · 科技与互联网","ex":{"en":"This small device can measure air quality and send results to your phone.","zh":"这台小型设备可以测量空气质量，并将结果发送到你的手机。"},"ipa":"/dɪvˈaɪs/"},{"en":"smartphone","zh":"智能手机","group":"科技与媒体 · 科技与互联网","ex":{"en":"Her smartphone reminds her to drink water and exercise throughout the day.","zh":"她的智能手机会提醒她全天喝水和锻炼。"}},{"en":"software","zh":"软件","group":"科技与媒体 · 科技与互联网","ex":{"en":"The company develops software that helps small businesses manage their daily sales.","zh":"这家公司开发帮助小型企业管理日常销售的软件。"}},{"en":"hardware","zh":"硬件","group":"科技与媒体 · 科技与互联网","ex":{"en":"The computer's hardware must be upgraded before it can run this program.","zh":"这台电脑必须升级硬件，才能运行这个程序。"}},{"en":"data","zh":"数据","group":"科技与媒体 · 科技与互联网","ex":{"en":"Researchers collected data from two thousand users to study their online habits.","zh":"研究人员收集了两千名用户的数据，以研究他们的上网习惯。"},"ipa":"/dˈeɪtə/"},{"en":"database","zh":"数据库","group":"科技与媒体 · 科技与互联网","ex":{"en":"The hospital stores patient records in a secure database for easy access.","zh":"医院将患者记录存储在安全的数据库中，以便查阅。"},"ipa":"/ˈdeɪtəbeɪs/"},{"en":"network","zh":"网络","group":"科技与媒体 · 科技与互联网","ex":{"en":"A reliable network enables employees in different cities to work together efficiently.","zh":"可靠的网络使不同城市的员工能够高效协作。"},"ipa":"/nˈɛtwɜːk/"},{"en":"internet","zh":"互联网","group":"科技与媒体 · 科技与互联网","ex":{"en":"The internet has changed the way people learn, shop, and communicate.","zh":"互联网改变了人们学习、购物和交流的方式。"}},{"en":"website","zh":"网站","group":"科技与媒体 · 科技与互联网","ex":{"en":"The university website provides detailed information about courses, fees, and application deadlines.","zh":"该大学网站提供有关课程、费用和申请截止日期的详细信息。"}},{"en":"platform","zh":"平台","group":"科技与媒体 · 科技与互联网","ex":{"en":"This online platform connects local farmers directly with customers in large cities.","zh":"这个在线平台将当地农民与大城市的顾客直接联系起来。"}},{"en":"social media","zh":"社交媒体","group":"科技与媒体 · 科技与互联网","ex":{"en":"Social media allows people to share news quickly, but it also spreads rumors.","zh":"社交媒体让人们能够快速分享新闻，但也会传播谣言。"}},{"en":"artificial intelligence","zh":"人工智能","group":"科技与媒体 · 科技与互联网","ex":{"en":"Artificial intelligence can help doctors identify diseases from medical images more accurately.","zh":"人工智能可以帮助医生根据医学影像更准确地识别疾病。"},"ipa":"/ˌɑːtɪfɪʃl ɪnˈtelɪdʒəns/"},{"en":"algorithm","zh":"算法","group":"科技与媒体 · 科技与互联网","ex":{"en":"The algorithm recommends videos based on what users have watched before.","zh":"该算法根据用户以前观看的内容推荐视频。"},"ipa":"/ˈælɡərɪðəm/"},{"en":"automation","zh":"自动化","group":"科技与媒体 · 科技与互联网","ex":{"en":"Automation has reduced production costs, but some workers need new skills.","zh":"自动化降低了生产成本，但一些工人需要掌握新技能。"}},{"en":"virtual","zh":"虚拟的","group":"科技与媒体 · 科技与互联网","ex":{"en":"Students explored a virtual museum and examined ancient objects from every angle.","zh":"学生们参观了一座虚拟博物馆，并从各个角度观察古代文物。"},"ipa":"/vˈɜːtʃuːəl/"},{"en":"online","zh":"在线的","group":"科技与媒体 · 科技与互联网","ex":{"en":"Our college offers online courses for students who cannot attend classes on campus.","zh":"我们学院为无法到校上课的学生提供在线课程。"}},{"en":"download","zh":"下载","group":"科技与媒体 · 科技与互联网","ex":{"en":"You can download the application for free from the university's official website.","zh":"你可以从该大学的官方网站免费下载这个应用程序。"}},{"en":"upload","zh":"上传","group":"科技与媒体 · 科技与互联网","ex":{"en":"Please upload your assignment to the course website before Friday evening.","zh":"请在周五晚上之前将作业上传到课程网站。"}},{"en":"search engine","zh":"搜索引擎","group":"科技与媒体 · 科技与互联网","ex":{"en":"A search engine can find useful information within seconds if you choose keywords carefully.","zh":"如果认真选择关键词，搜索引擎可以在几秒内找到有用的信息。"}},{"en":"cyber","zh":"网络的","group":"科技与媒体 · 科技与互联网","ex":{"en":"Strong passwords and careful browsing are basic forms of cyber security.","zh":"使用强密码和谨慎浏览网页是网络安全的基本做法。"},"ipa":"/ˈsaɪbə/"},{"en":"privacy","zh":"隐私","group":"科技与媒体 · 科技与互联网","ex":{"en":"Users should adjust their account settings to protect their privacy online.","zh":"用户应调整账户设置，以保护自己的网络隐私。"}},{"en":"personal information","zh":"个人信息","group":"科技与媒体 · 科技与互联网","ex":{"en":"Never share personal information with strangers on unfamiliar websites or messaging apps.","zh":"切勿在不熟悉的网站或消息应用上向陌生人透露个人信息。"}},{"en":"cybercrime","zh":"网络犯罪","group":"科技与媒体 · 科技与互联网","ex":{"en":"Police are using advanced technology to investigate cybercrime and protect internet users.","zh":"警方正在利用先进技术调查网络犯罪，保护互联网用户。"}},{"en":"hacker","zh":"黑客","group":"科技与媒体 · 科技与互联网","ex":{"en":"A hacker tried to enter the company system but failed.","zh":"一名黑客试图入侵该公司的系统，但没有成功。"}},{"en":"firewall","zh":"防火墙","group":"科技与媒体 · 科技与互联网","ex":{"en":"The firewall blocks unauthorized access and helps keep the office network secure.","zh":"防火墙阻止未经授权的访问，并帮助保障办公网络的安全。"},"ipa":"/fˈaɪəwɔːl/"},{"en":"keep in touch with","zh":"与……保持联系","group":"科技与媒体 · 科技与媒体词组","ex":{"en":"Video calls help me keep in touch with friends who live abroad.","zh":"视频通话帮助我与住在国外的朋友保持联系。"}},{"en":"keep track of","zh":"追踪","group":"科技与媒体 · 科技与媒体词组","ex":{"en":"This app helps users keep track of their daily screen time.","zh":"这款应用帮助用户追踪自己每天使用屏幕的时间。"}},{"en":"have access to","zh":"有权使用","group":"科技与媒体 · 科技与媒体词组","ex":{"en":"All students have access to the library's electronic journals and research databases.","zh":"所有学生都有权使用图书馆的电子期刊和研究数据库。"}},{"en":"be exposed to","zh":"接触","group":"科技与媒体 · 科技与媒体词组","ex":{"en":"Children are often exposed to advertisements while watching videos on social media.","zh":"儿童在社交媒体上观看视频时，经常会接触到广告。"}},{"en":"rely heavily on","zh":"严重依赖","group":"科技与媒体 · 科技与媒体词组","ex":{"en":"Many modern businesses rely heavily on cloud services to store important information.","zh":"许多现代企业严重依赖云服务来存储重要信息。"}},{"en":"make full use of","zh":"充分利用","group":"科技与媒体 · 科技与媒体词组","ex":{"en":"Students should make full use of online resources to support independent learning.","zh":"学生应充分利用在线资源来支持自主学习。"}},{"en":"play a part in","zh":"起作用","group":"科技与媒体 · 科技与媒体词组","ex":{"en":"Digital technology plays an important part in improving communication between teachers and students.","zh":"数字技术在改善师生交流方面发挥着重要作用。"}},{"en":"a growing number of","zh":"越来越多的","group":"科技与媒体 · 科技与媒体词组","ex":{"en":"A growing number of companies allow employees to work from home online.","zh":"越来越多的公司允许员工在家在线办公。"}},{"en":"with the development of","zh":"随着……的发展","group":"科技与媒体 · 科技与媒体词组","ex":{"en":"With the development of mobile technology, people can access services almost anywhere.","zh":"随着移动技术的发展，人们几乎可以在任何地方获取服务。"}},{"en":"thanks to","zh":"多亏","group":"科技与媒体 · 科技与媒体词组","ex":{"en":"Thanks to video conferencing, international teams can hold meetings without expensive travel.","zh":"多亏视频会议，国际团队无需昂贵的差旅就能举行会议。"}},{"en":"due to","zh":"由于","group":"科技与媒体 · 科技与媒体词组","ex":{"en":"The online service was temporarily unavailable due to a technical problem.","zh":"由于技术故障，这项在线服务暂时无法使用。"},"ipa":"/djˈuː/ /tˈuː/"},{"en":"because of","zh":"因为","group":"科技与媒体 · 科技与媒体词组","ex":{"en":"Many outdoor activities were canceled because of the severe air pollution.","zh":"因为严重的空气污染，许多户外活动被取消了。"}},{"en":"as a result of","zh":"由于","group":"科技与媒体 · 科技与媒体词组","ex":{"en":"As a result of improved internet access, rural students can attend online courses.","zh":"由于互联网接入条件改善，农村学生可以参加在线课程。"}},{"en":"in terms of","zh":"在……方面","group":"科技与媒体 · 科技与媒体词组","ex":{"en":"This smartphone performs well in terms of speed, battery life, and price.","zh":"这款智能手机在运行速度、电池续航和价格方面都表现出色。"}},{"en":"in the field of","zh":"在……领域","group":"科技与媒体 · 科技与媒体词组","ex":{"en":"She has gained valuable experience in the field of artificial intelligence research.","zh":"她在人工智能研究领域积累了宝贵的经验。"}},{"en":"make progress in","zh":"在……取得进展","group":"科技与媒体 · 科技与媒体词组","ex":{"en":"Researchers have made great progress in developing faster and safer computer systems.","zh":"研究人员在开发更快速、更安全的计算机系统方面取得了很大进展。"}},{"en":"bring convenience to","zh":"给……带来便利","group":"科技与媒体 · 科技与媒体词组","ex":{"en":"Mobile payment brings convenience to people who travel or shop in different cities.","zh":"移动支付给在不同城市旅行或购物的人们带来了便利。"}},{"en":"save time and energy","zh":"节省时间和精力","group":"科技与媒体 · 科技与媒体词组","ex":{"en":"Online shopping saves time and energy, especially for people with busy schedules.","zh":"网上购物节省时间和精力，对日程繁忙的人来说尤其如此。"}},{"en":"broaden one's horizons","zh":"开阔视野","group":"科技与媒体 · 科技与媒体词组","ex":{"en":"Reading international news online can broaden our horizons and deepen cultural understanding.","zh":"在线阅读国际新闻可以开阔我们的视野，加深我们对不同文化的理解。"}},{"en":"keep up with the times","zh":"与时俱进","group":"科技与媒体 · 科技与媒体词组","ex":{"en":"Teachers must keep learning new technologies to keep up with the times.","zh":"教师必须不断学习新技术，才能与时俱进。"}},{"en":"physical","zh":"身体的","group":"健康与生活方式 · 健康与医疗","ex":{"en":"Regular physical activity strengthens the heart and helps maintain a healthy weight.","zh":"规律的身体活动能增强心脏功能，并有助于保持健康体重。"},"ipa":"/fˈɪzɪkəl/"},{"en":"mental","zh":"心理的","group":"健康与生活方式 · 健康与医疗","ex":{"en":"Talking with trusted friends can improve your mental health during difficult periods.","zh":"在困难时期，与值得信赖的朋友交谈可以改善你的心理健康。"}},{"en":"fitness","zh":"健康","group":"健康与生活方式 · 健康与医疗","ex":{"en":"Regular exercise and balanced meals are important for maintaining long-term fitness.","zh":"规律锻炼和均衡饮食对保持长期健康十分重要。"}},{"en":"nutrition","zh":"营养","group":"健康与生活方式 · 健康与医疗","ex":{"en":"Good nutrition gives children the energy they need to study and grow.","zh":"良好的营养为孩子们提供学习和成长所需的能量。"},"ipa":"/njuˈtrɪʃn/"},{"en":"balanced diet","zh":"均衡饮食","group":"健康与生活方式 · 健康与医疗","ex":{"en":"A balanced diet should include vegetables, fruit, whole grains, and enough protein.","zh":"均衡饮食应包括蔬菜、水果、全谷物和足够的蛋白质。"}},{"en":"exercise","zh":"锻炼","group":"健康与生活方式 · 健康与医疗","ex":{"en":"Regular exercise can improve your mood and lower the risk of heart disease.","zh":"经常锻炼可以改善情绪，并降低患心脏病的风险。"}},{"en":"workout","zh":"训练","group":"健康与生活方式 · 健康与医疗","ex":{"en":"This workout focuses on strengthening the muscles in your arms and legs.","zh":"这套训练侧重于增强手臂和腿部的肌肉。"}},{"en":"symptom","zh":"症状","group":"健康与生活方式 · 健康与医疗","ex":{"en":"A high fever is a common symptom of this infection.","zh":"高烧是这种感染的常见症状。"},"ipa":"/ˈsɪmptəm/"},{"en":"disease","zh":"疾病","group":"健康与生活方式 · 健康与医疗","ex":{"en":"Regular health checks can help detect this disease at an early stage.","zh":"定期健康检查有助于在早期发现这种疾病。"},"ipa":"/dɪzˈiːz/"},{"en":"illness","zh":"生病","group":"健康与生活方式 · 健康与医疗","ex":{"en":"She missed several classes because of illness, but soon caught up with her classmates.","zh":"她因病缺了几节课，但很快就赶上了同学。"}},{"en":"patient","zh":"病人","group":"健康与生活方式 · 健康与医疗","ex":{"en":"The patient followed the doctor's advice and took a short walk every day.","zh":"这位病人听从医生的建议，每天散步一小会儿。"}},{"en":"physician","zh":"内科医生","group":"健康与生活方式 · 健康与医疗","ex":{"en":"The physician asked about my eating habits before deciding on a treatment plan.","zh":"内科医生在确定治疗方案前询问了我的饮食习惯。"}},{"en":"surgeon","zh":"外科医生","group":"健康与生活方式 · 健康与医疗","ex":{"en":"The surgeon explained the operation clearly and answered all of our questions.","zh":"外科医生清楚地解释了手术过程，并回答了我们所有的问题。"}},{"en":"treatment","zh":"治疗","group":"健康与生活方式 · 健康与医疗","ex":{"en":"Early treatment can reduce pain and help patients return to normal life sooner.","zh":"及早治疗可以减轻疼痛，帮助病人更快恢复正常生活。"}},{"en":"cure","zh":"治愈","group":"健康与生活方式 · 健康与医疗","ex":{"en":"Doctors hope that the new medicine will cure patients with this rare disease.","zh":"医生们希望这种新药能治愈患有这种罕见疾病的病人。"}},{"en":"recover","zh":"恢复","group":"健康与生活方式 · 健康与医疗","ex":{"en":"With enough rest, most people recover from a cold within a week.","zh":"只要充分休息，大多数人的感冒都能在一周内恢复。"},"ipa":"/ɹɪˈkəvɝ/"},{"en":"heal","zh":"愈合","group":"健康与生活方式 · 健康与医疗","ex":{"en":"The wound took several weeks to heal because he kept removing the bandage.","zh":"因为他总是拆掉绷带，伤口过了好几周才愈合。"},"ipa":"/hˈiːl/"},{"en":"prevent","zh":"预防","group":"健康与生活方式 · 健康与医疗","ex":{"en":"Washing your hands regularly helps prevent the spread of common infections.","zh":"经常洗手有助于预防常见感染的传播。"},"ipa":"/pɹɪvˈɛnt/"},{"en":"immune","zh":"免疫的","group":"健康与生活方式 · 健康与医疗","ex":{"en":"Vaccination can strengthen the body's immune response to certain dangerous viruses.","zh":"接种疫苗能增强人体对某些危险病毒的免疫反应。"},"ipa":"/ɪmjˈuːn/"},{"en":"virus","zh":"病毒","group":"健康与生活方式 · 健康与医疗","ex":{"en":"The virus spreads easily when people share a crowded and poorly ventilated room.","zh":"当人们共处一间拥挤且通风不良的房间时，这种病毒很容易传播。"},"ipa":"/vˈaɪɹəs/"},{"en":"bacteria","zh":"细菌","group":"健康与生活方式 · 健康与医疗","ex":{"en":"Some bacteria are helpful, while others can cause serious diseases in humans.","zh":"有些细菌有益，而另一些则会给人类带来严重疾病。"}},{"en":"infection","zh":"感染","group":"健康与生活方式 · 健康与医疗","ex":{"en":"The doctor gave him some medicine to control the infection in his throat.","zh":"医生给了他一些药来控制喉咙感染。"}},{"en":"vaccine","zh":"疫苗","group":"健康与生活方式 · 健康与医疗","ex":{"en":"Researchers are working to develop a safer vaccine against the seasonal flu.","zh":"研究人员正致力于研制一种更安全的季节性流感疫苗。"},"ipa":"/ˈvæksiːn/"},{"en":"pharmacy","zh":"药店","group":"健康与生活方式 · 健康与医疗","ex":{"en":"You can buy basic medical supplies at the pharmacy near the station.","zh":"你可以在车站附近的药店购买基本医疗用品。"}},{"en":"prescription","zh":"处方","group":"健康与生活方式 · 健康与医疗","ex":{"en":"You need a doctor's prescription to buy this medicine at most pharmacies.","zh":"在大多数药店购买这种药都需要医生的处方。"}},{"en":"dose","zh":"剂量","group":"健康与生活方式 · 健康与医疗","ex":{"en":"Taking more than the recommended dose may make the medicine less safe.","zh":"服用超过建议剂量的药物可能会降低用药安全性。"}},{"en":"side effect","zh":"副作用","group":"健康与生活方式 · 健康与医疗","ex":{"en":"Sleepiness is a common side effect of this medicine, so avoid driving afterward.","zh":"嗜睡是这种药的常见副作用，因此服药后应避免开车。"}},{"en":"insurance","zh":"保险","group":"健康与生活方式 · 健康与医疗","ex":{"en":"Health insurance helped the family pay for the unexpected hospital treatment.","zh":"医疗保险帮助这家人支付了意外的住院治疗费用。"}},{"en":"keep fit","zh":"保持健康","group":"健康与生活方式 · 健康相关词组","ex":{"en":"To keep fit, my grandfather walks for half an hour every morning.","zh":"为了保持健康，我祖父每天早晨散步半小时。"}},{"en":"work out","zh":"锻炼","group":"健康与生活方式 · 健康相关词组","ex":{"en":"I usually work out at the campus gym three times a week.","zh":"我通常每周在校园健身房锻炼三次。"},"ipa":"/wˈɜːk/ /ˈaʊt/"},{"en":"stay healthy","zh":"保持健康","group":"健康与生活方式 · 健康相关词组","ex":{"en":"Getting enough sleep and eating fresh food can help you stay healthy.","zh":"充足的睡眠和食用新鲜食物可以帮助你保持健康。"}},{"en":"build up","zh":"增强（体质）","group":"健康与生活方式 · 健康相关词组","ex":{"en":"Swimming regularly can build up your strength without putting too much pressure on your knees.","zh":"经常游泳可以增强体质，又不会给膝盖造成太大压力。"},"ipa":"/bˈɪld/ /ˈʌp/"},{"en":"break down","zh":"身体垮掉","group":"健康与生活方式 · 健康相关词组","ex":{"en":"He worked without rest for months until his health finally broke down.","zh":"他连续数月不休息地工作，最终身体垮了。"},"ipa":"/bɹˈeɪk/ /dˈaʊn/"},{"en":"burn out","zh":"精疲力竭","group":"健康与生活方式 · 健康相关词组","ex":{"en":"If you never take a break, you may burn out before the project ends.","zh":"如果你从不休息，可能会在项目结束前就精疲力竭。"}},{"en":"get over","zh":"克服（疾病）","group":"健康与生活方式 · 健康相关词组","ex":{"en":"It took her nearly a month to get over the severe flu.","zh":"她花了将近一个月才从这场严重的流感中恢复过来。"},"ipa":"/ɡˈɛt/ /ˈəʊvə/"},{"en":"take medicine","zh":"吃药","group":"健康与生活方式 · 健康相关词组","ex":{"en":"Remember to take medicine after meals and drink plenty of warm water.","zh":"记得饭后吃药，并多喝温水。"}},{"en":"be in good health","zh":"身体健康","group":"健康与生活方式 · 健康相关词组","ex":{"en":"My grandmother is in good health because she exercises and eats well.","zh":"我祖母身体健康，因为她坚持锻炼，而且饮食合理。"}},{"en":"be under stress","zh":"处于压力下","group":"健康与生活方式 · 健康相关词组","ex":{"en":"Many students are under stress when final examinations are approaching.","zh":"期末考试临近时，许多学生都处于压力之下。"}},{"en":"suffer from","zh":"遭受","group":"健康与生活方式 · 健康相关词组","ex":{"en":"People who suffer from allergies should avoid food that causes a reaction.","zh":"患有过敏症的人应避免食用会引起过敏反应的食物。"}},{"en":"recover from","zh":"从……恢复","group":"健康与生活方式 · 健康相关词组","ex":{"en":"She is slowly recovering from the operation and can now walk without help.","zh":"她正慢慢从手术中恢复，现在已经可以独立行走。"}},{"en":"prevent...from","zh":"阻止","group":"健康与生活方式 · 健康相关词组","ex":{"en":"Regular health checks can prevent many small problems from becoming serious illnesses.","zh":"定期健康检查可以阻止许多小问题发展成严重疾病。"}},{"en":"protect...against","zh":"保护……免受","group":"健康与生活方式 · 健康相关词组","ex":{"en":"A good pair of sunglasses can protect your eyes against strong sunlight.","zh":"一副好的太阳镜可以保护你的眼睛免受强烈阳光的伤害。"}},{"en":"be good for","zh":"对……有益","group":"健康与生活方式 · 健康相关词组","ex":{"en":"Fresh vegetables are good for your health and provide many necessary vitamins.","zh":"新鲜蔬菜有益健康，并能提供多种必需的维生素。"}},{"en":"be harmful to","zh":"对……有害","group":"健康与生活方式 · 健康相关词组","ex":{"en":"Smoking is harmful to your lungs and can also affect those around you.","zh":"吸烟有害肺部健康，也会影响你周围的人。"}},{"en":"do harm to","zh":"伤害","group":"健康与生活方式 · 健康相关词组","ex":{"en":"Staying up late every night can do harm to both your body and mind.","zh":"每晚熬夜都会伤害你的身心健康。"}},{"en":"lead a healthy life","zh":"过健康生活","group":"健康与生活方式 · 健康相关词组","ex":{"en":"To lead a healthy life, she avoids junk food and exercises every day.","zh":"为了过健康的生活，她不吃垃圾食品，并且每天锻炼。"}},{"en":"keep a balanced diet","zh":"保持均衡饮食","group":"健康与生活方式 · 健康相关词组","ex":{"en":"He keeps a balanced diet by choosing fresh food instead of processed snacks.","zh":"他通过选择新鲜食物而非加工零食来保持均衡饮食。"}},{"en":"get enough sleep","zh":"充足睡眠","group":"健康与生活方式 · 健康相关词组","ex":{"en":"Students who get enough sleep usually concentrate better in morning classes.","zh":"睡眠充足的学生通常在上午的课堂上更能集中注意力。"}},{"en":"economy","zh":"经济","group":"经济与消费 · 经济与金融","ex":{"en":"The local economy has grown rapidly since several technology companies moved here.","zh":"自从几家科技公司迁到这里以来，当地经济迅速发展。"},"ipa":"/ɪkˈɒnəmi/"},{"en":"economic","zh":"经济的","group":"经济与消费 · 经济与金融","ex":{"en":"The government introduced new economic policies to support small businesses and create jobs.","zh":"政府出台了新的经济政策，以支持小型企业并创造就业机会。"},"ipa":"/ˌiːkənˈɒmɪk/"},{"en":"commerce","zh":"商业","group":"经济与消费 · 经济与金融","ex":{"en":"The city has been an important center of commerce for over two centuries.","zh":"两个多世纪以来，这座城市一直是重要的商业中心。"},"ipa":"/kˈɒmɜːs/"},{"en":"trade","zh":"贸易","group":"经济与消费 · 经济与金融","ex":{"en":"International trade allows countries to exchange goods and make better use of resources.","zh":"国际贸易使各国能够交换商品，并更好地利用资源。"},"ipa":"/tɹˈeɪd/"},{"en":"market","zh":"市场","group":"经济与消费 · 经济与金融","ex":{"en":"The company studied the market carefully before launching its new product.","zh":"该公司在推出新产品之前仔细研究了市场。"}},{"en":"consumer","zh":"消费者","group":"经济与消费 · 经济与金融","ex":{"en":"Every consumer has the right to know whether a product is safe.","zh":"每位消费者都有权知道产品是否安全。"}},{"en":"customer","zh":"顾客","group":"经济与消费 · 经济与金融","ex":{"en":"The customer returned the damaged camera and asked for a full refund.","zh":"这位顾客退回了损坏的相机，并要求全额退款。"}},{"en":"purchase","zh":"购买","group":"经济与消费 · 经济与金融","ex":{"en":"You can purchase tickets online or at the entrance to the museum.","zh":"你可以在网上或博物馆入口处购买门票。"},"ipa":"/pˈɜːtʃɪs/"},{"en":"expense","zh":"开销","group":"经济与消费 · 经济与金融","ex":{"en":"The cost of accommodation was an unexpected expense during our trip.","zh":"住宿费是我们旅行期间一笔意外的开销。"},"ipa":"/ɛkspˈɛns/"},{"en":"cost","zh":"成本","group":"经济与消费 · 经济与金融","ex":{"en":"Using local materials can reduce the cost of building these houses.","zh":"使用当地材料可以降低建造这些房屋的成本。"}},{"en":"budget","zh":"预算","group":"经济与消费 · 经济与金融","ex":{"en":"The student made a monthly budget to control her spending and save money.","zh":"这名学生制订了每月预算，以控制开支并存钱。"},"ipa":"/ˈbʌdʒɪt/"},{"en":"profit","zh":"利润","group":"经济与消费 · 经济与金融","ex":{"en":"The small restaurant made a profit after reducing waste and attracting more customers.","zh":"这家小餐馆减少浪费并吸引更多顾客后实现了盈利。"},"ipa":"/pɹˈɒfɪt/"},{"en":"revenue","zh":"收入","group":"经济与消费 · 经济与金融","ex":{"en":"The company's revenue increased after it began selling products through its website.","zh":"该公司开始通过网站销售产品后，收入有所增长。"},"ipa":"/ˈrevənjuː/"},{"en":"tax","zh":"税","group":"经济与消费 · 经济与金融","ex":{"en":"Citizens pay tax on their income to support public services such as education.","zh":"公民缴纳所得税，以支持教育等公共服务。"},"ipa":"/tæks/"},{"en":"inflation","zh":"通货膨胀","group":"经济与消费 · 经济与金融","ex":{"en":"High inflation means that families must spend more money on basic necessities.","zh":"高通货膨胀意味着家庭必须在基本生活必需品上花更多的钱。"},"ipa":"/ɪnˈfleɪʃən/"},{"en":"invest","zh":"投资","group":"经济与消费 · 经济与金融","ex":{"en":"Instead of keeping all her savings in cash, she decided to invest in a low-risk fund.","zh":"她决定不把全部积蓄都以现金形式保留，而是投资一只低风险基金。"},"ipa":"/ɪnvˈɛst/"},{"en":"investment","zh":"投资","group":"经济与消费 · 经济与金融","ex":{"en":"The new factory is a major investment that will create hundreds of local jobs.","zh":"这座新工厂是一项重大投资，将创造数百个本地就业岗位。"},"ipa":"/ɪnˈvestmənt/"},{"en":"fund","zh":"资金","group":"经济与消费 · 经济与金融","ex":{"en":"The charity needs more funds to provide food and medicine for flood victims.","zh":"这家慈善机构需要更多资金，为洪灾灾民提供食物和药品。"},"ipa":"/fˈʌnd/"},{"en":"capital","zh":"资本","group":"经济与消费 · 经济与金融","ex":{"en":"The company needs enough capital to buy modern equipment and expand production.","zh":"这家公司需要足够的资本来购买现代化设备并扩大生产。"},"ipa":"/kˈæpɪtəl/"},{"en":"wealth","zh":"财富","group":"经济与消费 · 经济与金融","ex":{"en":"He believes that good health and close friendships are more valuable than wealth.","zh":"他认为健康和亲密的友谊比财富更宝贵。"}},{"en":"poverty","zh":"贫困","group":"经济与消费 · 经济与金融","ex":{"en":"The program offers free job training to help families escape poverty.","zh":"该项目提供免费职业培训，帮助家庭摆脱贫困。"},"ipa":"/pˈɒvəti/"},{"en":"debt","zh":"债务","group":"经济与消费 · 经济与金融","ex":{"en":"After years of hard work, the couple finally paid off their debt.","zh":"经过多年的努力，这对夫妇终于还清了债务。"},"ipa":"/det/"},{"en":"loan","zh":"贷款","group":"经济与消费 · 经济与金融","ex":{"en":"The bank approved her loan, allowing her to open a small bakery.","zh":"银行批准了她的贷款，使她得以开一家小面包店。"},"ipa":"/lˈəʊn/"},{"en":"mortgage","zh":"抵押贷款","group":"经济与消费 · 经济与金融","ex":{"en":"They applied for a mortgage to buy an apartment near the city center.","zh":"他们申请了抵押贷款，以购买市中心附近的一套公寓。"},"ipa":"/ˈmɔːɡɪdʒ/"},{"en":"currency","zh":"货币","group":"经济与消费 · 经济与金融","ex":{"en":"The euro is the official currency of many European countries.","zh":"欧元是许多欧洲国家的官方货币。"}},{"en":"transaction","zh":"交易","group":"经济与消费 · 经济与金融","ex":{"en":"The bank sends me a message whenever a transaction is made with my card.","zh":"每当我的银行卡发生交易时，银行都会给我发一条消息。"},"ipa":"/trænˈzækʃn/"},{"en":"finance","zh":"金融","group":"经济与消费 · 经济与金融","ex":{"en":"She studies finance because she wants to work in the banking industry.","zh":"她学习金融，因为她想在银行业工作。"}},{"en":"boom","zh":"繁荣","group":"经济与消费 · 经济与金融","ex":{"en":"The construction boom created thousands of jobs but also pushed up housing prices.","zh":"建筑业的繁荣创造了数千个就业岗位，但也推高了房价。"}},{"en":"spend money on","zh":"花钱于","group":"经济与消费 · 经济与消费词组","ex":{"en":"Many young people spend money on experiences rather than expensive possessions.","zh":"许多年轻人把钱花在体验上，而不是昂贵的物品上。"}},{"en":"save money","zh":"省钱","group":"经济与消费 · 经济与消费词组","ex":{"en":"Cooking at home instead of eating out can help you save money.","zh":"在家做饭而不是外出就餐可以帮你省钱。"}},{"en":"make money","zh":"赚钱","group":"经济与消费 · 经济与消费词组","ex":{"en":"She makes money by designing websites for local businesses in her spare time.","zh":"她在业余时间通过为当地企业设计网站赚钱。"}},{"en":"run out of","zh":"用完","group":"经济与消费 · 经济与消费词组","ex":{"en":"We ran out of cash, so we had to pay for dinner by card.","zh":"我们的现金用完了，所以晚饭只能刷卡支付。"}},{"en":"use up","zh":"耗尽","group":"经济与消费 · 经济与消费词组","ex":{"en":"They used up their savings while repairing the old house after the storm.","zh":"暴风雨过后，他们修缮老房子时耗尽了积蓄。"}},{"en":"pay for","zh":"支付","group":"经济与消费 · 经济与消费词组","ex":{"en":"I paid for the concert tickets online and received them by email immediately.","zh":"我在网上支付了音乐会门票的费用，并立即通过电子邮件收到了票。"}},{"en":"pay off","zh":"还清","group":"经济与消费 · 经济与消费词组","ex":{"en":"He hopes to pay off his student loan within five years.","zh":"他希望在五年内还清助学贷款。"},"ipa":"/pˈeɪ/ /ˈɒf/"},{"en":"cut down on","zh":"削减","group":"经济与消费 · 经济与消费词组","ex":{"en":"The family cut down on unnecessary spending to save for their children's education.","zh":"这家人削减了不必要的开支，为孩子的教育存钱。"}},{"en":"cut costs","zh":"降低成本","group":"经济与消费 · 经济与消费词组","ex":{"en":"The factory introduced energy-saving machines to cut costs and reduce pollution.","zh":"这家工厂引进了节能机器，以降低成本并减少污染。"}},{"en":"increase by","zh":"增长了（倍数/百分比）","group":"经济与消费 · 经济与消费词组","ex":{"en":"Sales increased by twenty percent after the store improved its online service.","zh":"这家商店改善在线服务后，销售额增长了百分之二十。"}},{"en":"account for","zh":"占（比例）","group":"经济与消费 · 经济与消费词组","ex":{"en":"Housing costs account for nearly half of the average family's monthly expenses.","zh":"住房成本占普通家庭每月开支的近一半。"}},{"en":"a large amount of","zh":"大量的","group":"经济与消费 · 经济与消费词组","ex":{"en":"The company spent a large amount of money on research and development.","zh":"这家公司在研发上投入了大量资金。"}},{"en":"plenty of","zh":"大量的","group":"经济与消费 · 经济与消费词组","ex":{"en":"There are plenty of affordable restaurants near the university for students on a budget.","zh":"大学附近有很多价格实惠的餐馆，适合预算有限的学生。"}},{"en":"in short supply","zh":"供应不足","group":"经济与消费 · 经济与消费词组","ex":{"en":"Fresh vegetables were in short supply after the floods damaged local farms.","zh":"洪水毁坏当地农场后，新鲜蔬菜供应不足。"}},{"en":"go up","zh":"上涨","group":"经济与消费 · 经济与消费词组","ex":{"en":"House prices may go up if demand continues to exceed supply.","zh":"如果需求持续超过供应，房价可能会上涨。"},"ipa":"/ɡˈəʊ/ /ˈʌp/"},{"en":"go down","zh":"下降","group":"经济与消费 · 经济与消费词组","ex":{"en":"The number of visitors went down after the museum raised its ticket prices.","zh":"博物馆提高票价后，游客数量下降了。"},"ipa":"/ɡˈəʊ/ /dˈaʊn/"},{"en":"put up with","zh":"忍受","group":"经济与消费 · 经济与消费词组","ex":{"en":"Customers should not have to put up with poor service or unsafe products.","zh":"顾客不应该被迫忍受糟糕的服务或不安全的产品。"},"ipa":"/ˈpʊt/ /ˈʌp/ /wˈɪð/"},{"en":"come to terms with","zh":"接受","group":"经济与消费 · 经济与消费词组","ex":{"en":"After the shop closed, the owner finally came to terms with his financial losses.","zh":"商店倒闭后，店主终于接受了自己遭受经济损失的现实。"}},{"en":"make ends meet","zh":"收支平衡","group":"经济与消费 · 经济与消费词组","ex":{"en":"With two part-time jobs, she can barely make ends meet each month.","zh":"尽管做两份兼职，她每月仍几乎无法维持收支平衡。"}},{"en":"live within one's means","zh":"量入为出","group":"经济与消费 · 经济与消费词组","ex":{"en":"To live within your means, avoid buying things you cannot afford.","zh":"要量入为出，就不要购买自己负担不起的东西。"}},{"en":"optimistic","zh":"乐观的","group":"情感与人际关系 · 情感与态度","ex":{"en":"Despite the difficulties, she remains optimistic about finding a suitable job.","zh":"尽管困难重重，她仍对找到合适的工作保持乐观。"},"ipa":"/ˌɒptɪmˈɪstɪk/"},{"en":"pessimistic","zh":"悲观的","group":"情感与人际关系 · 情感与态度","ex":{"en":"He felt pessimistic about the team's chances after their best player was injured.","zh":"队里最好的球员受伤后，他对球队的胜算感到悲观。"}},{"en":"confident","zh":"自信的","group":"情感与人际关系 · 情感与态度","ex":{"en":"Practice regularly, and you will feel more confident when speaking English in public.","zh":"经常练习，你在公共场合说英语时就会更加自信。"},"ipa":"/kˈɒnfɪdənt/"},{"en":"anxious","zh":"焦虑的","group":"情感与人际关系 · 情感与态度","ex":{"en":"She felt anxious before the interview, but her friend's encouragement helped her relax.","zh":"面试前她感到焦虑，但朋友的鼓励帮助她放松下来。"},"ipa":"/ˈæŋʃəs/"},{"en":"depressed","zh":"沮丧的","group":"情感与人际关系 · 情感与态度","ex":{"en":"He became depressed after losing his job and stayed at home for weeks.","zh":"失业后他变得沮丧，连续几周待在家里。"}},{"en":"frustrated","zh":"挫败的","group":"情感与人际关系 · 情感与态度","ex":{"en":"The students felt frustrated when the experiment failed despite their careful preparation.","zh":"尽管做了充分准备，实验还是失败了，学生们感到很挫败。"}},{"en":"enthusiastic","zh":"热情的","group":"情感与人际关系 · 情感与态度","ex":{"en":"The volunteers were enthusiastic about the project and offered many useful suggestions.","zh":"志愿者们对这个项目充满热情，并提出了许多有用的建议。"},"ipa":"/ɛnθjˌuːzɪˈæstɪk/"},{"en":"indifferent","zh":"冷漠的","group":"情感与人际关系 · 情感与态度","ex":{"en":"He seemed indifferent to the criticism and continued working in his usual way.","zh":"他似乎对这些批评很冷漠，仍按自己一贯的方式工作。"},"ipa":"/ɪndˈɪfɹənt/"},{"en":"tolerant","zh":"宽容的","group":"情感与人际关系 · 情感与态度","ex":{"en":"A good manager should be tolerant of different opinions within the team.","zh":"一位优秀的管理者应该能宽容对待团队中的不同意见。"}},{"en":"grateful","zh":"感激的","group":"情感与人际关系 · 情感与态度","ex":{"en":"I am grateful to my teachers for their patience and encouragement.","zh":"我感激老师们的耐心和鼓励。"}},{"en":"guilty","zh":"内疚的","group":"情感与人际关系 · 情感与态度","ex":{"en":"He felt guilty about forgetting his friend's birthday and apologized the next day.","zh":"他因忘记朋友的生日而感到内疚，第二天道了歉。"},"ipa":"/ɡˈɪlti/"},{"en":"embarrassed","zh":"尴尬的","group":"情感与人际关系 · 情感与态度","ex":{"en":"She felt embarrassed when she realized she had called the teacher by the wrong name.","zh":"当她意识到自己叫错了老师的名字时，感到很尴尬。"}},{"en":"delighted","zh":"高兴的","group":"情感与人际关系 · 情感与态度","ex":{"en":"We were delighted to hear that our class had won the competition.","zh":"听说我们班赢得了比赛，我们都很高兴。"}},{"en":"disappointed","zh":"失望的","group":"情感与人际关系 · 情感与态度","ex":{"en":"The fans were disappointed when the match was canceled because of heavy rain.","zh":"比赛因大雨取消，球迷们感到很失望。"}},{"en":"satisfied","zh":"满意的","group":"情感与人际关系 · 情感与态度","ex":{"en":"The manager was satisfied with our report and asked us to present it.","zh":"经理对我们的报告很满意，并要求我们进行汇报。"}},{"en":"content","zh":"满足的","group":"情感与人际关系 · 情感与态度","ex":{"en":"She is content with her simple life and does not compare herself with others.","zh":"她满足于自己简单的生活，不与他人攀比。"},"ipa":"/ˈkɑntɛnt/"},{"en":"upset","zh":"心烦的","group":"情感与人际关系 · 情感与态度","ex":{"en":"She was upset because her close friend forgot her birthday.","zh":"她很难过，因为她的好朋友忘记了她的生日。"}},{"en":"mood","zh":"情绪","group":"情感与人际关系 · 情感与态度","ex":{"en":"His mood improved after a long talk with his family last night.","zh":"昨晚和家人长谈之后，他的情绪好转了。"},"ipa":"/mˈuːd/"},{"en":"emotion","zh":"情感","group":"情感与人际关系 · 情感与态度","ex":{"en":"Music can express emotion in ways that words sometimes cannot.","zh":"音乐有时能以语言无法做到的方式表达情感。"},"ipa":"/ɪmˈəʊʃən/"},{"en":"attitude","zh":"态度","group":"情感与人际关系 · 情感与态度","ex":{"en":"Her positive attitude helped the team overcome many difficulties together.","zh":"她积极的态度帮助团队共同克服了许多困难。"},"ipa":"/ˈætɪtjuːd/"},{"en":"personality","zh":"个性","group":"情感与人际关系 · 情感与态度","ex":{"en":"His outgoing personality makes it easy for him to make friends.","zh":"他外向的个性让他很容易交到朋友。"}},{"en":"character","zh":"性格","group":"情感与人际关系 · 情感与态度","ex":{"en":"Years of travel helped shape her independent and open-minded character.","zh":"多年的旅行经历帮助塑造了她独立而开明的性格。"}},{"en":"behavior","zh":"行为","group":"情感与人际关系 · 情感与态度","ex":{"en":"His polite behavior left a good impression on everyone at the meeting.","zh":"他彬彬有礼的行为给会议上的每个人留下了好印象。"}},{"en":"motivation","zh":"动力","group":"情感与人际关系 · 情感与态度","ex":{"en":"Her desire to help others was her main motivation for studying medicine.","zh":"帮助他人的愿望是她学医的主要动力。"},"ipa":"/ˌməʊtɪˈveɪʃn/"},{"en":"pressure","zh":"压力","group":"情感与人际关系 · 情感与态度","ex":{"en":"Students often feel pressure when several exams fall in the same week.","zh":"几门考试安排在同一周时，学生们往往会感到压力。"},"ipa":"/pɹˈɛʃə/"},{"en":"stress","zh":"压力","group":"情感与人际关系 · 情感与态度","ex":{"en":"Regular exercise can reduce stress and improve your quality of sleep.","zh":"经常锻炼可以减轻压力，并改善你的睡眠质量。"},"ipa":"/stɹˈɛs/"},{"en":"sympathy","zh":"同情","group":"情感与人际关系 · 情感与态度","ex":{"en":"She showed great sympathy for the families who had lost their homes.","zh":"她对那些失去家园的家庭深表同情。"}},{"en":"jealousy","zh":"嫉妒","group":"情感与人际关系 · 情感与态度","ex":{"en":"His jealousy grew when his friend received the prize he wanted.","zh":"当他的朋友获得他想要的奖项时，他的嫉妒心更强了。"}},{"en":"get along with","zh":"与……相处","group":"情感与人际关系 · 人际与态度词组","ex":{"en":"She gets along with her roommates because they respect each other's habits.","zh":"她和室友们相处融洽，因为他们尊重彼此的生活习惯。"}},{"en":"look forward to","zh":"期待","group":"情感与人际关系 · 人际与态度词组","ex":{"en":"We are looking forward to seeing our old classmates again next month.","zh":"我们期待下个月再次见到老同学。"},"ipa":"/lˈʊk/ /fˈɔːwəd/ /tˈuː/"},{"en":"care about","zh":"关心","group":"情感与人际关系 · 人际与态度词组","ex":{"en":"He cares about his parents and calls them every weekend.","zh":"他关心父母，每个周末都会给他们打电话。"},"ipa":"/kˈeə/ /əbˈaʊt/"},{"en":"cheer up","zh":"振作","group":"情感与人际关系 · 人际与态度词组","ex":{"en":"Her friends tried to cheer her up after she failed the interview.","zh":"她面试失败后，朋友们设法让她振作起来。"}},{"en":"calm down","zh":"冷静下来","group":"情感与人际关系 · 人际与态度词组","ex":{"en":"Please calm down and tell us exactly what happened yesterday evening.","zh":"请冷静下来，确切地告诉我们昨晚发生了什么。"}},{"en":"break up","zh":"分手","group":"情感与人际关系 · 人际与态度词组","ex":{"en":"They decided to break up after realizing that they wanted different futures.","zh":"意识到想要不同的未来后，他们决定分手。"},"ipa":"/bɹˈeɪk/ /ˈʌp/"},{"en":"make up","zh":"和好","group":"情感与人际关系 · 人际与态度词组","ex":{"en":"The two friends made up after an honest conversation about their misunderstanding.","zh":"两位朋友就彼此的误会坦诚交谈后和好了。"},"ipa":"/mˈeɪk/ /ˈʌp/"},{"en":"turn to","zh":"求助于","group":"情感与人际关系 · 人际与态度词组","ex":{"en":"When I have trouble making decisions, I turn to my elder sister.","zh":"当我难以作出决定时，我会向姐姐求助。"},"ipa":"/tˈɜːn/ /tˈuː/"},{"en":"rely on","zh":"依靠","group":"情感与人际关系 · 人际与态度词组","ex":{"en":"You can rely on your teammates when the project becomes difficult.","zh":"项目变得困难时，你可以依靠你的队友。"}},{"en":"be fond of","zh":"喜欢","group":"情感与人际关系 · 人际与态度词组","ex":{"en":"My grandfather is fond of taking long walks in the park.","zh":"我祖父喜欢在公园里长时间散步。"}},{"en":"be tired of","zh":"厌倦","group":"情感与人际关系 · 人际与态度词组","ex":{"en":"I am tired of hearing the same excuse every time you are late.","zh":"我厌倦了你每次迟到都用同样的借口。"}},{"en":"be proud of","zh":"为……骄傲","group":"情感与人际关系 · 人际与态度词组","ex":{"en":"Her parents are proud of her efforts rather than just her grades.","zh":"她的父母为她的努力而骄傲，而不只是为她的成绩骄傲。"}},{"en":"be afraid of","zh":"害怕","group":"情感与人际关系 · 人际与态度词组","ex":{"en":"Many young children are afraid of sleeping alone in the dark.","zh":"许多年幼的孩子害怕独自在黑暗中睡觉。"}},{"en":"be interested in","zh":"对……感兴趣","group":"情感与人际关系 · 人际与态度词组","ex":{"en":"She is interested in learning how people from different cultures communicate.","zh":"她对了解不同文化背景的人如何交流很感兴趣。"}},{"en":"be keen on","zh":"热衷于","group":"情感与人际关系 · 人际与态度词组","ex":{"en":"He is keen on cycling and rides to work every morning.","zh":"他热衷于骑自行车，每天早上都骑车上班。"}},{"en":"be crazy about","zh":"痴迷于","group":"情感与人际关系 · 人际与态度词组","ex":{"en":"My cousin is crazy about science fiction and collects old novels.","zh":"我表弟痴迷于科幻小说，还收集旧小说。"}},{"en":"get in touch with","zh":"取得联系","group":"情感与人际关系 · 人际与态度词组","ex":{"en":"I got in touch with my former teacher through social media yesterday.","zh":"昨天我通过社交媒体与以前的老师取得了联系。"}},{"en":"lose touch with","zh":"失去联系","group":"情感与人际关系 · 人际与态度词组","ex":{"en":"We lost touch with each other after moving to different cities.","zh":"搬到不同的城市后，我们彼此失去了联系。"}},{"en":"keep in mind","zh":"记住","group":"情感与人际关系 · 人际与态度词组","ex":{"en":"Keep in mind that good communication requires both listening and speaking.","zh":"请记住，良好的沟通既需要倾听，也需要表达。"}},{"en":"make up one's mind","zh":"下定决心","group":"情感与人际关系 · 人际与态度词组","ex":{"en":"She made up her mind to apply for the scholarship despite her doubts.","zh":"尽管心存疑虑，她还是下定决心申请奖学金。"},"ipa":"/mˈeɪk/ /ˈʌp/ /wˈɒn/ /ˈɛs/ /mˈaɪnd/"},{"en":"change one's mind","zh":"改变主意","group":"情感与人际关系 · 人际与态度词组","ex":{"en":"He changed his mind about quitting after receiving support from his colleagues.","zh":"得到同事们的支持后，他改变了辞职的主意。"},"ipa":"/tʃˈeɪndʒ/ /wˈɒn/ /ˈɛs/ /mˈaɪnd/"},{"en":"speak highly of","zh":"高度评价","group":"情感与人际关系 · 人际与态度词组","ex":{"en":"The professor spoke highly of the students' creative solutions to the problem.","zh":"教授高度评价了学生们解决这个问题的创造性方案。"}},{"en":"look down upon","zh":"看不起","group":"情感与人际关系 · 人际与态度词组","ex":{"en":"We should never look down upon people simply because they make mistakes.","zh":"我们绝不能仅仅因为人们犯了错误就看不起他们。"}},{"en":"look up to","zh":"尊敬","group":"情感与人际关系 · 人际与态度词组","ex":{"en":"Many young athletes look up to players who show discipline and respect.","zh":"许多年轻运动员尊敬那些自律并尊重他人的选手。"}},{"en":"stand out","zh":"脱颖而出","group":"情感与人际关系 · 人际与态度词组","ex":{"en":"Her clear ideas and confident delivery helped her stand out among the candidates.","zh":"清晰的思路和自信的表达使她在候选人中脱颖而出。"},"ipa":"/stˈænd/ /ˈaʊt/"},{"en":"fit in","zh":"融入","group":"情感与人际关系 · 人际与态度词组","ex":{"en":"Joining a club helped the new student fit in more quickly.","zh":"加入社团帮助这名新生更快地融入了集体。"}},{"en":"open up","zh":"敞开心扉","group":"情感与人际关系 · 人际与态度词组","ex":{"en":"He finally opened up to his friend about his worries at work.","zh":"他终于向朋友敞开心扉，谈起了自己在工作中的烦恼。"}},{"en":"hold on","zh":"坚持","group":"情感与人际关系 · 人际与态度词组","ex":{"en":"Hold on to your dreams even when progress seems painfully slow.","zh":"即使进展看似缓慢得令人痛苦，也要坚持自己的梦想。"},"ipa":"/hˈəʊld/ /ˈɒn/"},{"en":"government","zh":"政府","group":"政府与公共政策 · 政府与法律","ex":{"en":"The government has promised to improve public transportation in rural areas.","zh":"政府已承诺改善农村地区的公共交通。"},"ipa":"/ɡˈʌvənmənt/"},{"en":"administration","zh":"政府；管理","group":"政府与公共政策 · 政府与法律","ex":{"en":"The new administration plans to reduce waste in public services.","zh":"新一届政府计划减少公共服务中的浪费。"}},{"en":"policy","zh":"政策","group":"政府与公共政策 · 政府与法律","ex":{"en":"This policy encourages companies to use energy more efficiently in their daily operations.","zh":"这项政策鼓励企业在日常运营中更高效地使用能源。"},"ipa":"/pˈɒlɪsi/"},{"en":"regulation","zh":"法规","group":"政府与公共政策 · 政府与法律","ex":{"en":"The new safety regulation requires all factories to inspect their equipment regularly.","zh":"新的安全法规要求所有工厂定期检查设备。"},"ipa":"/ˌreɡjuˈleɪʃn/"},{"en":"law","zh":"法律","group":"政府与公共政策 · 政府与法律","ex":{"en":"Everyone must obey the law, regardless of wealth or social position.","zh":"无论财富或社会地位如何，每个人都必须遵守法律。"},"ipa":"/lˈɔː/"},{"en":"legislation","zh":"立法","group":"政府与公共政策 · 政府与法律","ex":{"en":"New legislation aims to protect consumers from misleading online advertisements.","zh":"新立法旨在保护消费者免受误导性网络广告的伤害。"},"ipa":"/ˌledʒɪsˈleɪʃn/"},{"en":"constitution","zh":"宪法","group":"政府与公共政策 · 政府与法律","ex":{"en":"The constitution guarantees every citizen equal treatment under the law.","zh":"宪法保障每位公民在法律面前受到平等对待。"},"ipa":"/ˌkɒnstɪˈtjuːʃn/"},{"en":"citizen","zh":"公民","group":"政府与公共政策 · 政府与法律","ex":{"en":"Each citizen has the right to express opinions on public affairs.","zh":"每位公民都有权就公共事务发表意见。"}},{"en":"authority","zh":"权威；当局","group":"政府与公共政策 · 政府与法律","ex":{"en":"The local authority ordered the unsafe bridge to be closed immediately.","zh":"当地当局下令立即关闭这座不安全的桥梁。"},"ipa":"/əθˈɒɹɪtˌi/"},{"en":"official","zh":"官员","group":"政府与公共政策 · 政府与法律","ex":{"en":"A government official explained the new housing plan to local residents.","zh":"一位政府官员向当地居民解释了新的住房计划。"}},{"en":"department","zh":"部门","group":"政府与公共政策 · 政府与法律","ex":{"en":"The health department is responsible for inspecting restaurants and food markets.","zh":"卫生部门负责检查餐馆和食品市场。"}},{"en":"committee","zh":"委员会","group":"政府与公共政策 · 政府与法律","ex":{"en":"A special committee will investigate complaints about the city's waste system.","zh":"一个特别委员会将调查有关该市垃圾处理系统的投诉。"}},{"en":"vote","zh":"投票","group":"政府与公共政策 · 政府与法律","ex":{"en":"Residents will vote tomorrow on whether to build a new library.","zh":"居民们明天将就是否新建一座图书馆进行投票。"},"ipa":"/vˈəʊt/"},{"en":"election","zh":"选举","group":"政府与公共政策 · 政府与法律","ex":{"en":"The national election attracted millions of first-time voters this year.","zh":"今年的全国选举吸引了数百万首次投票的选民。"},"ipa":"/ɪˈlekʃn/"},{"en":"democracy","zh":"民主","group":"政府与公共政策 · 政府与法律","ex":{"en":"A healthy democracy depends on informed citizens and open public debate.","zh":"健全的民主依赖于了解情况的公民和公开的公共辩论。"},"ipa":"/dɪˈmɒkrəsi/"},{"en":"freedom","zh":"自由","group":"政府与公共政策 · 政府与法律","ex":{"en":"Freedom of speech allows people to question decisions made by their leaders.","zh":"言论自由使人们能够质疑领导人作出的决定。"}},{"en":"right","zh":"权利","group":"政府与公共政策 · 政府与法律","ex":{"en":"Every worker has the right to a safe and healthy workplace.","zh":"每位劳动者都有权享有安全健康的工作场所。"},"ipa":"/ɹˈaɪt/"},{"en":"duty","zh":"义务","group":"政府与公共政策 · 政府与法律","ex":{"en":"It is every citizen's duty to respect the rights of others.","zh":"尊重他人的权利是每位公民的义务。"}},{"en":"responsibility","zh":"责任","group":"政府与公共政策 · 政府与法律","ex":{"en":"The minister accepted responsibility for the failure of the housing program.","zh":"这位部长为住房计划的失败承担了责任。"}},{"en":"obligation","zh":"义务","group":"政府与公共政策 · 政府与法律","ex":{"en":"Companies have a legal obligation to protect their customers' personal information.","zh":"公司有法律义务保护客户的个人信息。"},"ipa":"/ˌɒblɪɡˈeɪʃən/"},{"en":"ban","zh":"禁止","group":"政府与公共政策 · 政府与法律","ex":{"en":"The city decided to ban smoking in all indoor public places.","zh":"该市决定禁止在所有室内公共场所吸烟。"}},{"en":"prohibit","zh":"禁止","group":"政府与公共政策 · 政府与法律","ex":{"en":"School rules strictly prohibit students from using phones during examinations.","zh":"校规严格禁止学生在考试期间使用手机。"},"ipa":"/pɹəhˈɪbɪt/"},{"en":"restrict","zh":"限制","group":"政府与公共政策 · 政府与法律","ex":{"en":"The new law restricts the number of cars entering the city center.","zh":"新法律限制进入市中心的汽车数量。"},"ipa":"/ɹɪstɹˈɪkt/"},{"en":"impose","zh":"强加","group":"政府与公共政策 · 政府与法律","ex":{"en":"The government should not impose unnecessary costs on small businesses.","zh":"政府不应把不必要的成本强加给小企业。"}},{"en":"enforce","zh":"执行","group":"政府与公共政策 · 政府与法律","ex":{"en":"Police officers must enforce the traffic laws fairly and consistently.","zh":"警察必须公平且始终如一地执行交通法规。"},"ipa":"/ɛnfˈɔːs/"},{"en":"violation","zh":"违反","group":"政府与公共政策 · 政府与法律","ex":{"en":"Parking in front of the hospital entrance is a serious violation of regulations.","zh":"在医院入口前停车是严重违反规定的行为。"}},{"en":"penalty","zh":"惩罚","group":"政府与公共政策 · 政府与法律","ex":{"en":"The penalty for damaging public property includes a fine and community service.","zh":"损坏公共财产的惩罚包括罚款和社区服务。"},"ipa":"/pˈɛnəlti/"},{"en":"fine","zh":"罚款","group":"政府与公共政策 · 政府与法律","ex":{"en":"He received a heavy fine for driving through a red light.","zh":"他因闯红灯而受到高额罚款。"},"ipa":"/faɪn/"},{"en":"carry out a policy","zh":"执行政策","group":"政府与公共政策 · 政府政策词组","ex":{"en":"The city will carry out a policy to reduce plastic waste next year.","zh":"该市明年将执行一项减少塑料垃圾的政策。"}},{"en":"put into effect","zh":"生效","group":"政府与公共政策 · 政府政策词组","ex":{"en":"The new environmental rules will be put into effect next January.","zh":"新的环保规定将于明年一月生效。"}},{"en":"take effect","zh":"生效","group":"政府与公共政策 · 政府政策词组","ex":{"en":"The revised traffic law will take effect at the beginning of July.","zh":"修订后的交通法将于七月初生效。"},"ipa":"/tˈeɪk/ /ɪfˈɛkt/"},{"en":"come into force","zh":"生效","group":"政府与公共政策 · 政府政策词组","ex":{"en":"The new food safety standards will come into force next month.","zh":"新的食品安全标准将于下个月生效。"}},{"en":"bring in","zh":"引入","group":"政府与公共政策 · 政府政策词组","ex":{"en":"The council plans to bring in stricter controls on air pollution.","zh":"市议会计划引入更严格的空气污染管控措施。"}},{"en":"crack down on","zh":"打击","group":"政府与公共政策 · 政府政策词组","ex":{"en":"Police have promised to crack down on illegal online lending.","zh":"警方已承诺打击非法网络贷款。"}},{"en":"crack up","zh":"崩溃","group":"政府与公共政策 · 政府政策词组","ex":{"en":"After weeks of public pressure, the exhausted official nearly cracked up during the meeting.","zh":"经过数周的公众压力，这位精疲力竭的官员在会议期间几乎情绪崩溃。"}},{"en":"stand by","zh":"支持","group":"政府与公共政策 · 政府政策词组","ex":{"en":"The president promised to stand by the policy despite growing public criticism.","zh":"尽管公众批评日益增多，总统仍承诺支持这项政策。"},"ipa":"/stˈænd/ /bˈaɪ/"},{"en":"stand for","zh":"代表","group":"政府与公共政策 · 政府政策词组","ex":{"en":"The green ribbon stands for the city's commitment to environmental protection.","zh":"绿丝带代表该市对环境保护的承诺。"},"ipa":"/stˈænd/ /fˈɔː/"},{"en":"call on","zh":"呼吁","group":"政府与公共政策 · 政府政策词组","ex":{"en":"The mayor called on local businesses to create more jobs for young people.","zh":"市长呼吁当地企业为年轻人创造更多就业岗位。"}},{"en":"appeal to","zh":"呼吁","group":"政府与公共政策 · 政府政策词组","ex":{"en":"The minister appealed to citizens to remain calm during the emergency.","zh":"部长呼吁公民在紧急情况下保持冷静。"}},{"en":"urge...to","zh":"敦促","group":"政府与公共政策 · 政府政策词组","ex":{"en":"Officials urged residents to leave the coastal area before the storm arrived.","zh":"官员们敦促居民在暴风雨到来前离开沿海地区。"}},{"en":"encourage...to","zh":"鼓励","group":"政府与公共政策 · 政府政策词组","ex":{"en":"The campaign encourages young people to take part in community decision-making.","zh":"这项活动鼓励年轻人参与社区决策。"}},{"en":"require...to","zh":"要求","group":"政府与公共政策 · 政府政策词组","ex":{"en":"New regulations require companies to report their carbon emissions every year.","zh":"新法规要求企业每年报告其碳排放量。"}},{"en":"allow...to","zh":"允许","group":"政府与公共政策 · 政府政策词组","ex":{"en":"The new program allows small businesses to apply for low-interest government loans.","zh":"新项目允许小企业申请政府低息贷款。"}},{"en":"forbid...to","zh":"禁止","group":"政府与公共政策 · 政府政策词组","ex":{"en":"The law forbids employers to discriminate against workers because of their age.","zh":"法律禁止雇主因年龄而歧视劳动者。"}},{"en":"provide...with","zh":"提供","group":"政府与公共政策 · 政府政策词组","ex":{"en":"The program provides rural schools with computers and reliable internet access.","zh":"该项目为农村学校提供电脑和可靠的互联网接入服务。"}},{"en":"supply...with","zh":"供应","group":"政府与公共政策 · 政府政策词组","ex":{"en":"The relief agency supplied the flooded villages with clean water and food.","zh":"救援机构为遭受洪灾的村庄供应了清洁的水和食物。"}},{"en":"offer...to","zh":"提供","group":"政府与公共政策 · 政府政策词组","ex":{"en":"The government offered financial support to families affected by the flood.","zh":"政府向受洪灾影响的家庭提供了经济援助。"}},{"en":"guarantee","zh":"保证","group":"政府与公共政策 · 政府政策词组","ex":{"en":"The new law guarantees equal access to education for children with disabilities.","zh":"新法律保障残疾儿童平等接受教育的权利。"},"ipa":"/ɡˌæɹɑːntˈiː/"},{"en":"ensure","zh":"确保","group":"政府与公共政策 · 政府政策词组","ex":{"en":"Regular inspections ensure that public buildings meet basic safety standards.","zh":"定期检查确保公共建筑达到基本安全标准。"},"ipa":"/ɛnʃˈɔː/"},{"en":"make sure","zh":"确保","group":"政府与公共政策 · 政府政策词组","ex":{"en":"Officials must make sure that emergency supplies reach remote villages on time.","zh":"官员们必须确保应急物资按时送达偏远村庄。"}},{"en":"be supposed to","zh":"应该","group":"政府与公共政策 · 政府政策词组","ex":{"en":"Public employees are supposed to follow the same rules as everyone else.","zh":"公职人员应该和其他所有人一样遵守同样的规则。"}},{"en":"be expected to","zh":"被期望","group":"政府与公共政策 · 政府政策词组","ex":{"en":"The new administration is expected to announce its education reforms this week.","zh":"新一届政府预计将于本周宣布其教育改革措施。"}},{"en":"in favor of","zh":"支持","group":"政府与公共政策 · 政府政策词组","ex":{"en":"Most committee members are in favor of expanding the city's recycling program.","zh":"大多数委员会成员支持扩大该市的回收项目。"}},{"en":"object to","zh":"反对","group":"政府与公共政策 · 政府政策词组","ex":{"en":"Several residents objected to the plan because it would increase local traffic.","zh":"几位居民反对这项计划，因为它会增加当地交通流量。"}},{"en":"be opposed to","zh":"反对","group":"政府与公共政策 · 政府政策词组","ex":{"en":"Many business owners are opposed to the proposed tax increase.","zh":"许多企业主反对拟议中的增税方案。"}},{"en":"agree on","zh":"就……达成一致","group":"政府与公共政策 · 政府政策词组","ex":{"en":"After several meetings, the two departments agreed on a joint action plan.","zh":"经过几次会议，两个部门就联合行动计划达成了一致。"}},{"en":"decade","zh":"十年","group":"时间与变化 · 时间与频率","ex":{"en":"Over the past decade, online shopping has changed people's daily habits.","zh":"过去十年间，网上购物改变了人们的日常习惯。"}},{"en":"century","zh":"世纪","group":"时间与变化 · 时间与频率","ex":{"en":"This century has seen rapid advances in medicine and communication technology.","zh":"本世纪见证了医学和通信技术的快速进步。"}},{"en":"ancient","zh":"古代的","group":"时间与变化 · 时间与频率","ex":{"en":"The museum displays tools used by ancient farmers along the river.","zh":"博物馆展出了沿河居住的古代农民使用过的工具。"}},{"en":"modern","zh":"现代的","group":"时间与变化 · 时间与频率","ex":{"en":"Modern cities need efficient transport systems and affordable public housing.","zh":"现代城市需要高效的交通系统和人们负担得起的公共住房。"}},{"en":"contemporary","zh":"当代的","group":"时间与变化 · 时间与频率","ex":{"en":"The exhibition introduces contemporary artists who explore life in large cities.","zh":"这次展览介绍了探索大城市生活的当代艺术家。"}},{"en":"primitive","zh":"原始的","group":"时间与变化 · 时间与频率","ex":{"en":"Archaeologists discovered primitive tools beside the remains of an old fire.","zh":"考古学家在一处古老火堆的遗迹旁发现了原始工具。"}},{"en":"gradual","zh":"逐渐的","group":"时间与变化 · 时间与频率","ex":{"en":"The gradual rise in temperature affected crops throughout the region.","zh":"气温的逐渐上升影响了整个地区的农作物。"},"ipa":"/ɡɹˈædʒuːəl/"},{"en":"sudden","zh":"突然的","group":"时间与变化 · 时间与频率","ex":{"en":"A sudden change in weather forced the hikers to return early.","zh":"天气的突然变化迫使徒步旅行者提前返回。"}},{"en":"temporary","zh":"临时的","group":"时间与变化 · 时间与频率","ex":{"en":"She found a temporary job at a bookstore during the summer holiday.","zh":"暑假期间，她在一家书店找到了一份临时工作。"},"ipa":"/tˈɛmpɹəɹˌi/"},{"en":"permanent","zh":"永久的","group":"时间与变化 · 时间与频率","ex":{"en":"After years of renting, they finally bought a permanent home near the coast.","zh":"租房多年后，他们终于在海边附近买下了一个永久的家。"},"ipa":"/pˈɜːmənənt/"},{"en":"frequent","zh":"频繁的","group":"时间与变化 · 时间与频率","ex":{"en":"Frequent storms have caused serious damage to villages along the coast.","zh":"频繁的暴风雨给沿海村庄造成了严重破坏。"}},{"en":"occasional","zh":"偶尔的","group":"时间与变化 · 时间与频率","ex":{"en":"We enjoy an occasional trip to the countryside on quiet weekends.","zh":"我们喜欢在宁静的周末偶尔去乡下旅行。"}},{"en":"constant","zh":"持续的","group":"时间与变化 · 时间与频率","ex":{"en":"The constant noise from construction made it difficult to concentrate.","zh":"施工带来的持续噪音让人难以集中注意力。"},"ipa":"/kˈɒnstənt/"},{"en":"continuous","zh":"连续的","group":"时间与变化 · 时间与频率","ex":{"en":"The continuous rain throughout the night caused several streets to flood by early morning.","zh":"整夜连续不断的雨导致几条街道在清晨被淹。"},"ipa":"/kəntˈɪnjuːəs/"},{"en":"steady","zh":"稳定的","group":"时间与变化 · 时间与频率","ex":{"en":"Despite the strong wind, the old bridge remained steady as people crossed it.","zh":"尽管风很大，人们过桥时，这座旧桥依然很稳固。"}},{"en":"rapid","zh":"快速的","group":"时间与变化 · 时间与频率","ex":{"en":"The rapid growth of online shopping has changed the way many people buy daily goods.","zh":"网购的快速发展改变了许多人购买日常用品的方式。"}},{"en":"instant","zh":"立即的","group":"时间与变化 · 时间与频率","ex":{"en":"The new messaging service provides instant answers to customers' most common questions.","zh":"这项新的信息服务会立即答复客户最常见的问题。"},"ipa":"/ˈɪnstənt/"},{"en":"previous","zh":"之前的","group":"时间与变化 · 时间与频率","ex":{"en":"My previous job required frequent travel, so I am enjoying a more settled routine now.","zh":"我之前的工作需要经常出差，所以我现在很享受更安定的生活规律。"},"ipa":"/pɹˈiːvɪəs/"},{"en":"former","zh":"前者的","group":"时间与变化 · 时间与频率","ex":{"en":"Of the two proposals, the former is cheaper, while the latter offers greater long-term benefits.","zh":"两项提议中，前者成本更低，而后者的长期效益更大。"},"ipa":"/fˈɔːmə/"},{"en":"latter","zh":"后者的","group":"时间与变化 · 时间与频率","ex":{"en":"You can take the morning train or the afternoon bus; the latter is usually less crowded.","zh":"你可以乘早班火车或下午的长途汽车，后者通常没那么拥挤。"}},{"en":"current","zh":"当前的","group":"时间与变化 · 时间与频率","ex":{"en":"The current policy allows students to borrow up to five books from the library.","zh":"当前的规定允许学生从图书馆最多借阅五本书。"},"ipa":"/kˈʌɹənt/"},{"en":"recent","zh":"最近的","group":"时间与变化 · 时间与频率","ex":{"en":"A recent survey shows that more young people are choosing to work in smaller cities.","zh":"最近的一项调查显示，越来越多的年轻人选择到较小的城市工作。"}},{"en":"upcoming","zh":"即将到来的","group":"时间与变化 · 时间与频率","ex":{"en":"Students are busy preparing for the upcoming debate competition next Friday afternoon.","zh":"学生们正忙着为下周五下午即将到来的辩论赛做准备。"}},{"en":"annual","zh":"年度的","group":"时间与变化 · 时间与频率","ex":{"en":"The company's annual report provides a clear picture of its financial performance last year.","zh":"公司的年度报告清楚地展示了其去年的财务表现。"},"ipa":"/ˈænjuːəl/"},{"en":"monthly","zh":"每月的","group":"时间与变化 · 时间与频率","ex":{"en":"Our monthly meeting gives every team member a chance to share progress and raise concerns.","zh":"我们的每月例会让每位团队成员都有机会分享进展并提出担忧。"}},{"en":"daily","zh":"日常的","group":"时间与变化 · 时间与频率","ex":{"en":"Regular exercise has become an important part of her daily routine since she started college.","zh":"自从上大学以来，经常锻炼已成为她日常生活中的重要部分。"}},{"en":"eventually","zh":"最终","group":"时间与变化 · 时间与频率","ex":{"en":"After several failed attempts, the research team eventually found a practical solution to the problem.","zh":"经过几次失败的尝试，研究团队最终找到了解决这个问题的切实办法。"}},{"en":"meanwhile","zh":"与此同时","group":"时间与变化 · 时间与频率","ex":{"en":"The chef prepared the main dish; meanwhile, his assistant washed the vegetables and set the table.","zh":"厨师准备主菜，与此同时，他的助手洗蔬菜并摆好餐桌。"}},{"en":"in the long run","zh":"从长远看","group":"时间与变化 · 变化与发展词组","ex":{"en":"Saving a small amount each month will improve your financial security in the long run.","zh":"每月存一小笔钱，从长远看会增强你的经济保障。"},"ipa":"/ˈɪn/ /ðə/ /lˈɒŋ/ /ɹˈʌn/"},{"en":"in the short term","zh":"短期内","group":"时间与变化 · 变化与发展词组","ex":{"en":"In the short term, the new traffic rules may cause delays, but they will improve road safety.","zh":"短期内，新的交通规则可能造成延误，但它们会提高道路安全。"}},{"en":"at present","zh":"目前","group":"时间与变化 · 变化与发展词组","ex":{"en":"At present, our laboratory lacks the equipment needed to carry out this advanced experiment.","zh":"目前，我们实验室缺少开展这项高级实验所需的设备。"}},{"en":"so far","zh":"到目前为止","group":"时间与变化 · 变化与发展词组","ex":{"en":"So far, the volunteers have planted more than two hundred trees around the village.","zh":"到目前为止，志愿者们已经在村庄周围种了两百多棵树。"},"ipa":"/sˈəʊ/ /fˈɑː/"},{"en":"up to now","zh":"直到现在","group":"时间与变化 · 变化与发展词组","ex":{"en":"Up to now, no one has offered a convincing explanation for the sudden change.","zh":"直到现在，还没有人对这一突然变化作出令人信服的解释。"}},{"en":"from now on","zh":"从现在起","group":"时间与变化 · 变化与发展词组","ex":{"en":"From now on, I will check my notes carefully before submitting any written assignment.","zh":"从现在起，我会在提交任何书面作业前仔细检查笔记。"}},{"en":"sooner or later","zh":"迟早","group":"时间与变化 · 变化与发展词组","ex":{"en":"If you keep ignoring the warning signs, sooner or later you will face serious problems.","zh":"如果你继续忽视这些警示信号，迟早会面临严重的问题。"},"ipa":"/sˈuːnə/ /ˈɔː/ /lˈeɪtə/"},{"en":"day by day","zh":"一天天","group":"时间与变化 · 变化与发展词组","ex":{"en":"With regular practice and patient guidance, her confidence in speaking English grew day by day.","zh":"通过经常练习和耐心指导，她说英语的信心一天天增强了。"}},{"en":"little by little","zh":"逐渐地","group":"时间与变化 · 变化与发展词组","ex":{"en":"Little by little, the shy student learned to express his opinions in front of the class.","zh":"这个害羞的学生逐渐学会在全班同学面前表达自己的观点。"}},{"en":"step by step","zh":"逐步地","group":"时间与变化 · 变化与发展词组","ex":{"en":"The instructor explained the experimental procedure step by step so that everyone could follow it.","zh":"指导教师逐步讲解实验流程，以便每个人都能跟上。"}},{"en":"more and more","zh":"越来越多","group":"时间与变化 · 变化与发展词组","ex":{"en":"More and more families are choosing public transportation to reduce pollution and save money.","zh":"越来越多的家庭选择公共交通，以减少污染并节省开支。"},"ipa":"/mˈɔː/ /ˈænd/ /mˈɔː/"},{"en":"keep on","zh":"继续","group":"时间与变化 · 变化与发展词组","ex":{"en":"Even when the task became difficult, she chose to keep on trying rather than give up.","zh":"即使任务变得困难，她也选择继续努力，而不是放弃。"},"ipa":"/kˈiːp/ /ˈɒn/"},{"en":"go on","zh":"继续","group":"时间与变化 · 变化与发展词组","ex":{"en":"Although the rain grew heavier, the hikers decided to go on toward the nearest shelter.","zh":"尽管雨越下越大，徒步者们仍决定继续前往最近的避难处。"},"ipa":"/ɡˈəʊ/ /ˈɒn/"},{"en":"carry on","zh":"继续","group":"时间与变化 · 变化与发展词组","ex":{"en":"Despite the unexpected setback, the team carried on with its research and completed the report.","zh":"尽管遇到了意外的挫折，团队仍继续研究并完成了报告。"},"ipa":"/kˈæɹi/ /ˈɒn/"},{"en":"bring about changes","zh":"带来变化","group":"时间与变化 · 变化与发展词组","ex":{"en":"The new management policy is expected to bring about changes in how employees share information.","zh":"新的管理政策预计会给员工共享信息的方式带来变化。"}},{"en":"keep changing","zh":"不断变化","group":"时间与变化 · 变化与发展词组","ex":{"en":"Customer needs keep changing, so businesses must review their products and services regularly.","zh":"客户需求不断变化，因此企业必须定期审视自己的产品和服务。"}},{"en":"make adjustments","zh":"做调整","group":"时间与变化 · 变化与发展词组","ex":{"en":"After reviewing the survey results, we decided to make adjustments to our original marketing plan.","zh":"审阅调查结果后，我们决定对原来的营销计划做出调整。"}},{"en":"adapt to","zh":"适应","group":"时间与变化 · 变化与发展词组","ex":{"en":"New students often need several weeks to adapt to the pace of college life.","zh":"新生通常需要几周时间才能适应大学生活的节奏。"}},{"en":"adjust to","zh":"适应","group":"时间与变化 · 变化与发展词组","ex":{"en":"It took him a month to adjust to working night shifts at the hospital.","zh":"他花了一个月才适应在医院上夜班。"}},{"en":"get used to","zh":"习惯","group":"时间与变化 · 变化与发展词组","ex":{"en":"You will soon get used to taking notes on a tablet instead of paper.","zh":"你很快就会习惯用平板电脑而不是纸来记笔记。"}},{"en":"be accustomed to","zh":"习惯于","group":"时间与变化 · 变化与发展词组","ex":{"en":"Having grown up in a large family, she is accustomed to sharing her living space.","zh":"由于在大家庭中长大，她习惯于与他人共享生活空间。"}},{"en":"transform...into","zh":"把……转变为","group":"时间与变化 · 变化与发展词组","ex":{"en":"The city plans to transform the abandoned factory into a modern center for community activities.","zh":"该市计划把这座废弃工厂转变为现代化的社区活动中心。"}},{"en":"convert...into","zh":"转换为","group":"时间与变化 · 变化与发展词组","ex":{"en":"This simple device can convert solar energy into electricity for use in remote villages.","zh":"这种简易设备能把太阳能转换为电能，供偏远村庄使用。"}},{"en":"turn...into","zh":"把……变成","group":"时间与变化 · 变化与发展词组","ex":{"en":"With patience and encouragement, the teacher turned a difficult lesson into an enjoyable experience.","zh":"老师用耐心和鼓励把一堂艰深的课变成了愉快的学习体验。"}},{"en":"break through","zh":"突破","group":"时间与变化 · 变化与发展词组","ex":{"en":"The scientists worked for years before they finally broke through the main technical barrier.","zh":"科学家们努力多年，最终突破了主要技术障碍。"},"ipa":"/bɹˈeɪk/ /θɹˈuː/"},{"en":"speed up","zh":"加速","group":"时间与变化 · 变化与发展词组","ex":{"en":"Adding another register should speed up the payment process during busy shopping hours.","zh":"增设一台收银机应能加快购物高峰时段的付款流程。"}},{"en":"slow down","zh":"减速","group":"时间与变化 · 变化与发展词组","ex":{"en":"Drivers must slow down when approaching the school, especially during the morning rush.","zh":"司机驶近学校时必须减速，尤其是在早晨交通繁忙时段。"}},{"en":"catch up","zh":"赶上","group":"时间与变化 · 变化与发展词组","ex":{"en":"After missing two weeks of classes, he studied hard to catch up with his classmates.","zh":"缺课两周后，他努力学习，以赶上同班同学。"}},{"en":"indicate","zh":"表明","group":"观点与逻辑连接 · 观点与论证词汇","ex":{"en":"The survey results indicate that students prefer shorter lectures followed by practical group activities.","zh":"调查结果表明，学生更喜欢较短的讲课，随后开展实践性小组活动。"},"ipa":"/ˈɪndɪkˌeɪt/"},{"en":"suggest","zh":"暗示","group":"观点与逻辑连接 · 观点与论证词汇","ex":{"en":"His uncertain tone suggested that he was not entirely satisfied with the committee's decision.","zh":"他迟疑的语气暗示他对委员会的决定并不完全满意。"},"ipa":"/sədʒˈɛst/"},{"en":"imply","zh":"暗示","group":"观点与逻辑连接 · 观点与论证词汇","ex":{"en":"Her silence seemed to imply that she disagreed with the plan but did not want to argue.","zh":"她的沉默似乎在暗示她不同意这个计划，但不想争论。"},"ipa":"/ɪmplˈaɪ/"},{"en":"reveal","zh":"揭示","group":"观点与逻辑连接 · 观点与论证词汇","ex":{"en":"Further investigation revealed that the apparent success of the program depended on unpaid volunteer work.","zh":"进一步调查揭示，该项目表面上的成功依赖于志愿者的无偿劳动。"},"ipa":"/ɹɪvˈiːl/"},{"en":"demonstrate","zh":"证明","group":"观点与逻辑连接 · 观点与论证词汇","ex":{"en":"The experiment demonstrates that even small amounts of exercise can improve concentration and memory.","zh":"实验证明，即使少量运动也能提高注意力和记忆力。"},"ipa":"/dˈɛmənstɹˌeɪt/"},{"en":"prove","zh":"证明","group":"观点与逻辑连接 · 观点与论证词汇","ex":{"en":"The witness provided photographs that proved the suspect had been near the building that night.","zh":"目击者提供的照片证明，嫌疑人当晚曾在那栋楼附近。"}},{"en":"confirm","zh":"确认","group":"观点与逻辑连接 · 观点与论证词汇","ex":{"en":"Please call the hotel to confirm your reservation before you leave for the airport.","zh":"出发前请给酒店打电话，确认你的预订。"},"ipa":"/kənfˈɜːm/"},{"en":"support","zh":"支持","group":"观点与逻辑连接 · 观点与论证词汇","ex":{"en":"Several recent studies support the view that regular sleep improves academic performance.","zh":"最近的几项研究支持规律睡眠能提高学业表现这一观点。"}},{"en":"oppose","zh":"反对","group":"观点与逻辑连接 · 观点与论证词汇","ex":{"en":"Many local residents oppose the construction plan because it would destroy a valuable public park.","zh":"许多当地居民反对这项建设计划，因为它会破坏一座宝贵的公共公园。"},"ipa":"/əpˈəʊz/"},{"en":"argue","zh":"争论","group":"观点与逻辑连接 · 观点与论证词汇","ex":{"en":"The two brothers often argue about household chores, although they usually reach an agreement quickly.","zh":"这两兄弟常为家务事争论，尽管他们通常很快就能达成一致。"},"ipa":"/ˈɑːɡjuː/"},{"en":"claim","zh":"声称","group":"观点与逻辑连接 · 观点与论证词汇","ex":{"en":"The advertisement claims that this supplement can improve memory, but no scientific evidence supports it.","zh":"这则广告声称这种补充剂能增强记忆力，但没有科学证据支持这一说法。"},"ipa":"/klˈeɪm/"},{"en":"maintain","zh":"坚持认为","group":"观点与逻辑连接 · 观点与论证词汇","ex":{"en":"The author maintains that economic growth should not come at the expense of environmental protection.","zh":"作者坚持认为，经济增长不应以牺牲环境保护为代价。"},"ipa":"/meɪntˈeɪn/"},{"en":"insist","zh":"坚持","group":"观点与逻辑连接 · 观点与论证词汇","ex":{"en":"Despite our repeated invitations, he insisted on paying for his own train ticket.","zh":"尽管我们一再邀请，他仍坚持自己支付火车票钱。"}},{"en":"emphasize","zh":"强调","group":"观点与逻辑连接 · 观点与论证词汇","ex":{"en":"The professor emphasized the importance of checking every source before drawing a conclusion.","zh":"教授强调，在得出结论前核查每一项资料来源的重要性。"}},{"en":"highlight","zh":"突出","group":"观点与逻辑连接 · 观点与论证词汇","ex":{"en":"The report highlights a growing gap between urban and rural access to medical services.","zh":"报告突出了城乡医疗服务可及性之间日益扩大的差距。"},"ipa":"/hˈaɪlaɪt/"},{"en":"stress","zh":"强调","group":"观点与逻辑连接 · 观点与论证词汇","ex":{"en":"Career advisers stress that practical experience can be as valuable as academic qualifications.","zh":"职业顾问强调，实践经验可以和学历同样宝贵。"},"ipa":"/stɹˈɛs/"},{"en":"point out","zh":"指出","group":"观点与逻辑连接 · 观点与论证词汇","ex":{"en":"The reviewer pointed out several weaknesses in the argument that the writer had overlooked.","zh":"评论者指出了作者忽视的论证中的几处薄弱之处。"},"ipa":"/pˈɔɪnt/ /ˈaʊt/"},{"en":"acknowledge","zh":"承认","group":"观点与逻辑连接 · 观点与论证词汇","ex":{"en":"The company acknowledged that it had made a mistake and promised to correct it promptly.","zh":"公司承认自己犯了错误，并承诺立即纠正。"},"ipa":"/əkˈnɑːlɪdʒ/"},{"en":"admit","zh":"承认","group":"观点与逻辑连接 · 观点与论证词汇","ex":{"en":"She admitted that she had underestimated the time required to complete the research project.","zh":"她承认，自己低估了完成这个研究项目所需的时间。"}},{"en":"deny","zh":"否认","group":"观点与逻辑连接 · 观点与论证词汇","ex":{"en":"The spokesperson denied that the organization had concealed information about the safety risks.","zh":"发言人否认该组织隐瞒了有关安全风险的信息。"},"ipa":"/dɪnˈaɪ/"},{"en":"doubt","zh":"怀疑","group":"观点与逻辑连接 · 观点与论证词汇","ex":{"en":"I doubt whether such a small budget will be enough to finish the entire project.","zh":"我怀疑这么少的预算是否足以完成整个项目。"},"ipa":"/dˈaʊt/"},{"en":"assume","zh":"假设","group":"观点与逻辑连接 · 观点与论证词汇","ex":{"en":"For this calculation, let us assume that demand remains stable throughout the coming year.","zh":"在这项计算中，我们假设来年全年的需求保持稳定。"},"ipa":"/əsˈuːm/"},{"en":"estimate","zh":"估计","group":"观点与逻辑连接 · 观点与论证词汇","ex":{"en":"Experts estimate that the new railway will serve nearly one million passengers each year.","zh":"专家估计，这条新铁路每年将服务近一百万名乘客。"},"ipa":"/ˈɛstəˌmeɪt/"},{"en":"predict","zh":"预测","group":"观点与逻辑连接 · 观点与论证词汇","ex":{"en":"Economists predict that consumer spending will rise gradually as employment conditions improve.","zh":"经济学家预测，随着就业状况改善，消费支出将逐步增长。"},"ipa":"/pɹɪdˈɪkt/"},{"en":"conclude","zh":"总结","group":"观点与逻辑连接 · 观点与论证词汇","ex":{"en":"To conclude his speech, the mayor summarized his main points and thanked all the volunteers.","zh":"在结束演讲时，市长总结了要点，并感谢所有志愿者。"},"ipa":"/kənklˈuːd/"},{"en":"summarize","zh":"概括","group":"观点与逻辑连接 · 观点与论证词汇","ex":{"en":"The editor asked me to summarize the long report in two clear paragraphs for busy readers.","zh":"编辑让我把这篇长报告概括成清晰的两段，方便忙碌的读者阅读。"},"ipa":"/ˈsəmɝˌaɪz/"},{"en":"generalize","zh":"概括","group":"观点与逻辑连接 · 观点与论证词汇","ex":{"en":"Based on interviews with only ten students, we cannot generalize about the entire university population.","zh":"仅根据对十名学生的采访，我们不能对全校学生作出概括性结论。"}},{"en":"interpret","zh":"解释","group":"观点与逻辑连接 · 观点与论证词汇","ex":{"en":"The teacher used a simple diagram to interpret the difficult passage for her students.","zh":"老师用一幅简单的示意图为学生解释那段难懂的文字。"},"ipa":"/ɪntˈɜːpɹɪt/"},{"en":"first of all","zh":"首先","group":"观点与逻辑连接 · 逻辑连接词组（写作高频）","ex":{"en":"First of all, we need to define the problem clearly before discussing possible solutions.","zh":"首先，我们需要清楚界定问题，再讨论可能的解决办法。"}},{"en":"in the first place","zh":"首先","group":"观点与逻辑连接 · 逻辑连接词组（写作高频）","ex":{"en":"In the first place, the committee should explain why the original proposal was rejected.","zh":"首先，委员会应该解释最初的提议为何被否决。"},"ipa":"/ˈɪn/ /ðə/ /fˈɜːst/ /plˈeɪs/"},{"en":"to begin with","zh":"首先","group":"观点与逻辑连接 · 逻辑连接词组（写作高频）","ex":{"en":"To begin with, let us examine the main causes of the decline in rural populations.","zh":"首先，让我们分析农村人口减少的主要原因。"}},{"en":"what's more","zh":"更重要的是","group":"观点与逻辑连接 · 逻辑连接词组（写作高频）","ex":{"en":"The new library is quiet and spacious; what's more, it stays open until midnight.","zh":"新图书馆安静宽敞，更重要的是，它一直开放到午夜。"}},{"en":"furthermore","zh":"此外","group":"观点与逻辑连接 · 逻辑连接词组（写作高频）","ex":{"en":"The course develops writing skills; furthermore, it teaches students how to evaluate online sources.","zh":"这门课程培养写作技能，此外，它还教学生如何评估网络资料。"},"ipa":"/ˌfɜːðəˈmɔː/"},{"en":"moreover","zh":"而且","group":"观点与逻辑连接 · 逻辑连接词组（写作高频）","ex":{"en":"The apartment is close to campus; moreover, the rent includes electricity and internet service.","zh":"这套公寓离校园很近，而且房租包含电费和网络服务费。"}},{"en":"in addition","zh":"另外","group":"观点与逻辑连接 · 逻辑连接词组（写作高频）","ex":{"en":"In addition to reducing costs, the new system allows employees to complete tasks more quickly.","zh":"除了降低成本，新系统还能让员工更快地完成任务。"}},{"en":"besides","zh":"除此之外","group":"观点与逻辑连接 · 逻辑连接词组（写作高频）","ex":{"en":"Besides offering free classes, the community center provides childcare for parents with young children.","zh":"除了提供免费课程，社区中心还为有年幼孩子的父母提供托育服务。"}},{"en":"on the other hand","zh":"另一方面","group":"观点与逻辑连接 · 逻辑连接词组（写作高频）","ex":{"en":"Living alone offers greater independence; on the other hand, it can sometimes feel lonely.","zh":"独居能带来更大的独立性，另一方面，有时也会让人感到孤独。"}},{"en":"however","zh":"然而","group":"观点与逻辑连接 · 逻辑连接词组（写作高频）","ex":{"en":"The first plan seemed less expensive; however, it would have required much more maintenance.","zh":"第一个方案似乎成本更低，然而它本需要更多的维护。"}},{"en":"nevertheless","zh":"尽管如此","group":"观点与逻辑连接 · 逻辑连接词组（写作高频）","ex":{"en":"The journey was long and tiring; nevertheless, everyone agreed that the experience was worthwhile.","zh":"旅途漫长而疲惫，尽管如此，大家都认为这次经历很值得。"},"ipa":"/ˌnevəðəˈles/"},{"en":"whereas","zh":"然而","group":"观点与逻辑连接 · 逻辑连接词组（写作高频）","ex":{"en":"Some students learn best through discussion, whereas others prefer reading and taking notes independently.","zh":"有些学生通过讨论学得最好，然而另一些学生更喜欢独立阅读和记笔记。"},"ipa":"/wˈeəɹəz/"},{"en":"therefore","zh":"因此","group":"观点与逻辑连接 · 逻辑连接词组（写作高频）","ex":{"en":"The road was closed for emergency repairs; therefore, we had to choose a different route.","zh":"这条路因紧急维修而封闭，因此我们不得不选择另一条路线。"}},{"en":"thus","zh":"因此","group":"观点与逻辑连接 · 逻辑连接词组（写作高频）","ex":{"en":"The company reduced packaging waste, thus lowering both its costs and its environmental impact.","zh":"公司减少了包装废弃物，因此同时降低了成本和对环境的影响。"}},{"en":"as a result","zh":"结果","group":"观点与逻辑连接 · 逻辑连接词组（写作高频）","ex":{"en":"Several flights were canceled because of the storm; as a result, many passengers missed their connections.","zh":"多趟航班因暴风雨取消，结果许多旅客错过了中转航班。"},"ipa":"/ˈæz/ /ˈeɪ/ /ɹɪzˈʌlt/"},{"en":"consequently","zh":"因此","group":"观点与逻辑连接 · 逻辑连接词组（写作高频）","ex":{"en":"The factory failed to meet safety standards and was consequently closed until further notice.","zh":"这家工厂未能达到安全标准，因此被关闭，直至另行通知。"},"ipa":"/kˈɒnsɪkwəntli/"},{"en":"in conclusion","zh":"总之","group":"观点与逻辑连接 · 逻辑连接词组（写作高频）","ex":{"en":"In conclusion, protecting local wildlife requires cooperation among residents, businesses, and government agencies.","zh":"总之，保护当地野生动物需要居民、企业和政府机构之间的合作。"}},{"en":"to sum up","zh":"总结","group":"观点与逻辑连接 · 逻辑连接词组（写作高频）","ex":{"en":"To sum up, the plan is affordable and practical, although its effects may take time.","zh":"总结来说，这个计划负担得起且切实可行，尽管其效果可能需要时间才能显现。"}},{"en":"all in all","zh":"总而言之","group":"观点与逻辑连接 · 逻辑连接词组（写作高频）","ex":{"en":"All in all, the trip was enjoyable despite the poor weather and a few delays.","zh":"总而言之，尽管天气不好且有几次延误，这次旅行还是很愉快。"},"ipa":"/ˈɔːl/ /ˈɪn/ /ˈɔːl/"},{"en":"on the whole","zh":"总的来说","group":"观点与逻辑连接 · 逻辑连接词组（写作高频）","ex":{"en":"On the whole, students responded positively to the changes, though some requested longer library hours.","zh":"总的来说，学生对这些变化反应积极，不过有些人要求延长图书馆开放时间。"}},{"en":"for instance","zh":"例如","group":"观点与逻辑连接 · 逻辑连接词组（写作高频）","ex":{"en":"Many everyday activities can save energy; for instance, switching off unused lights reduces electricity consumption.","zh":"许多日常行为都能节约能源，例如，关掉不用的灯可以减少用电量。"}},{"en":"for example","zh":"例如","group":"观点与逻辑连接 · 逻辑连接词组（写作高频）","ex":{"en":"Some universities support first-year students; for example, mine offers free classes in study skills.","zh":"一些大学为一年级学生提供支持，例如，我的大学开设免费的学习技巧课程。"},"ipa":"/fˈɔː/ /ɛɡzˈɑːmpəl/"},{"en":"such as","zh":"比如","group":"观点与逻辑连接 · 逻辑连接词组（写作高频）","ex":{"en":"Outdoor activities such as hiking and cycling can improve both physical health and mental well-being.","zh":"徒步和骑行等户外活动既能改善身体健康，也能促进心理健康。"},"ipa":"/sˈʌtʃ/ /ˈæz/"},{"en":"that is to say","zh":"也就是说","group":"观点与逻辑连接 · 逻辑连接词组（写作高频）","ex":{"en":"The device works without an internet connection; that is to say, all data stays on it.","zh":"这款设备无需联网即可工作，也就是说，所有数据都保存在设备上。"},"ipa":"/ðˈæt/ /ˈɪz/ /tˈuː/ /sˈeɪ/"},{"en":"in other words","zh":"换句话说","group":"观点与逻辑连接 · 逻辑连接词组（写作高频）","ex":{"en":"The deadline cannot be extended; in other words, everyone must submit the report by Friday.","zh":"截止日期不能延长，换句话说，每个人都必须在周五前提交报告。"}},{"en":"as a matter of fact","zh":"事实上","group":"观点与逻辑连接 · 逻辑连接词组（写作高频）","ex":{"en":"As a matter of fact, the supposedly new theory was first proposed nearly fifty years ago.","zh":"事实上，这个所谓的新理论最早在近五十年前就已被提出。"}},{"en":"in fact","zh":"事实上","group":"观点与逻辑连接 · 逻辑连接词组（写作高频）","ex":{"en":"The task looked simple at first; in fact, it required careful planning and close cooperation.","zh":"这项任务起初看起来简单，事实上，它需要周密规划和密切合作。"}},{"en":"to be honest","zh":"说实话","group":"观点与逻辑连接 · 逻辑连接词组（写作高频）","ex":{"en":"To be honest, I found the lecture difficult to follow because it contained too many technical terms.","zh":"说实话，我觉得这场讲座很难听懂，因为里面有太多专业术语。"}},{"en":"ignore","zh":"忽视","group":"易忘词专项回顾","ex":{"en":"We should not ignore the early signs of stress, especially during busy examination periods.","zh":"我们不应忽视压力的早期迹象，尤其是在繁忙的考试期间。"},"ipa":"/ɪɡnˈɔː/"},{"en":"approach","zh":"方法；接近","group":"易忘词专项回顾","ex":{"en":"As we approached the village, our guide suggested a different approach to reaching the mountain temple.","zh":"当我们接近村庄时，向导建议换一种方法前往山上的寺庙。"},"ipa":"/əpɹˈəʊtʃ/"},{"en":"indicate","zh":"表明","group":"易忘词专项回顾","ex":{"en":"The dark clouds indicate that a heavy storm may reach the coast before evening.","zh":"乌云表明，一场强暴风雨可能在傍晚前抵达海岸。"},"ipa":"/ˈɪndɪkˌeɪt/"},{"en":"replace","zh":"替换","group":"易忘词专项回顾","ex":{"en":"The school will replace the old computers with faster models before the new semester begins.","zh":"学校将在新学期开始前用运行更快的机型替换旧电脑。"},"ipa":"/ɹɪplˈeɪs/"},{"en":"approach to","zh":"做某事的方法","group":"易忘词专项回顾","ex":{"en":"Her approach to learning vocabulary focuses on using new words in meaningful sentences.","zh":"她学习词汇的方法侧重于在有意义的句子中使用生词。"}},{"en":"replace...with","zh":"用……替换","group":"易忘词专项回顾","ex":{"en":"The manager decided to replace the paper forms with a simpler online application system.","zh":"经理决定用一个更简便的在线申请系统替换纸质表格。"}},{"en":"indicate that","zh":"表明……","group":"易忘词专项回顾","ex":{"en":"These figures indicate that public interest in environmental protection has grown steadily over recent years.","zh":"这些数字表明，近年来公众对环境保护的关注稳步增长。"}},{"en":"ignore the fact","zh":"忽视事实","group":"易忘词专项回顾","ex":{"en":"We cannot ignore the fact that many families still lack access to reliable medical care.","zh":"我们不能忽视许多家庭仍无法获得可靠医疗服务这一事实。"}},{"en":"indicate = suggest = imply","zh":"（写作替换）","group":"易忘词专项回顾","ex":{"en":"A sudden change in behavior may indicate that an animal is injured or under stress.","zh":"行为的突然变化可能表明动物受了伤或正承受压力。"}},{"en":"approach problem","zh":"解决问题","group":"易忘词专项回顾","ex":{"en":"We should approach the problem calmly and examine its causes before choosing a practical solution.","zh":"我们应该冷静地处理这个问题，先分析原因，再选择切实可行的解决办法。"}}]</script>
+<script>
+const DATA = JSON.parse(document.getElementById('data').textContent);
+const $ = id => document.getElementById(id);
+const KNOWN_KEY = 'v4h_known';
+const WRONG_KEY = 'v4h_wrong';
+const LEARN_MODE = true;
+
+// ================= 公共工具 =================
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const stripTags = s => String(s).replace(/<br\s*\/?>/gi, '；').replace(/<[^>]+>/g, '');
+function dstr(dt) { const d = dt || new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+function addDays(s, n) { const d = new Date(s + 'T00:00:00'); d.setDate(d.getDate() + n); return dstr(d); }
+const jget = (k, f) => { try { const v = JSON.parse(localStorage.getItem(k)); return v == null ? f : v; } catch (e) { return f; } };
+const jset = (k, v) => localStorage.setItem(k, JSON.stringify(v));
+function download(name, text, mime) {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([text], { type: mime || 'text/plain;charset=utf-8' }));
+  a.download = name;
+  document.body.appendChild(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 400);
+}
+
+// ---------- 音频播放（两种模式共用） ----------
+// 每次点击都新建 Audio：不复用旧实例，避免移动端复用 ended/失败状态导致“点了没声音”。
+// 不在 URL 上拼时间戳：保留浏览器 HTTP 缓存，弱网下第二次播放可立即出声。
+let _curAudio = null;
+function audioUrl(rel) {
+  if (!rel) return '';
+  const p = location.pathname.replace(/index\.html$/, '').replace(/\/$/, '');
+  const segs = p.split('/').filter(Boolean);
+  const up = '../'.repeat(Math.max(0, segs.length - 1));
+  return new URL(up + rel, document.baseURI).href;
+}
+function speakFallback(text, mark) {
+  if (!text || !('speechSynthesis' in window)) { if (mark) mark(); return; }
+  try {
+    const u = new SpeechSynthesisUtterance(String(text).replace(/<[^>]+>/g, ''));
+    u.lang = 'en-US';
+    u.rate = 0.9;
+    if (mark) { u.onend = mark; u.onerror = mark; }
+    speechSynthesis.cancel();
+    speechSynthesis.speak(u);
+  } catch (e) { if (mark) mark(); }
+}
+function playAudio(url, btn, text) {
+  if (!url) { speakFallback(text, btn ? () => btn.classList.remove('playing') : null); return; }
+  if (_curAudio) { try { _curAudio.pause(); } catch (e) {} }
+  const a = new Audio();
+  a.preload = 'auto';
+  a.src = url;
+  _curAudio = a;
+  const mark = () => { if (btn) btn.classList.remove('playing'); };
+  a.onended = mark;
+  a.onerror = () => { speakFallback(text, mark); };   // MP3 缺失/加载失败 → 用系统语音朗读兜底
+  if (btn) btn.classList.add('playing');
+  const retry = () => {
+    if (a.error) { speakFallback(text, mark); return; }
+    try {
+      a.load();
+      const p2 = a.play();
+      if (p2 && p2.catch) p2.catch(() => speakFallback(text, mark));
+    } catch (e) { speakFallback(text, mark); }
+  };
+  try {
+    const p = a.play();
+    if (p && p.catch) p.catch(err => {
+      if (err && err.name === 'NotAllowedError') { mark(); return; }
+      retry();
+    });
+  } catch (e) { retry(); }
+}
+
+// 正面只显示英文例句；背面显示例句中文翻译（数据里没有 ex 字段时整块隐藏）
+function setExample(d) {
+  const ex = d && d.ex;
+  const has = !!(ex && ex.en);
+  $('exWrapF').hidden = !has;
+  $('exEnF').textContent = has ? ex.en : '';
+  const hasZh = !!(has && ex.zh);
+  $('exWrapB').hidden = !hasZh;
+  $('exZhB').textContent = hasZh ? ex.zh : '';
+}
+
+// 背面释义：长答案（法条问答类）自动缩小字号并左对齐
+function setBackZh(html) {
+  const w = $('wordBack');
+  w.innerHTML = html || '';
+  w.classList.toggle('long', stripTags(html || '').length > 45);
+}
+
+if (!LEARN_MODE) {
+// ================= 经典模式（原有逻辑，未改动） =================
+const store = {
+  get known() { try { return new Set(JSON.parse(localStorage.getItem(KNOWN_KEY) || '[]')); } catch { return new Set(); } },
+  set known(set) { localStorage.setItem(KNOWN_KEY, JSON.stringify([...set])); },
+  get wrong() { try { return new Set(JSON.parse(localStorage.getItem(WRONG_KEY) || '[]')); } catch { return new Set(); } },
+  set wrong(set) { localStorage.setItem(WRONG_KEY, JSON.stringify([...set])); }
+};
+
+let known = store.known;
+let wrong = store.wrong;
+let mode = 'study';        // 'study' 正常学习 | 'wrong' 错题本
+let queue = [];            // array of data indices
+let cur = 0;               // pointer into queue
+let flipped = false;
+let filtered = DATA.map((_, i) => i); // current group filter
+
+// ---------- group select ----------
+const groupSel = $('groupSel');
+const groups = [...new Set(DATA.map(d => d.group))];
+groupSel.innerHTML = '<option value="">全部（' + DATA.length + '）</option>' +
+  groups.map(g => {
+    const n = DATA.filter(d => d.group === g).length;
+    return `<option value="${g}">${g}（${n}）</option>`;
+  }).join('');
+groupSel.onchange = () => {
+  filtered = DATA.map((d, i) => ({ d, i })).filter(x => !groupSel.value || x.d.group === groupSel.value).map(x => x.i);
+  buildQueue();
+};
+
+// ---------- header stats / mode ----------
+function updateHeader() {
+  $('btnWrongBook').classList.toggle('active', mode === 'wrong');
+  $('btnWrongBook').innerHTML = mode === 'wrong'
+    ? '返回学习'
+    : '错题本<span class="badge">' + wrong.size + '</span>';
+  $('statsLine').innerHTML = mode === 'wrong'
+    ? '错题待消除 <b class="red">' + wrong.size + '</b>'
+    : '已掌握 <b>' + known.size + '</b> / <span>' + DATA.length + '</span>';
+}
+
+// ---------- queue ----------
+function buildQueue() {
+  let list = filtered.slice();
+  if (mode === 'wrong') list = list.filter(i => wrong.has(DATA[i].en));
+  queue = list;
+  cur = 0;
+  $('done').hidden = true;
+  $('study').style.display = '';
+  $('actions').style.visibility = '';
+  updateHeader();
+  render();
+}
+function restartGroup() { buildQueue(); }
+function reviewUnknown() {
+  queue = filtered.filter(i => !known.has(DATA[i].en));
+  cur = 0;
+  $('done').hidden = true;
+  $('study').style.display = '';
+  $('actions').style.visibility = '';
+  render();
+}
+
+// ---------- render ----------
+let backFillTimer = null;
+function render() {
+  if (queue.length === 0 || cur >= queue.length) { renderDone(); return; }
+  const d = DATA[queue[cur]];
+  const wasFlipped = flipped;
+  if (backFillTimer) { clearTimeout(backFillTimer); backFillTimer = null; }
+  flipped = false;
+  $('card').classList.remove('flipped');
+  $('btnFlip').hidden = false;
+  $('btnFlip').disabled = false;
+  $('btnUnknown').hidden = true;
+  $('btnKnown').hidden = true;
+  // 正面内容立即更新（翻回时正面后半段才可见，安全）
+  $('wordFront').innerHTML = d.en;
+  $('wordFront').classList.toggle('long', String(d.en).length > 24);
+  $('ipaText').textContent = d.ipa || '';
+  // 没有 MP3 时喇叭改用浏览器 TTS 朗读，仍保留按钮
+  const canSpeak = !!(d.en && String(d.en).trim());
+  $('ipaFront').hidden = !d.ipa && !canSpeak;
+  $('speakFront').hidden = !canSpeak;
+  $('tagFront').textContent = d.group;
+  $('knownDot').hidden = mode === 'wrong' || !known.has(d.en);
+  $('wrongDot').hidden = !wrong.has(d.en);
+  $('posFront').textContent = `${cur + 1} / ${queue.length}`;
+  $('btnKnown').textContent = mode === 'wrong' ? '答对了 →' : '认识 →';
+  $('btnUnknown').textContent = mode === 'wrong' ? '还没记住 ←' : '不认识 ←';
+  $('progressFill').style.width = (cur / queue.length * 100) + '%';
+  $('progressNum').textContent = `${cur} / ${queue.length}`;
+  // 答案（背面）内容：若当前已翻转，翻回动画前半段背面仍可见，
+  // 先清空避免新答案闪现，等动画过半（约 250ms）背面不可见时再填入
+  if (wasFlipped) {
+    setBackZh('');
+    $('enBack').textContent = '';
+    $('tagBack').textContent = '';
+    $('exWrapB').hidden = true;
+    backFillTimer = setTimeout(() => {
+      setBackZh(d.zh);
+      $('tagBack').textContent = d.group;
+      $('enBack').textContent = d.en + (d.ipa ? '  ' + d.ipa : '');
+      setExample(d);
+      backFillTimer = null;
+    }, 250);
+  } else {
+    setBackZh(d.zh);
+    $('tagBack').textContent = d.group;
+    $('enBack').textContent = d.en + (d.ipa ? '  ' + d.ipa : '');
+    setExample(d);
+  }
+  updateHeader();
+}
+
+function renderDone() {
+  $('study').style.display = 'none';
+  $('done').hidden = false;
+  $('actions').style.visibility = 'hidden';
+  if (mode === 'wrong') {
+    const wrongInFilter = filtered.filter(i => wrong.has(DATA[i].en)).length;
+    $('doneTitle').textContent = wrongInFilter === 0 ? '错题全部消除 🎉' : '本轮错题过完 🎉';
+    $('doneText').textContent = wrongInFilter === 0
+      ? '当前范围的错题都已重新答对。' + (wrong.size === 0 ? '错题本已清空，继续保持！' : '其他分组还有错题，可切换分组继续。')
+      : `还有 ${wrongInFilter} 张错题未消除，再练一遍直到全部答对。`;
+    $('btnAgainUnknown').hidden = true;
+    $('btnRestart').textContent = wrongInFilter === 0 ? '返回学习' : '再练一遍错题';
+  } else {
+    const unknownInFilter = filtered.filter(i => !known.has(DATA[i].en)).length;
+    $('doneTitle').textContent = '本组完成 🎉';
+    $('doneText').textContent = unknownInFilter === 0
+      ? '太棒了！当前范围的卡片全部掌握。'
+      : `本组完成，当前范围还有 ${unknownInFilter} 张未掌握。`;
+    $('btnAgainUnknown').hidden = unknownInFilter === 0;
+    $('btnRestart').textContent = '重新开始本组';
+  }
+  $('progressFill').style.width = '100%';
+  $('progressNum').textContent = `${queue.length} / ${queue.length}`;
+  updateHeader();
+}
+
+$('speakFront').addEventListener('click', e => {
+  e.stopPropagation(); e.preventDefault();
+  const d = DATA[queue[cur]];
+  if (d && d.en) playAudio(audioUrl(d.audio || ''), $('speakFront'), d.en);
+});
+
+// ---------- interactions ----------
+function flip() {
+  if ($('done').hidden === false) return;
+  flipped = !flipped;
+  $('card').classList.toggle('flipped', flipped);
+  $('btnFlip').hidden = flipped;
+  $('btnUnknown').hidden = !flipped;
+  $('btnKnown').hidden = !flipped;
+}
+function afterAnswer() {
+  flipped = false;
+  updateHeader();
+  render();
+  $('actions').style.visibility = '';
+}
+$('btnFlip').onclick = flip;
+// 正常模式：认识=加入已掌握；错题本：答对=从错题本消除
+$('btnKnown').onclick = () => {
+  const d = DATA[queue[cur]];
+  if (mode === 'wrong') {
+    wrong.delete(d.en);
+    store.wrong = wrong;
+    queue.splice(cur, 1);          // 不前进，下一张移到当前位置
+  } else {
+    known.add(d.en);
+    store.known = known;
+    cur++;
+  }
+  afterAnswer();
+};
+// 任何模式下不认识都收录错题本，并排到队尾再出现
+$('btnUnknown').onclick = () => {
+  const d = DATA[queue[cur]];
+  wrong.add(d.en);
+  store.wrong = wrong;
+  queue.push(queue[cur]);
+  if (mode === 'wrong') queue.splice(cur, 1);
+  else cur++;
+  afterAnswer();
+};
+$('btnShuffle').onclick = () => {
+  for (let i = queue.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [queue[i], queue[j]] = [queue[j], queue[i]]; }
+  cur = 0; render();
+};
+$('btnReset').onclick = () => {
+  if (!confirm('确定清空所有已掌握记录？（错题本不受影响，需在错题本内答对消除）')) return;
+  known = new Set(); store.known = known;
+  buildQueue();
+};
+$('btnWrongBook').onclick = () => {
+  mode = mode === 'study' ? 'wrong' : 'study';
+  buildQueue();
+};
+$('btnAgainUnknown').onclick = () => { $('actions').style.visibility = ''; reviewUnknown(); };
+$('btnRestart').onclick = () => {
+  $('actions').style.visibility = '';
+  if (mode === 'wrong') buildQueue(); else restartGroup();
+};
+
+document.onkeydown = e => {
+  if (e.code === 'Space') { e.preventDefault(); flip(); }
+  else if (e.code === 'ArrowRight' && !$('btnKnown').hidden) $('btnKnown').click();
+  else if (e.code === 'ArrowLeft' && !$('btnUnknown').hidden) $('btnUnknown').click();
+};
+
+buildQueue();
+
+} else {
+// ================= 学习模式：间隔复习系统 =================
+const P = KNOWN_KEY.replace(/_(known|wrong)$/, '');
+const K = {
+  srs: P + '_srs', log: P + '_log', cfg: P + '_cfg', custom: P + '_custom',
+  lists: P + '_lists', wrong: P + '_wrong2', revlog: P + '_revlog',
+  remind: P + '_lastremind', mig: P + '_mig1', seq: P + '_cseq',
+  perfect: P + '_perfect', everWrong: P + '_everwrong'
+};
+const STATE_NAMES = ['未学', '学习中', '已掌握', '易忘'];
+
+let custom = jget(K.custom, []);          // [{cid:'u1', en, zh, ipa?, audio?}]
+let ALL = DATA.concat(custom);
+let S = jget(K.srs, {});                  // id -> {s,due,iv,ef,reps,lap,last,w,r}
+let log = jget(K.log, {});                // 'YYYY-MM-DD' -> {n,r,ok,bad,q}
+let revlog = jget(K.revlog, []);          // [{d,iv,g}]
+let wrongSet = new Set(jget(K.wrong, []));
+let lists = jget(K.lists, []);            // [{name, ids:[]}]
+let cfg = Object.assign({ newPerDay: 20, goal: 30, remindOn: false, remindTime: '20:00' }, jget(K.cfg, {}));
+
+const DEF = () => ({ s: 0, due: '', iv: 0, ef: 2.5, reps: 0, lap: 0, last: '', w: 0, r: 0 });
+const getC = id => Object.assign(DEF(), S[id]);
+function saveAll() { jset(K.srs, S); jset(K.log, log); jset(K.revlog, revlog); jset(K.wrong, [...wrongSet]); jset(K.cfg, cfg); jset(K.custom, custom); jset(K.lists, lists); }
+function rebuildAll() { ALL = DATA.concat(custom); }
+function idOf(i) { return i < DATA.length ? i : ALL[i].cid; }
+function indexOfId(id) { if (typeof id === 'number') return id; return DATA.length + custom.findIndex(c => c.cid === id); }
+function record(kind) {
+  const t = dstr();
+  const e = log[t] || (log[t] = { n: 0, r: 0, ok: 0, bad: 0, q: 0 });
+  if (kind === 'new') e.n++; else if (kind === 'rev') e.r++;
+  else if (kind === 'ok') e.ok++; else if (kind === 'bad') e.bad++;
+  else if (kind === 'q') e.q++;
+}
+function hasActivity(d) { const t = log[d]; return !!t && ((t.n || 0) + (t.r || 0) + (t.q || 0) > 0); }
+function streak() {
+  let s = 0, d = dstr();
+  if (!hasActivity(d)) d = addDays(d, -1);
+  while (hasActivity(d)) { s++; d = addDays(d, -1); }
+  return s;
+}
+function shuffleArr(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+
+// ---------- 旧数据迁移（已知/错题） ----------
+if (!localStorage.getItem(K.mig)) {
+  const oldKnown = jget(KNOWN_KEY, []), oldWrong = jget(WRONG_KEY, []);
+  const byEn = {}; DATA.forEach((d, i) => { if (!(d.en in byEn)) byEn[d.en] = i; });
+  const today = dstr();
+  oldKnown.forEach(en => { const i = byEn[en]; if (i != null && !S[i]) S[i] = Object.assign(DEF(), { s: 2, iv: 7, reps: 3, due: addDays(today, 7), last: today }); });
+  oldWrong.forEach(en => {
+    const i = byEn[en]; if (i == null) return;
+    if (!S[i]) S[i] = Object.assign(DEF(), { s: 1, due: today });
+    wrongSet.add(i);
+  });
+  if (wrongSet.size) localStorage.setItem(K.everWrong, '1');
+  localStorage.setItem(K.mig, '1');
+  saveAll();
+}
+
+// ---------- 分组选择 ----------
+const groupSel = $('groupSel');
+const groups = [...new Set(DATA.map(d => d.group))];
+groupSel.innerHTML = '<option value="">全部（' + DATA.length + (custom.length ? ' + 自定义 ' + custom.length : '') + '）</option>' +
+  groups.map(g => `<option value="${g}">${g}（${DATA.filter(d => d.group === g).length}）</option>`).join('') +
+  (custom.length ? `<option value="自定义">自定义（${custom.length}）</option>` : '');
+
+// ---------- 布局切换 ----------
+document.body.classList.add('learn');
+$('btnShuffle').style.display = 'none';
+$('btnWrongBook').style.display = 'none';
+$('btnReset').style.display = 'none';
+$('tabbar').hidden = false;
+$('footText').textContent = '科学间隔复习 · 认识/模糊/不认识三档评分 · 数据保存在本地浏览器';
+const VIEWS = ['viewStudy', 'viewList', 'viewQuiz', 'viewStats', 'viewMe'];
+function showView(v) {
+  VIEWS.forEach(id => $(id).hidden = id !== v);
+  document.querySelectorAll('#tabbar .tab').forEach(t => t.classList.toggle('active', t.dataset.v === v));
+  if (v === 'viewList') renderList();
+  if (v === 'viewQuiz') renderQuizMenu();
+  if (v === 'viewStats') renderStats();
+  if (v === 'viewMe') renderMe();
+  window.scrollTo(0, 0);
+}
+document.querySelectorAll('#tabbar .tab').forEach(t => t.onclick = () => showView(t.dataset.v));
+
+// ---------- SM-2 变体调度 ----------
+function previewIv(c, g) {
+  if (g === 0) return 0;
+  if (c.reps === 0) return 1;
+  if (c.reps === 1) return g === 1 ? 3 : 6;
+  return Math.min(365, Math.max(c.iv + 1, Math.round(c.iv * (g === 1 ? 1.2 : c.ef))));
+}
+function grade(id, g) {
+  const today = dstr();
+  const c = getC(id);
+  const prevIv = c.iv, wasNew = c.s === 0;
+  if (g === 0) {
+    c.lap++; c.ef = Math.max(1.3, c.ef - 0.2); c.reps = 0; c.iv = 0; c.due = today;
+    c.s = c.lap >= 2 ? 3 : 1;
+    c.w++;
+    wrongSet.add(id); localStorage.setItem(K.everWrong, '1');
+    record('bad');
+    if ((session.againCount[id] || 0) < 3) { session.queue.push(id); session.againCount[id] = (session.againCount[id] || 0) + 1; }
+  } else {
+    c.ef = g === 1 ? Math.max(1.3, c.ef - 0.15) : Math.min(3.0, c.ef + 0.1);
+    c.iv = previewIv(c, g);
+    c.reps++; c.due = addDays(today, c.iv); c.r++;
+    if (c.s === 0) c.s = 1;
+    if ((c.s === 1 || c.s === 3) && c.reps >= 3 && c.iv >= 7) { c.s = 2; wrongSet.delete(id); }
+    record('ok');
+  }
+  record(wasNew ? 'new' : 'rev');
+  c.last = today;
+  revlog.push({ d: today, iv: prevIv, g });
+  if (revlog.length > 3000) revlog.splice(0, revlog.length - 3000);
+  S[id] = c;
+  saveAll();
+}
+
+// ---------- 今日队列 ----------
+const session = { queue: [], cur: 0, againCount: {}, ok: 0, bad: 0, newSeen: 0, revSeen: 0 };
+function newTodayCount() { const t = log[dstr()]; return t ? (t.n || 0) : 0; }
+function dueReviewCount(scope) {
+  const today = dstr(); let n = 0;
+  for (let i = 0; i < ALL.length; i++) {
+    const c = S[idOf(i)]; if (!c || c.s === 0) continue;
+    if (scope && ALL[i].group !== scope) continue;
+    if (c.due && c.due <= today) n++;
+  }
+  return n;
+}
+function buildLearnQueue() {
+  const today = dstr(), scope = groupSel.value;
+  const reviews = [], news = [];
+  for (let i = 0; i < ALL.length; i++) {
+    if (scope && ALL[i].group !== scope) continue;
+    const id = idOf(i), c = S[id];
+    if (!c || c.s === 0) { news.push(id); continue; }
+    if (c.due && c.due <= today) reviews.push(id);
+  }
+  reviews.sort((a, b) => (S[a].due < S[b].due ? -1 : S[a].due > S[b].due ? 1 : (S[b].iv - S[a].iv)));
+  const newLeft = Math.max(0, cfg.newPerDay - newTodayCount());
+  session.queue = reviews.concat(news.slice(0, newLeft));
+  session.cur = 0; session.againCount = {};
+  session.ok = 0; session.bad = 0; session.newSeen = 0; session.revSeen = 0;
+  $('done').hidden = true;
+  $('study').style.display = '';
+  renderLearnCard();
+}
+groupSel.onchange = buildLearnQueue;
+
+// ---------- 学习卡片渲染 ----------
+let flipped = false, backFillTimer = null;
+function currentId() { return session.queue[session.cur]; }
+function updateLearnHeader() {
+  const t = log[dstr()] || {};
+  $('statsLine').innerHTML =
+    `今日 新 <b class="blu">${t.n || 0}</b>/${cfg.newPerDay} · 复习 <b>${t.r || 0}</b> · 连续 <b>${streak()}</b> 天`;
+}
+function renderLearnCard() {
+  updateLearnHeader();
+  if (session.cur >= session.queue.length) { renderLearnDone(); return; }
+  const id = currentId(), d = ALL[indexOfId(id)], c = getC(id);
+  const wasFlipped = flipped;
+  if (backFillTimer) { clearTimeout(backFillTimer); backFillTimer = null; }
+  flipped = false;
+  $('card').classList.remove('flipped');
+  $('btnFlip').hidden = false;
+  $('rateBar').hidden = true;
+  $('wordFront').innerHTML = esc(d.en);
+  $('wordFront').classList.toggle('long', String(d.en).length > 24);
+  $('ipaText').textContent = d.ipa || '';
+  const canSpeak = !!(d.en && String(d.en).trim());
+  $('ipaFront').hidden = !d.ipa && !canSpeak;
+  $('speakFront').hidden = !canSpeak;
+  $('tagFront').textContent = d.group || '自定义';
+  // 状态角标
+  const dot = $('knownDot');
+  dot.hidden = c.s === 0;
+  dot.className = 'known-dot st' + c.s;
+  dot.textContent = STATE_NAMES[c.s];
+  $('wrongDot').hidden = !wrongSet.has(id);
+  $('cardMeta').textContent = c.s === 0 ? '新词' : (c.last ? `复习 · 距上次 ${Math.max(0, Math.round((new Date(dstr()) - new Date(c.last)) / 86400000))} 天` : '复习');
+  $('posFront').textContent = `${session.cur + 1} / ${session.queue.length}`;
+  $('progressFill').style.width = (session.cur / session.queue.length * 100) + '%';
+  $('progressNum').textContent = `${session.cur} / ${session.queue.length}`;
+  // 评分按钮上的下次间隔预览
+  $('btnAgain').querySelector('small').textContent = '稍后重学';
+  $('btnHard').querySelector('small').textContent = previewIv(c, 1) + ' 天后复习';
+  $('btnGood').querySelector('small').textContent = previewIv(c, 2) + ' 天后复习';
+  if (wasFlipped) {
+    setBackZh(''); $('enBack').textContent = ''; $('tagBack').textContent = '';
+    $('exWrapB').hidden = true;
+    backFillTimer = setTimeout(() => {
+      setBackZh(d.zh);
+      $('tagBack').textContent = d.group || '自定义';
+      $('enBack').textContent = d.en + (d.ipa ? '  ' + d.ipa : '');
+      setExample(d);
+      backFillTimer = null;
+    }, 250);
+  } else {
+    setBackZh(d.zh);
+    $('tagBack').textContent = d.group || '自定义';
+    $('enBack').textContent = d.en + (d.ipa ? '  ' + d.ipa : '');
+    setExample(d);
+  }
+}
+function renderLearnDone() {
+  $('study').style.display = 'none';
+  $('rateBar').hidden = true;
+  $('btnFlip').hidden = true;
+  $('done').hidden = false;
+  const t = log[dstr()] || {};
+  const total = session.ok + session.bad;
+  const acc = total ? Math.round(session.ok / total * 100) : 100;
+  const dueTomorrow = (() => { const tm = addDays(dstr(), 1); let n = 0; for (const id in S) if (S[id].s > 0 && S[id].due === tm) n++; return n; })();
+  const remainDue = dueReviewCount(groupSel.value);
+  $('doneTitle').textContent = remainDue > 0 ? '本批完成' : '今日任务完成 🎉';
+  $('doneText').textContent =
+    `本次正确率 ${acc}%（对 ${session.ok} / 错 ${session.bad}）\n` +
+    `今日累计：新词 ${t.n || 0} 张 · 复习 ${t.r || 0} 张 · 连续打卡 ${streak()} 天` +
+    (dueTomorrow ? `\n明日预计到期 ${dueTomorrow} 张` : '') +
+    (remainDue > 0 ? `\n当前范围还有 ${remainDue} 张到期复习，点击下方按钮继续` : '');
+  const againBtn = $('btnAgainUnknown'), restartBtn = $('btnRestart');
+  if (remainDue > 0) {
+    againBtn.hidden = false; againBtn.textContent = '继续复习到期卡片';
+    restartBtn.textContent = '查看学习统计';
+  } else {
+    againBtn.hidden = wrongSet.size < 4;
+    againBtn.textContent = `错题重测（${wrongSet.size} 词）`;
+    restartBtn.textContent = '查看学习统计';
+  }
+  againBtn.onclick = () => {
+    if (remainDue > 0) { buildLearnQueue(); return; }
+    showView('viewQuiz'); startQuiz('wrong');
+  };
+  restartBtn.onclick = () => showView('viewStats');
+  $('progressFill').style.width = '100%';
+  $('progressNum').textContent = `${session.queue.length} / ${session.queue.length}`;
+  updateLearnHeader();
+}
+function flip() {
+  if (!$('done').hidden) return;
+  flipped = !flipped;
+  $('card').classList.toggle('flipped', flipped);
+  $('btnFlip').hidden = flipped;
+  $('rateBar').hidden = !flipped;
+}
+function answer(g) {
+  if (session.cur >= session.queue.length) return;
+  const id = currentId(), wasNew = getC(id).s === 0;
+  if (g === 0) session.bad++; else session.ok++;
+  if (wasNew) session.newSeen++; else session.revSeen++;
+  grade(id, g);
+  session.cur++;
+  renderLearnCard();
+}
+$('btnFlip').onclick = flip;
+$('btnAgain').onclick = () => answer(0);
+$('btnHard').onclick = () => answer(1);
+$('btnGood').onclick = () => answer(2);
+$('speakFront').addEventListener('click', e => {
+  e.stopPropagation(); e.preventDefault();
+  if (session.cur >= session.queue.length) return;
+  const d = ALL[indexOfId(currentId())];
+  if (d && d.en) playAudio(audioUrl(d.audio || ''), $('speakFront'), d.en);
+});
+document.onkeydown = e => {
+  if (e.target && /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) return;
+  if (e.code === 'Space') { e.preventDefault(); if (!$('viewStudy').hidden) flip(); }
+  else if (!$('viewStudy').hidden && !$('rateBar').hidden) {
+    if (e.code === 'Digit1' || e.code === 'ArrowLeft') answer(0);
+    else if (e.code === 'Digit2' || e.code === 'ArrowDown') answer(1);
+    else if (e.code === 'Digit3' || e.code === 'ArrowRight') answer(2);
+  }
+};
+
+// ---------- 弹窗 ----------
+function openModal(html) { $('modalBox').innerHTML = html; $('modal').hidden = false; }
+function closeModal() { $('modal').hidden = true; $('modalBox').innerHTML = ''; }
+$('modal').addEventListener('click', e => { if (e.target === $('modal')) closeModal(); });
+
+// ---------- 词表视图 ----------
+const listState = { f: 'all', list: '', search: '', shown: 150 };
+function renderListSel() {
+  const sel = $('listSel');
+  sel.innerHTML = '<option value="">全部单词</option>' +
+    '<option value="__custom">我收藏的生词</option>' +
+    lists.map((l, i) => `<option value="L${i}">${esc(l.name)}（${l.ids.length}）</option>`).join('');
+  sel.value = listState.list;
+  $('btnDelList').hidden = !/^L\d+$/.test(listState.list);
+}
+function rowMatches(i) {
+  const id = idOf(i), d = ALL[i], c = getC(id);
+  if (listState.list === '__custom' && i < DATA.length) return false;
+  if (/^L\d+$/.test(listState.list)) {
+    const l = lists[+listState.list.slice(1)];
+    if (!l || !l.ids.includes(id)) return false;
+  }
+  if (listState.f === 'wrong') { if (!wrongSet.has(id)) return false; }
+  else if (listState.f !== 'all' && c.s !== +listState.f.slice(1)) return false;
+  if (listState.search) {
+    const q = listState.search.toLowerCase();
+    if (!String(d.en).toLowerCase().includes(q) && !stripTags(d.zh).toLowerCase().includes(q)) return false;
+  }
+  return true;
+}
+function renderList(reset) {
+  if (reset) listState.shown = 150;
+  renderListSel();
+  document.querySelectorAll('#stateChips .chip').forEach(ch => ch.classList.toggle('active', ch.dataset.f === listState.f));
+  const idxs = [];
+  for (let i = 0; i < ALL.length && idxs.length < listState.shown; i++) if (rowMatches(i)) idxs.push(i);
+  const rows = $('listRows');
+  if (!idxs.length) { rows.innerHTML = '<p class="note">没有符合条件的卡片</p>'; $('btnMoreRows').hidden = true; return; }
+  rows.innerHTML = idxs.map(i => {
+    const id = idOf(i), d = ALL[i], c = getC(id);
+    const dueTxt = c.s > 0 && c.due ? (c.due <= dstr() ? '待复习' : c.due.slice(5) + ' 到期') : '';
+    return `<div class="lrow">
+      <button class="speak-btn" data-say="${i}" ${d.en ? '' : 'hidden'} title="朗读">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+      </button>
+      <span class="lw">${esc(d.en)}</span>
+      <span class="lz" title="${esc(stripTags(d.zh))}">${esc(stripTags(d.zh))}</span>
+      <span class="lmeta">${dueTxt}</span>
+      <span class="stbadge st${c.s}">${STATE_NAMES[c.s]}</span>
+      ${wrongSet.has(id) ? '<button class="icon-btn" data-unwrong="' + esc(String(id)) + '" title="移出错题本">✓</button>' : ''}
+      <button class="icon-btn" data-tolist="${i}" title="加入词表">＋</button>
+      ${i >= DATA.length ? `<button class="icon-btn" data-edit="${i}" title="编辑">✎</button><button class="icon-btn" data-del="${i}" title="删除">🗑</button>` : ''}
+    </div>`;
+  }).join('');
+  let total = 0; for (let i = 0; i < ALL.length; i++) if (rowMatches(i)) total++;
+  $('btnMoreRows').hidden = idxs.length >= total;
+  $('btnMoreRows').textContent = `加载更多（已显示 ${idxs.length} / ${total}）`;
+}
+$('listRows').addEventListener('click', e => {
+  const say = e.target.closest('[data-say]');
+  if (say) { const d = ALL[+say.dataset.say]; if (d && d.en) playAudio(audioUrl(d.audio || ''), say, d.en); return; }
+  const uw = e.target.closest('[data-unwrong]');
+  if (uw) { const id = isNaN(+uw.dataset.unwrong) ? uw.dataset.unwrong : +uw.dataset.unwrong; wrongSet.delete(id); saveAll(); renderList(); return; }
+  const tl = e.target.closest('[data-tolist]');
+  if (tl) { openAddToList(+tl.dataset.tolist); return; }
+  const ed = e.target.closest('[data-edit]');
+  if (ed) { openAddWord(+ed.dataset.edit); return; }
+  const del = e.target.closest('[data-del]');
+  if (del) { deleteCustom(+del.dataset.del); return; }
+});
+$('btnMoreRows').onclick = () => { listState.shown += 150; renderList(); };
+$('listSearch').oninput = e => { listState.search = e.target.value.trim(); renderList(true); };
+$('listSel').onchange = e => { listState.list = e.target.value; renderList(true); };
+document.querySelectorAll('#stateChips .chip').forEach(ch => ch.onclick = () => { listState.f = ch.dataset.f; renderList(true); });
+$('btnDelList').onclick = () => {
+  if (!/^L\d+$/.test(listState.list)) return;
+  const i = +listState.list.slice(1);
+  if (!confirm(`删除词表「${lists[i].name}」？（不会删除单词本身）`)) return;
+  lists.splice(i, 1); listState.list = ''; saveAll(); renderList(true);
+};
+
+function deleteCustom(i) {
+  const c = custom[i - DATA.length];
+  if (!c || !confirm(`删除生词「${c.en}」及其学习记录？`)) return;
+  const id = c.cid;
+  custom.splice(i - DATA.length, 1);
+  delete S[id]; wrongSet.delete(id);
+  lists.forEach(l => { l.ids = l.ids.filter(x => x !== id); });
+  rebuildAll(); saveAll(); renderList(true); renderGroupSelLearn();
+}
+function renderGroupSelLearn() {
+  const v = groupSel.value;
+  groupSel.innerHTML = '<option value="">全部（' + DATA.length + (custom.length ? ' + 自定义 ' + custom.length : '') + '）</option>' +
+    groups.map(g => `<option value="${g}">${g}（${DATA.filter(d => d.group === g).length}）</option>`).join('') +
+    (custom.length ? `<option value="自定义">自定义（${custom.length}）</option>` : '');
+  groupSel.value = v;
+}
+
+// 收藏生词 / 编辑生词
+async function lookupIpa(word) {
+  try {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 4000);
+    const r = await fetch('https://api.dictionaryapi.dev/api/v2/entries/en/' + encodeURIComponent(word), { signal: ctrl.signal });
+    clearTimeout(timer);
+    if (!r.ok) return '';
+    const j = await r.json();
+    const ph = j && j[0] && j[0].phonetics;
+    if (ph) for (const p of ph) if (p.text) return p.text;
+  } catch (e) {}
+  return '';
+}
+function openAddWord(editIdx) {
+  const editing = editIdx != null;
+  const old = editing ? ALL[editIdx] : { en: '', zh: '' };
+  openModal(`<h3>${editing ? '编辑生词' : '收藏生词'}</h3>
+    <div class="mrow"><input type="text" id="mwEn" placeholder="英文单词/短语（必填）" value="${esc(old.en)}" ${editing ? 'disabled' : ''}></div>
+    <div class="mrow"><input type="text" id="mwZh" placeholder="中文释义（可留空）" value="${esc(stripTags(old.zh))}"></div>
+    ${editing ? '' : '<div class="mrow"><label style="font-size:13px;color:var(--text-sub)"><input type="checkbox" id="mwIpa" checked> 自动查询音标（需联网）</label></div>'}
+    <div class="modal-actions">
+      <button class="btn-ghost" id="mwCancel">取消</button>
+      <button class="btn-primary" id="mwSave">保存</button>
+    </div>`);
+  $('mwCancel').onclick = closeModal;
+  $('mwSave').onclick = async () => {
+    const en = $('mwEn').value.trim(), zh = $('mwZh').value.trim();
+    if (!en) { alert('请填写英文单词'); return; }
+    if (editing) {
+      custom[editIdx - DATA.length].zh = zh;
+      saveAll(); closeModal(); renderList(); return;
+    }
+    const dupKey = en.toLowerCase();
+    if (ALL.some(d => String(d.en).toLowerCase() === dupKey)) { alert('该词已在卡片中'); return; }
+    let ipa = '';
+    if ($('mwIpa') && $('mwIpa').checked) ipa = await lookupIpa(en);
+    const seq = (+localStorage.getItem(K.seq) || 0) + 1;
+    localStorage.setItem(K.seq, String(seq));
+    custom.push({ cid: 'u' + seq, en, zh, ipa });
+    rebuildAll(); saveAll(); closeModal(); renderList(true); renderGroupSelLearn();
+  };
+}
+$('btnAddWord').onclick = () => openAddWord(null);
+
+function openAddToList(i) {
+  const id = idOf(i);
+  openModal(`<h3>加入词表</h3>
+    <div class="mrow"><select id="mtSel">
+      <option value="__new">＋ 新建词表…</option>
+      ${lists.map((l, x) => `<option value="${x}">${esc(l.name)}（${l.ids.length}）</option>`).join('')}
+    </select></div>
+    <div class="mrow" id="mtNewRow" hidden><input type="text" id="mtNewName" placeholder="新词表名称"></div>
+    <div class="modal-actions">
+      <button class="btn-ghost" id="mtCancel">取消</button>
+      <button class="btn-primary" id="mtSave">加入</button>
+    </div>`);
+  $('mtSel').onchange = () => { $('mtNewRow').hidden = $('mtSel').value !== '__new'; };
+  $('mtCancel').onclick = closeModal;
+  $('mtSave').onclick = () => {
+    let v = $('mtSel').value;
+    if (v === '__new') {
+      const name = $('mtNewName').value.trim();
+      if (!name) { alert('请输入词表名称'); return; }
+      lists.push({ name, ids: [] }); v = String(lists.length - 1);
+    }
+    const l = lists[+v];
+    if (!l.ids.includes(id)) l.ids.push(id);
+    saveAll(); closeModal(); renderList();
+    alert(`已加入「${l.name}」`);
+  };
+}
+
+// 导入词表
+$('btnImport').onclick = () => {
+  openModal(`<h3>导入词表</h3>
+    <div class="mrow"><input type="text" id="miName" placeholder="保存为词表名称（可留空，仅加入生词）"></div>
+    <div class="mrow"><textarea id="miText" placeholder="每行一个词，支持格式：&#10;word${'\t'}中文意思&#10;word, 中文意思&#10;word - 中文意思&#10;只有英文也可以，释义留空"></textarea></div>
+    <div class="mrow"><input type="file" id="miFile" accept=".txt,.csv,text/plain,text/csv" style="font-size:13px"></div>
+    <p class="note" style="margin:0 0 6px">Excel 请先另存为 CSV（逗号分隔）再导入；重复单词自动跳过。</p>
+    <div class="modal-actions">
+      <button class="btn-ghost" id="miCancel">取消</button>
+      <button class="btn-primary" id="miSave">导入</button>
+    </div>`);
+  $('miFile').onchange = () => {
+    const f = $('miFile').files[0]; if (!f) return;
+    const rd = new FileReader();
+    rd.onload = () => { $('miText').value = String(rd.result).replace(/^\uFEFF/, ''); };
+    rd.readAsText(f, 'utf-8');
+  };
+  $('miCancel').onclick = closeModal;
+  $('miSave').onclick = () => {
+    const lines = $('miText').value.split(/\r?\n/);
+    const exist = new Set(ALL.map(d => String(d.en).toLowerCase()));
+    const ids = []; let added = 0, skipped = 0;
+    lines.forEach(raw => {
+      const line = raw.trim(); if (!line) return;
+      let en = line, zh = '';
+      const m = line.match(/^(.+?)\s*(?:\t|,|，| - | — )\s*(.*)$/);
+      if (m) { en = m[1].trim(); zh = m[2].trim(); }
+      if (!en) return;
+      if (exist.has(en.toLowerCase())) { skipped++; return; }
+      exist.add(en.toLowerCase());
+      const seq = (+localStorage.getItem(K.seq) || 0) + 1;
+      localStorage.setItem(K.seq, String(seq));
+      const cid = 'u' + seq;
+      custom.push({ cid, en, zh });
+      ids.push(cid); added++;
+    });
+    if (!added) { alert(skipped ? `全部 ${skipped} 个词均已存在，未导入新词` : '未识别到有效内容'); return; }
+    const name = $('miName').value.trim();
+    if (name) lists.push({ name, ids });
+    rebuildAll(); saveAll(); closeModal();
+    if (name) { listState.list = 'L' + (lists.length - 1); }
+    renderList(true); renderGroupSelLearn();
+    alert(`导入完成：新增 ${added} 词` + (skipped ? `，跳过重复 ${skipped} 词` : ''));
+  };
+};
+
+// ---------- 测试模块 ----------
+function renderQuizMenu() {
+  $('quizMenu').hidden = false; $('quizRun').hidden = true; $('quizResult').hidden = true;
+  const learned = ALL.filter((d, i) => { const c = S[idOf(i)]; return c && c.s > 0; }).length;
+  $('qDailyInfo').textContent = learned >= 4 ? '10 题 · 已学内容为主' : `已学仅 ${learned} 词，至少需 4 词`;
+  $('qDaily').classList.toggle('disabled', learned < 4 && ALL.length < 4);
+  $('qWrongInfo').textContent = `错题本 ${wrongSet.size} 词` + (wrongSet.size < 4 ? '（至少 4 词可测）' : '');
+  $('qWrong').classList.toggle('disabled', wrongSet.size < 4);
+  const sel = $('qStageSel');
+  if (!sel.options.length) {
+    sel.innerHTML = '<option value="">全部范围（随机 20 题）</option>' +
+      groups.map(g => `<option value="${g}">${g}</option>`).join('');
+  }
+}
+function makeOpts(id) {
+  const i = indexOfId(id), correct = stripTags(ALL[i].zh);
+  const sameG = [], others = [];
+  for (let j = 0; j < ALL.length; j++) {
+    if (j === i) continue;
+    const z = stripTags(ALL[j].zh);
+    if (!z || z === correct) continue;
+    (ALL[j].group === ALL[i].group ? sameG : others).push(z);
+  }
+  shuffleArr(sameG); shuffleArr(others);
+  const pool = sameG.concat(others);
+  const opts = [correct];
+  for (const z of pool) { if (opts.length >= 4) break; if (!opts.includes(z)) opts.push(z); }
+  shuffleArr(opts);
+  return { opts, ans: opts.indexOf(correct) };
+}
+let quiz = null;
+function startQuiz(kind) {
+  let ids = [];
+  if (kind === 'daily') {
+    const due = [], learned = [], fresh = [];
+    const today = dstr();
+    for (let i = 0; i < ALL.length; i++) {
+      const id = idOf(i), c = S[id];
+      if (!c || c.s === 0) { fresh.push(id); continue; }
+      if (c.due && c.due <= today) due.push(id); else learned.push(id);
+    }
+    shuffleArr(due); shuffleArr(learned); shuffleArr(fresh);
+    ids = due.concat(learned).concat(fresh).slice(0, 10);
+  } else if (kind === 'stage') {
+    const scope = $('qStageSel').value;
+    for (let i = 0; i < ALL.length; i++) if (!scope || ALL[i].group === scope) ids.push(idOf(i));
+    ids = shuffleArr(ids).slice(0, 20);
+  } else if (kind === 'wrong') {
+    ids = shuffleArr([...wrongSet]).slice(0, 20);
+  }
+  if (ids.length < 4) { alert('可用卡片不足 4 张，无法生成测试'); return; }
+  quiz = { kind, qs: ids.map(id => { const o = makeOpts(id); return { id, opts: o.opts, ans: o.ans }; }), cur: 0, ok: 0, wrongs: [] };
+  showView('viewQuiz');
+  $('quizMenu').hidden = true; $('quizResult').hidden = true; $('quizRun').hidden = false;
+  renderQuizQ();
+}
+function renderQuizQ() {
+  const q = quiz.qs[quiz.cur], d = ALL[indexOfId(q.id)];
+  $('qProgFill').style.width = (quiz.cur / quiz.qs.length * 100) + '%';
+  $('qProgNum').textContent = `${quiz.cur + 1}/${quiz.qs.length}`;
+  $('quizWord').innerHTML = esc(d.en);
+  $('quizWord').classList.toggle('long', String(d.en).length > 24);
+  $('quizIpaText').textContent = d.ipa || '';
+  $('quizIpa').hidden = !d.ipa && !d.en;
+  $('quizSpeak').hidden = !d.en;
+  $('quizOpts').innerHTML = q.opts.map((z, i) =>
+    `<button class="quiz-opt" data-i="${i}">${esc(z.length > 80 ? z.slice(0, 80) + '…' : z)}</button>`).join('');
+  $('quizOpts').querySelectorAll('.quiz-opt').forEach(b => b.onclick = () => pickOpt(+b.dataset.i));
+}
+function pickOpt(i) {
+  const q = quiz.qs[quiz.cur];
+  const btns = $('quizOpts').querySelectorAll('.quiz-opt');
+  btns.forEach(b => b.disabled = true);
+  btns[q.ans].classList.add('ok');
+  const id = q.id, c = getC(id);
+  if (i === q.ans) {
+    quiz.ok++; record('ok');
+    c.r++; S[id] = c;
+  } else {
+    btns[i].classList.add('bad');
+    quiz.wrongs.push(id);
+    record('bad');
+    c.w++; wrongSet.add(id); localStorage.setItem(K.everWrong, '1'); S[id] = c;
+  }
+  record('q'); saveAll();
+  setTimeout(() => {
+    quiz.cur++;
+    if (quiz.cur >= quiz.qs.length) finishQuiz(); else renderQuizQ();
+  }, i === q.ans ? 500 : 1000);
+}
+function finishQuiz() {
+  $('quizRun').hidden = true;
+  const n = quiz.qs.length, ok = quiz.ok;
+  const perfect = ok === n && n >= 5;
+  if (perfect) localStorage.setItem(K.perfect, '1');
+  const wrongHtml = quiz.wrongs.map(id => {
+    const d = ALL[indexOfId(id)];
+    return `<div class="wrong-item"><b>${esc(d.en)}</b><br><span>${esc(stripTags(d.zh))}</span></div>`;
+  }).join('');
+  $('quizResult').innerHTML = `<div class="quiz-result">
+    <div class="score">${ok} / ${n}</div>
+    <p style="color:var(--text-sub);font-size:13px;margin:6px 0 14px">${perfect ? '满分！保持这个状态' : ok / n >= 0.6 ? '不错，错题已自动收入错题本' : '别灰心，错题已收入错题本，多复习几轮'}</p>
+    ${wrongHtml ? '<div style="text-align:left;margin-bottom:14px"><b style="font-size:13px">错题回顾</b>' + wrongHtml + '</div>' : ''}
+    <button class="btn-primary" id="qzRetry" style="width:100%;margin-bottom:8px">再测一次</button>
+    <button class="btn-ghost" id="qzBack" style="width:100%">返回测试菜单</button>
+  </div>`;
+  $('quizResult').hidden = false;
+  const kind = quiz.kind;
+  $('qzRetry').onclick = () => startQuiz(kind);
+  $('qzBack').onclick = renderQuizMenu;
+}
+$('qDaily').onclick = () => startQuiz('daily');
+$('qStage').onclick = e => { if (e.target.tagName !== 'SELECT') startQuiz('stage'); };
+$('qWrong').onclick = () => { if (wrongSet.size >= 4) startQuiz('wrong'); };
+$('btnQuizQuit').onclick = renderQuizMenu;
+$('quizSpeak').addEventListener('click', e => {
+  e.stopPropagation(); e.preventDefault();
+  if (!quiz) return;
+  const q = quiz.qs[quiz.cur];      // 答完最后一题后 quiz.cur 会越界，需保护
+  if (!q) return;
+  const d = ALL[indexOfId(q.id)];
+  if (d && d.en) playAudio(audioUrl(d.audio || ''), $('quizSpeak'), d.en);
+});
+
+// ---------- 统计模块 ----------
+function barChart(el, cols) {
+  const max = Math.max(1, ...cols.flatMap(c => c.bars.map(b => b.v)));
+  el.innerHTML = cols.map(c => `<div class="bcol" title="${esc(c.bars.map(b => b.tip).join('　'))}">
+    ${c.top ? `<span class="btop">${c.top}</span>` : ''}
+    <div class="bgroup">${c.bars.map(b => `<i class="bbar ${b.cls}" style="height:${Math.max(2, Math.round(b.v / max * 100))}%"></i>`).join('')}</div>
+    <span class="blab">${c.label}</span></div>`).join('');
+}
+function renderStats() {
+  const today = dstr(), t = log[today] || {};
+  let mastered = 0, learning = 0, fragile = 0, unlearned = 0;
+  for (let i = 0; i < ALL.length; i++) {
+    const c = S[idOf(i)];
+    const s = c ? c.s : 0;
+    if (s === 0) unlearned++; else if (s === 1) learning++; else if (s === 2) mastered++; else fragile++;
+  }
+  let okAll = 0, badAll = 0, newAll = 0, revAll = 0, days = 0;
+  for (const d in log) { const e = log[d]; okAll += e.ok || 0; badAll += e.bad || 0; newAll += e.n || 0; revAll += e.r || 0; if (hasActivity(d)) days++; }
+  const acc = okAll + badAll ? Math.round(okAll / (okAll + badAll) * 100) : 100;
+  $('statCards').innerHTML = `
+    <div class="scard"><b>${streak()}</b><span>连续天数</span></div>
+    <div class="scard"><b>${(t.n || 0) + (t.r || 0)}</b><span>今日已学</span></div>
+    <div class="scard"><b>${mastered}<small style="font-size:11px;color:#9aa1b2">/${ALL.length}</small></b><span>已掌握</span></div>
+    <div class="scard"><b>${acc}%</b><span>总正确率</span></div>`;
+
+  // 热力图（近 26 周）
+  const cells = [];
+  const start = new Date(); start.setDate(start.getDate() - 181);
+  while (start.getDay() !== 1) start.setDate(start.getDate() - 1);
+  const d = new Date(start);
+  while (dstr(d) <= today) {
+    const ds = dstr(d), e = log[ds];
+    const v = e ? (e.n || 0) + (e.r || 0) + (e.q || 0) : 0;
+    const cls = v === 0 ? '' : v <= 10 ? 'h1' : v <= 30 ? 'h2' : 'h3';
+    cells.push(`<i class="hcell ${cls}" title="${ds} · 新${e ? e.n || 0 : 0} 复${e ? e.r || 0 : 0} 测${e ? e.q || 0 : 0}"></i>`);
+    d.setDate(d.getDate() + 1);
+  }
+  $('heatmap').innerHTML = cells.join('');
+
+  // 近 14 天新词/复习
+  const cols = [];
+  for (let i = 13; i >= 0; i--) {
+    const ds = addDays(today, -i), e = log[ds] || {};
+    cols.push({ label: ds.slice(8), bars: [
+      { v: e.n || 0, cls: 'blu', tip: `新词 ${e.n || 0}` },
+      { v: e.r || 0, cls: 'grn', tip: `复习 ${e.r || 0}` }
+    ] });
+  }
+  barChart($('barsDaily'), cols);
+
+  // 记忆保持率（按距上次学习的间隔分桶）
+  const buckets = [
+    { name: '首次', test: iv => iv === 0 }, { name: '1天', test: iv => iv === 1 },
+    { name: '2-3天', test: iv => iv >= 2 && iv <= 3 }, { name: '4-7天', test: iv => iv >= 4 && iv <= 7 },
+    { name: '8-15天', test: iv => iv >= 8 && iv <= 15 }, { name: '16天+', test: iv => iv >= 16 }
+  ].map(b => ({ ...b, ok: 0, n: 0 }));
+  revlog.forEach(r => { const b = buckets.find(b => b.test(r.iv)); if (b) { b.n++; if (r.g > 0) b.ok++; } });
+  barChart($('barsRet'), buckets.map(b => ({
+    label: b.name,
+    top: b.n >= 3 ? Math.round(b.ok / b.n * 100) + '%' : '—',
+    bars: [{ v: b.n >= 3 ? b.ok / b.n * 100 : 0, cls: b.n >= 3 && b.ok / b.n < 0.6 ? 'red' : 'grn', tip: `${b.name}：${b.n} 次复习，记住 ${b.ok} 次` }]
+  })));
+
+  // 掌握度分布
+  const total = ALL.length || 1;
+  const seg = [
+    { n: unlearned, c: '#c9cfdd', t: '未学' }, { n: learning, c: '#818cf8', t: '学习中' },
+    { n: mastered, c: '#22a06b', t: '已掌握' }, { n: fragile, c: '#e5484d', t: '易忘' }
+  ];
+  $('masteryDist').innerHTML = `<div class="mstack">${seg.map(s => `<i style="width:${(s.n / total * 100).toFixed(1)}%;background:${s.c}"></i>`).join('')}</div>
+    <div class="mlegend">${seg.map(s => `<span><i style="background:${s.c}"></i>${s.t} ${s.n}</span>`).join('')}</div>`;
+
+  // 错词趋势
+  barChart($('barsWrong'), Array.from({ length: 14 }, (_, k) => {
+    const ds = addDays(today, k - 13), e = log[ds] || {};
+    return { label: ds.slice(8), bars: [{ v: e.bad || 0, cls: 'red', tip: `${ds} 错 ${e.bad || 0} 次` }] };
+  }));
+
+  // 薄弱词榜
+  const weak = [];
+  for (let i = 0; i < ALL.length; i++) {
+    const id = idOf(i), c = S[id];
+    if (c && c.w > 0) weak.push({ i, w: c.w, s: c.s });
+  }
+  weak.sort((a, b) => b.w - a.w);
+  $('weakList').innerHTML = weak.length
+    ? weak.slice(0, 10).map(x => {
+        const d = ALL[x.i];
+        return `<div class="weak-row" data-find="${esc(d.en)}"><b>${esc(d.en)}</b><span class="lz">${esc(stripTags(d.zh))}</span><span class="stbadge st${x.s}">${STATE_NAMES[x.s]}</span><span class="wn">错 ${x.w} 次</span></div>`;
+      }).join('')
+    : '<p class="note" style="margin:4px 0">还没有错词记录，继续保持</p>';
+  $('weakList').querySelectorAll('.weak-row').forEach(r => r.onclick = () => {
+    listState.search = r.dataset.find; listState.f = 'all'; listState.list = '';
+    $('listSearch').value = r.dataset.find;
+    showView('viewList');
+  });
+}
+$('btnExportJson').onclick = () => {
+  const payload = { app: 'vocab-srs', set: document.title, exported: new Date().toISOString(), cfg, srs: S, log, revlog, custom, lists, wrong: [...wrongSet], seq: localStorage.getItem(K.seq) || '0' };
+  download(document.title.replace(/[|\\\/:*?"<>]/g, '') + '_学习备份_' + dstr() + '.json', JSON.stringify(payload), 'application/json');
+};
+$('btnExportCsv').onclick = () => {
+  const rows = [['单词', '释义', '分组', '状态', '下次复习', '间隔天数', '复习次数', '遗忘次数', '错误次数']];
+  for (let i = 0; i < ALL.length; i++) {
+    const d = ALL[i], c = getC(idOf(i));
+    rows.push([d.en, stripTags(d.zh), d.group || '自定义', STATE_NAMES[c.s], c.due || '', c.iv, c.reps, c.lap, c.w]);
+  }
+  const csv = '\uFEFF' + rows.map(r => r.map(x => '"' + String(x).replace(/"/g, '""') + '"').join(',')).join('\r\n');
+  download(document.title.replace(/[|\\\/:*?"<>]/g, '') + '_词表_' + dstr() + '.csv', csv, 'text/csv;charset=utf-8');
+};
+$('btnImportBackup').onclick = () => $('fileBackup').click();
+$('fileBackup').onchange = () => {
+  const f = $('fileBackup').files[0]; if (!f) return;
+  const rd = new FileReader();
+  rd.onload = () => {
+    try {
+      const p = JSON.parse(String(rd.result));
+      if (!p || typeof p !== 'object' || !p.srs) throw new Error('bad');
+      if (!confirm('导入备份将覆盖当前全部学习数据，确定继续？')) return;
+      S = p.srs; log = p.log || {}; revlog = p.revlog || [];
+      custom = Array.isArray(p.custom) ? p.custom : [];
+      lists = Array.isArray(p.lists) ? p.lists : [];
+      wrongSet = new Set(p.wrong || []);
+      cfg = Object.assign(cfg, p.cfg || {});
+      localStorage.setItem(K.seq, String(p.seq || custom.length));
+      saveAll(); rebuildAll(); renderGroupSelLearn(); buildLearnQueue();
+      alert('备份导入成功');
+    } catch (e) { alert('备份文件格式不正确'); }
+    $('fileBackup').value = '';
+  };
+  rd.readAsText(f, 'utf-8');
+};
+
+// ---------- 我的 / 设置 ----------
+function renderMe() {
+  $('cfgNew').value = cfg.newPerDay;
+  $('cfgGoal').value = cfg.goal;
+  $('cfgRemindTime').value = cfg.remindTime;
+  $('cfgRemindOn').checked = cfg.remindOn;
+  renderAch();
+}
+$('cfgNew').onchange = e => { cfg.newPerDay = Math.min(100, Math.max(1, +e.target.value || 20)); e.target.value = cfg.newPerDay; saveAll(); buildLearnQueue(); };
+$('cfgGoal').onchange = e => { cfg.goal = Math.min(500, Math.max(1, +e.target.value || 30)); e.target.value = cfg.goal; saveAll(); };
+$('cfgRemindTime').onchange = e => { cfg.remindTime = e.target.value || '20:00'; saveAll(); };
+$('cfgRemindOn').onchange = e => {
+  cfg.remindOn = e.target.checked; saveAll();
+  if (cfg.remindOn && 'Notification' in window && Notification.permission === 'default') {
+    Notification.requestPermission().then(updateRemindStatus).catch(() => {});
+  }
+  updateRemindStatus();
+};
+function updateRemindStatus() {
+  let s = '打开本页面时检查；到点未完成目标则横幅提醒';
+  if (cfg.remindOn && 'Notification' in window) {
+    s += Notification.permission === 'granted' ? ' · 系统通知已开启' : ' · 系统通知未授权（仅页面内横幅）';
+  }
+  $('remindStatus').textContent = s;
+}
+function checkReminder() {
+  if (!cfg.remindOn || !cfg.remindTime) return;
+  const now = new Date();
+  const hm = String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
+  const today = dstr();
+  if (hm >= cfg.remindTime && localStorage.getItem(K.remind) !== today) {
+    const t = log[today] || {};
+    const doneCnt = (t.n || 0) + (t.r || 0);
+    if (doneCnt < cfg.goal) {
+      localStorage.setItem(K.remind, today);
+      $('remindText').textContent = `该背单词啦！今日还差 ${cfg.goal - doneCnt} 张（目标 ${cfg.goal}）`;
+      $('remindBanner').hidden = false;
+      try {
+        if ('Notification' in window && Notification.permission === 'granted')
+          new Notification('背单词提醒', { body: `今日还差 ${cfg.goal - doneCnt} 张，坚持打卡！` });
+      } catch (e) {}
+    }
+  }
+}
+$('remindGo').onclick = () => { $('remindBanner').hidden = true; showView('viewStudy'); };
+$('remindClose').onclick = () => { $('remindBanner').hidden = true; };
+setInterval(checkReminder, 30000);
+
+$('btnIcs').onclick = () => {
+  const [hh, mm] = (cfg.remindTime || '20:00').split(':');
+  const start = new Date(); start.setHours(+hh, +mm, 0, 0);
+  if (start < new Date()) start.setDate(start.getDate() + 1);
+  const fmt = d => d.getFullYear() + String(d.getMonth() + 1).padStart(2, '0') + String(d.getDate()).padStart(2, '0') + 'T' + String(d.getHours()).padStart(2, '0') + String(d.getMinutes()).padStart(2, '0') + '00';
+  const ics = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//VocabCards//SRS//CN', 'CALSCALE:GREGORIAN', 'BEGIN:VEVENT',
+    'UID:vc-' + P + '-' + Date.now() + '@vocab-cards',
+    'DTSTAMP:' + fmt(new Date()),
+    'DTSTART;TZID=Asia/Shanghai:' + fmt(start),
+    'RRULE:FREQ=DAILY',
+    'SUMMARY:背单词提醒 · ' + document.title.replace(/[|\\\/:*?"<>]/g, ''),
+    'DESCRIPTION:打开 ' + location.href + ' 完成今日新词与复习（目标 ' + cfg.goal + ' 张）',
+    'END:VEVENT', 'END:VCALENDAR'].join('\r\n');
+  download('背单词每日提醒.ics', ics, 'text/calendar;charset=utf-8');
+};
+
+function renderAch() {
+  let days = 0, newAll = 0, revAll = 0, qAll = 0;
+  for (const d in log) { if (hasActivity(d)) days++; const e = log[d]; newAll += e.n || 0; revAll += e.r || 0; qAll += e.q || 0; }
+  let mastered = 0; for (let i = 0; i < ALL.length; i++) { const c = S[idOf(i)]; if (c && c.s === 2) mastered++; }
+  const st = streak();
+  const ach = [
+    ['起步', '完成第一天学习', days >= 1],
+    ['连续 7 天', '坚持打卡一周', st >= 7],
+    ['连续 30 天', '坚持打卡一个月', st >= 30],
+    ['新学 100 词', '累计学习 100 个新词', newAll >= 100],
+    ['新学 500 词', '累计学习 500 个新词', newAll >= 500],
+    ['掌握 100 词', '100 个词进入已掌握', mastered >= 100],
+    ['全部掌握', ALL.length + ' 张全部掌握', mastered >= ALL.length],
+    ['首次测验', '完成任意一次测试', qAll > 0],
+    ['测验满分', '单次测试全部答对', !!localStorage.getItem(K.perfect)],
+    ['复习 500 次', '累计复习 500 次', revAll >= 500],
+    ['错题清零', '错题本从有到清空', !!localStorage.getItem(K.everWrong) && wrongSet.size === 0]
+  ];
+  $('achGrid').innerHTML = ach.map(a => `<div class="a ${a[2] ? 'done' : 'locked'}"><b>${a[2] ? '✓ ' : ''}${a[0]}</b>${a[1]}</div>`).join('');
+}
+$('btnResetAll').onclick = () => {
+  if (!confirm('确定清空本套卡片的全部学习数据？此操作不可恢复！')) return;
+  if (!confirm('再次确认：所有学习记录、自定义词表、统计数据都将被删除。')) return;
+  Object.values(K).forEach(k => localStorage.removeItem(k));
+  localStorage.removeItem(KNOWN_KEY); localStorage.removeItem(WRONG_KEY);
+  location.reload();
+};
+
+// ---------- 启动 ----------
+updateRemindStatus();
+checkReminder();
+buildLearnQueue();
+}
+</script>
+</body>
+</html>
